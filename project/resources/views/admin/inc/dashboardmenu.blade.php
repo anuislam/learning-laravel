@@ -19,10 +19,10 @@
   </a>
   <ul class="sidenav-second-level collapse" id="collapseUsers">
     <li>
-      <a href="navbar.html">Your Profile</a>
+      <a href="{{ route('user.index') }}">Your Profile</a>
     </li>
     <li>
-      <a href="{{ route('all_users') }}">All Users</a>
+      <a href="{{ route('all-users') }}">All Users</a>
     </li>
     <li>
       <a href="cards.html">Add User</a>

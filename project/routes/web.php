@@ -20,7 +20,8 @@ Route::group(['prefix' => 'admin'], function () {
     Auth::routes();
     Route::get('logout', 'Auth\LoginController@blank_logout');
     Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard');
-    Route::get('/all-users', 'Admin\UsersController@allusers')->name('all_users');
+    Route::resource('/user', 'Admin\UsersController');
+    Route::get('/users', 'Admin\UsersController@all_users')->name('all-users');
 
 });
 

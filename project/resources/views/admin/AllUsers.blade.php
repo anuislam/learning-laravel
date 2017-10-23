@@ -23,11 +23,10 @@ Admin Dashboard
           <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
               <tr>
-                <th>Profile</th>
+                <th width="30" class="text-center">Profile</th>
                 <th>Frist Name</th>
                 <th>Last Name</th>
                 <th>Email</th>
-                <th>Age</th>
                 <th>join At</th>
                 <th>Roll</th>
                 <th>Actions</th>
@@ -39,23 +38,27 @@ Admin Dashboard
                 <th>Frist Name</th>
                 <th>Last Name</th>
                 <th>Email</th>
-                <th>Age</th>
                 <th>join At</th>
                 <th>Roll</th>
                 <th>Actions</th>
               </tr>
             </tfoot>
-            <tbody>             
-              <tr>
-                <td><img src="{{ url('public/images/IMG_20151204_230431.jpg') }}" alt="profile" width="35" height="35"></td>
-                <td>Donna Snider</td>
-                <td>Customer Support</td>
-                <td>New York</td>
-                <td>27</td>
-                <td>2011/01/25</td>
-                <td>admin</td>
-                <td><a href="" class="btn btn-secondary">Edith</a> <a href="" class="btn btn-danger">Delete</a></td>
-              </tr>
+            <tbody>           
+            @if( $get_all_users !== false )   
+              @foreach ($get_all_users as $user)
+                <tr>
+                  <td>
+                    <img src="{{ $user['profile'] }}" alt="profile" width="35" height="35">
+                  </td>
+                  <td>{{ $user['fname'] }}</td>
+                  <td>{{ $user['lname'] }}</td>
+                  <td>{{ $user['email'] }}</td>
+                  <td>{{ $user['created_at'] }}</td>
+                  <td>{{ $user['roll'] }}</td>
+                  <td><a href="" class="btn btn-secondary">Edith</a> <a href="" class="btn btn-danger">Delete</a></td>
+                </tr>
+              @endforeach
+            @endif
             </tbody>
           </table>
         </div>

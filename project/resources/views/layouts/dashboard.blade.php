@@ -45,8 +45,9 @@
   <div class="content-wrapper">
     <div class="container-fluid">
 
-@yield('dashboard_content')
+    @yield('dashboard_content')
 
+    @include('admin.inc.footer')
     </div>
   </div>
   <!-- Modal-->

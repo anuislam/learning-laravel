@@ -77,24 +77,22 @@
           </div>
         </li>
         <li class="nav-item">
-          <form class="form-inline my-2 my-lg-0 mr-lg-2">
-            <div class="input-group">
-              <input class="form-control" type="text" placeholder="Search for...">
-              <span class="input-group-btn">
-                <button class="btn btn-primary" type="button">
-                  <i class="fa fa-search"></i>
-                </button>
-              </span>
-            </div>
-          </form>
+          <a href="#" class="nav-link">
+            <img src="{{ $current_user['profile'] }}" alt="sdsd" width="21" height="21">
+            {{ $current_user['fname'] }} {{ $current_user['lname'] }}</a>
         </li>
         <li class="nav-item">
           <a 
             class="nav-link" 
-            onclick="logout_modal(this)" 
-            data-token="{{ csrf_token() }}"
-            dada-url="{{ route('logout') }}"
-            href="#" 
+            onclick="data_modal(this)" 
+            data-title="Ready to Leave?"
+            data-message='Select "Logout" below if you are ready to end your current session.'
+            cancel_text="Cancel"
+            submit_text="Logout"
+            data-type="post"
+            data-parameters='{"_token":"{{ csrf_token() }}"}'
+
+            href="{{ route('logout') }}" 
             >
             <i class="fa fa-fw fa-sign-out"></i>Logout</a>
         </li>
