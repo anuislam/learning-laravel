@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use \DB;
 use \Carbon;
 use \Validator;
+use \Session;
 use App\Rules\is_own_email;
+use App\admin\meta\Usermetabox;
 
 class UserModel extends Model
 {
@@ -123,19 +125,22 @@ class UserModel extends Model
 
     public function process_user_data($data){
         $this->validator($data->all())->validate();
-        return redirect()->back();
+        //$save = $this->save_current_user();
+        return redirect()->back()->with('error_msg', 'sd[skdskpdpkdpkpskd' );
     }
 
     public function validator($data){
         return Validator::make($data, [
-            'id'            => 'required|integer',
+            'user_id'            => 'required|integer',
             'fname'         => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{2,25}$/',
             'lname'         => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{1,25}$/',
-            'email'         => 'required|string|email|max:255',
-            'email'         => ['required', new is_own_email($data['user_id'])],
-            'facebook'      => 'url|max:1500',
-            'website'       => 'url|max:1500',
+            'email'         => ['required', 'string', 'email', 'max:255', new is_own_email($data['user_id'])],
+            'facebook'      => 'required|url|max:1500',
+            'website'       => 'required|url|max:1500',
         ]);
     }
 
+    public function save_current_user($data){
+       
+    }
 }

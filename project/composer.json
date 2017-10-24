@@ -26,7 +26,8 @@
             "App\\": "app/"
         },
         "files": [
-            "app/helpers/usersHelpers.php"
+            "app/helpers/usersHelpers.php",
+            "app/helpers/htmltag.php"
         ]
     },
     "autoload-dev": {

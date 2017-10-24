@@ -16,7 +16,7 @@ class is_own_email implements Rule
      * @return void
      */
     private $own_id;
-    public function __construct($id)
+    public function __construct($id = null)
     {
         $this->own_id = $id;
     }
