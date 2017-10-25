@@ -198,4 +198,32 @@ class UserModel extends Model
         $this->update_user_meta($data['user_id'], 'google', sanitize_url($data['google']));
 
     }
+
+    public function edith_user_data($id){
+        $id = (int)$id;
+        $id = str_replace('.', "" , $id);
+        $cur_user = $this->get_user($id);
+        if ($cur_user) {
+            $data = [
+                'id'           => $cur_user->id,
+                'fname'        => $cur_user->fname,
+                'lname'        => $cur_user->lname,
+                'email'        => $cur_user->email,
+                'created_at'   => Carbon\Carbon::parse($cur_user->created_at)->format('Y/m/d - i:s'),
+                'updated_at'   => Carbon\Carbon::parse($cur_user->updated_at)->format('Y/m/d - i:s'),
+                'profile'      => $this->get_gravatar_img($cur_user->email, 21),
+                'description'  => $this->get_user_meta($cur_user->id, 'description'),
+                'website'      => $this->get_user_meta($cur_user->id, 'website'),
+                'facebook'     => $this->get_user_meta($cur_user->id, 'facebook'),
+                'google'       => $this->get_user_meta($cur_user->id, 'google'),
+            ];
+        return $data;
+        }
+
+        return false;
+    }  
+
+    public function process_edith_user_data($data, $id){
+        return $this->process_user_data($data);        
+    }    
 }

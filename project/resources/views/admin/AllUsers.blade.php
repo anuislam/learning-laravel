@@ -55,7 +55,8 @@ Admin Dashboard
                   <td>{{ $user['email'] }}</td>
                   <td>{{ $user['created_at'] }}</td>
                   <td>{{ $user['roll'] }}</td>
-                  <td><a href="" class="btn btn-secondary">Edith</a> <a href="" class="btn btn-danger">Delete</a></td>
+
+                  <td><a href="{{ url('admin/user/'.$user['id'].'/edit') }}" class="btn btn-secondary">Edith</a> <a href="" class="btn btn-danger">Delete</a></td>
                 </tr>
               @endforeach
             @endif

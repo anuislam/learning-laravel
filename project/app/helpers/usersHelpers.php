@@ -18,5 +18,24 @@
 	    return $url;
 	}
 
+	function url_gard($name, $value){
+		if (empty($value) === false) {
+			switch ($name) {
+            case 'integer':
+                return (is_numeric($value) === true) ? $value : false ;
+                break;   
+            case 'string':
+                return (is_string($value) === true) ? true : false ;
+                break;            
+            default:
+                return true;
+                break;
+	        
+	        }		
+	    }
+	    return false;
+
+    }
+
 
 ?>
