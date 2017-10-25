@@ -44,43 +44,50 @@ Admin Dashboard
                 {{ text_field([
                     'name' => 'fname',
                     'title' => 'First Name',
-                    'value' => $current_user['fname'],
+                    'value' => @$current_user['fname'],
                     'atts' =>  ['placeholder' => 'First Name', 'aria-describedby' => 'FirstName', 'class' => 'form-control']
                   ], $errors) }}
 
                 {{ text_field([
                     'name' => 'lname',
                     'title' => 'Last Name',
-                    'value' => $current_user['lname'],
+                    'value' => @$current_user['lname'],
                     'atts' =>  ['placeholder' => 'Last Name', 'aria-describedby' => 'LasttName', 'class' => 'form-control']
                   ], $errors) }}
 
                 {{ email_field([
                     'name' => 'email',
                     'title' => 'Email Address',
-                    'value' => $current_user['email'],
+                    'value' => @$current_user['email'],
                     'atts' =>  ['placeholder' => 'Email Address', 'aria-describedby' => 'EmailAddress', 'class' => 'form-control']
                   ], $errors) }}
 
                 {{ textarea_field([
                     'name' => 'description',
                     'title' => 'Description',
-                    'value' => $current_user['description'],
+                    'value' => @$current_user['description'],
                     'atts' =>  ['placeholder' => 'Description', 'aria-describedby' => 'Description', 'class' => 'form-control']
                   ], $errors) }}
 
                 {{ url_field([
                     'name' => 'website',
                     'title' => 'Website',
-                    'value' => $current_user['website'],
+                    'value' => @$current_user['website'],
                     'atts' =>  ['placeholder' => 'Website', 'aria-describedby' => 'Website', 'class' => 'form-control']
                   ], $errors) }}
 
                 {{ url_field([
                     'name' => 'facebook',
                     'title' => 'Facebook Profile Url',
-                    'value' => $current_user['facebook'],
+                    'value' => @$current_user['facebook'],
                     'atts' =>  ['placeholder' => 'Facebook Profile Url', 'aria-describedby' => 'FacebookProfileUrl', 'class' => 'form-control']
+                  ], $errors) }}
+
+                {{ url_field([
+                    'name' => 'google',
+                    'title' => 'Google Profile Url',
+                    'value' => @$current_user['google'],
+                    'atts' =>  ['placeholder' => 'Google Profile Url', 'aria-describedby' => 'GoogleProfileUrl', 'class' => 'form-control']
                   ], $errors) }}
 
                   {!! Form::hidden('user_id', $current_user['id']) !!}  
@@ -93,7 +100,7 @@ Admin Dashboard
               </div>
             </div>
 
-{{ heml_card_close('Last Updated yesterday at 11:59 PM') }}
+{{ heml_card_close('Last Updated '.$current_user['updated_at']) }}
 
       </div>
     </div>

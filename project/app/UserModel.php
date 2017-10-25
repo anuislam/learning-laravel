@@ -8,11 +8,13 @@ use \DB;
 use \Carbon;
 use \Validator;
 use \Session;
+use \Purifier;
 use App\Rules\is_own_email;
 use App\admin\meta\Usermetabox;
 
 class UserModel extends Model
 {
+    public $updateuser_meta = [];
     public function get_all_users(){
     	$users = DB::table('users')->offset(0)->limit(10)->get();
     	$users_count = $users->count();
@@ -108,14 +110,18 @@ class UserModel extends Model
 			'id'           => $cur_user->id,
 			'fname'        => $cur_user->fname,
 			'lname'        => $cur_user->lname,
-			'email'        => $cur_user->email,
+            'email'        => $cur_user->email,
+            'created_at'   => Carbon\Carbon::parse($cur_user->created_at)->format('Y/m/d - i:s'),
+			'updated_at'   => Carbon\Carbon::parse($cur_user->updated_at)->format('Y/m/d - i:s'),
             'profile'      => $this->get_gravatar_img($cur_user->email, 21),
             'description'  => $this->get_user_meta($cur_user->id, 'description'),
             'website'      => $this->get_user_meta($cur_user->id, 'website'),
-			'facebook'      => $this->get_user_meta($cur_user->id, 'facebook'),
+            'facebook'     => $this->get_user_meta($cur_user->id, 'facebook'),
+			'google'       => $this->get_user_meta($cur_user->id, 'google'),
 		];
 		return $data;
     }
+
 
     public function get_user_meta($id, $key){
         $id = (int)$id;
@@ -123,24 +129,73 @@ class UserModel extends Model
         return (count($users) == 1) ? $users->meta_value : false ;
     }
 
+
+    public function update_user_meta($id, $key, $value){
+        $id = (int)$id;
+
+        if ($this->meta_exists($id, $key)) {
+            $data = DB::table('user_meta')
+                    ->where('user_id',  $id)
+                    ->where('key',  $key)
+                    ->update([
+                        'meta_value' => $value
+                    ]);            
+        }else{
+            $data = DB::table('user_meta')->insert([
+                'user_id' => $id,
+                'key' => $key,
+                'meta_value' => $value
+            ]);
+        }
+        return ($data) ? true : false ;
+
+    }
+
+
+    public function meta_exists($id, $key){
+        $id = (int)$id;
+        $users = DB::table('user_meta')->select('id')->where('user_id', $id)->where('key', $key)->first();
+        return (count($users) > 0) ? true : false ;
+    }
+
+
+
     public function process_user_data($data){
         $this->validator($data->all())->validate();
-        //$save = $this->save_current_user();
-        return redirect()->back()->with('error_msg', 'sd[skdskpdpkdpkpskd' );
+
+        if ($this->get_user($data['user_id'])) {
+            $save = $this->save_current_user($data);
+            return redirect()->back()->with('error_msg', 'Update sucess.' );
+        }
+
+        return redirect()->back()->with('error_msg', 'Update sucess.' );
     }
 
     public function validator($data){
         return Validator::make($data, [
             'user_id'            => 'required|integer',
-            'fname'         => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{2,25}$/',
-            'lname'         => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{1,25}$/',
+            'fname'         => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{2,30}$/',
+            'lname'         => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{1,30}$/',
             'email'         => ['required', 'string', 'email', 'max:255', new is_own_email($data['user_id'])],
-            'facebook'      => 'required|url|max:1500',
-            'website'       => 'required|url|max:1500',
+            'description'   => 'nullable',
+            'facebook'      => 'nullable|url|max:2500',
+            'website'       => 'nullable|url|max:2500',
+            'google'        => 'nullable|url|max:2500',
         ]);
     }
 
     public function save_current_user($data){
-       
+       DB::table('users')
+            ->where('id', $data['user_id'])
+            ->update([
+                'fname' => sanitize_text($data['fname']),
+                'lname' => sanitize_text($data['lname']),
+                'email' => sanitize_email($data['email']),
+            ]);
+        $this->update_user_meta($data['user_id'], 'description', Purifier::clean($data['description'], array('AutoFormat.AutoParagraph' => false,'AutoFormat.RemoveEmpty'   => true)));
+        $this->update_user_meta($data['user_id'], 'facebook', sanitize_url($data['facebook']));
+        $this->update_user_meta($data['user_id'], 'website', sanitize_url($data['website']));
+        $this->update_user_meta($data['user_id'], 'google', sanitize_url($data['google']));
+
     }
 }

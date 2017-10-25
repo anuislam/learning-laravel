@@ -17,7 +17,7 @@ class CreateUsersMeta extends Migration
             $table->bigIncrements('id');
             $table->string('key', 50);
             $table->bigInteger('user_id');
-            $table->longText('meta_value');
+            $table->longText('meta_value')->nullable();
         });
     }
 

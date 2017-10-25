@@ -39,6 +39,8 @@ class is_own_email implements Rule
                        }else if (filter_var( $value, FILTER_VALIDATE_EMAIL )) {
                           if ($this->email_exists( $value )) {
                             return false;
+                          }else{
+                            return true;
                           }
                        }                       
                    }

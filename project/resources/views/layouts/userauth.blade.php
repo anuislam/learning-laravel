@@ -9,11 +9,9 @@
   <meta name="author" content="">
   <title>@yield('auth_tab_title') | Blog</title>
   <!-- Bootstrap core CSS-->
-  <link href="{{ asset('public') }}/admin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Custom fonts for this template-->
-  <link href="{{ asset('public') }}/admin/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <!-- Custom styles for this template-->
-  <link href="{{ asset('public') }}/admin/css/sb-admin.css" rel="stylesheet">
+  {{ Html::style(asset('public').'/admin/vendor/bootstrap/css/bootstrap.min.css') }}
+  {{ Html::style(asset('public').'/admin/vendor/font-awesome/css/font-awesome.min.css') }}
+  {{ Html::style(asset('public').'/admin/css/sb-admin.css') }}
 </head>
 
 <body class="bg-dark">
@@ -26,11 +24,12 @@
     </div>
   </div>
   <!-- Bootstrap core JavaScript-->
-  <script src="{{ asset('public') }}/admin/vendor/jquery/jquery.min.js"></script>
-  <script src="{{ asset('public') }}/admin/vendor/popper/popper.min.js"></script>
-  <script src="{{ asset('public') }}/admin/vendor/bootstrap/js/bootstrap.min.js"></script>
+    {{ Html::script(asset('public').'/admin/vendor/jquery/jquery.min.js', ['type' => 'text/javascript']) }}
+    {{ Html::script(asset('public').'/admin/vendor/popper/popper.min.js', ['type' => 'text/javascript']) }}
+    {{ Html::script(asset('public').'/admin/vendor/bootstrap/js/bootstrap.min.js', ['type' => 'text/javascript']) }}
+  
   <!-- Core plugin JavaScript-->
-  <script src="{{ asset('public') }}/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+    {{ Html::script(asset('public').'/admin/vendor/jquery-easing/jquery.easing.min.js', ['type' => 'text/javascript']) }}
 </body>
 
 </html>
