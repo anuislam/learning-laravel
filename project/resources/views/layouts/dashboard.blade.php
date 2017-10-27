@@ -56,6 +56,12 @@
   <!-- End dashborad content -->
 
   <!-- Bootstrap core JavaScript-->
+  <script>
+    var global_data = {
+      data_table_url : '{{ route("user-datatable") }}',
+      token : '{{ csrf_token() }}',
+    }
+  </script>
 
   {{ Html::script(asset('public').'/admin/vendor/jquery/jquery.min.js', ['type' => 'text/javascript']) }}
   {{ Html::script(asset('public').'/admin/vendor/popper/popper.min.js', ['type' => 'text/javascript']) }}
@@ -69,7 +75,7 @@
   <!-- Custom scripts for all pages-->
   {{ Html::script(asset('public').'/admin/js/sb-admin.min.js', ['type' => 'text/javascript']) }}
   <!-- Custom scripts for this page-->
-  {{ Html::script(asset('public').'/admin/js/sb-admin-datatables.min.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('public').'/admin/js/sb-admin-datatables.js', ['type' => 'text/javascript']) }}
   {{ Html::script(asset('public').'/admin/js/sb-admin-charts.min.js', ['type' => 'text/javascript']) }}
   {{ Html::script(asset('public').'/admin/js/custom_plugin.js', ['type' => 'text/javascript']) }}
   {{ Html::script(asset('public').'/admin/js/main.js', ['type' => 'text/javascript']) }}

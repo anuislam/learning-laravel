@@ -2,6 +2,7 @@
 
 namespace App;
 use App\User;
+use App\UserPermission;
 use \Auth;
 use Illuminate\Database\Eloquent\Model;
 use \DB;
@@ -10,11 +11,18 @@ use \Validator;
 use \Session;
 use \Purifier;
 use App\Rules\is_own_email;
-use App\admin\meta\Usermetabox;
 
 class UserModel extends Model
 {
+
     public $updateuser_meta = [];
+
+    private $permission = '';
+    public function __construct()
+    {
+        $this->permission = new UserPermission();  
+    }
+
     public function get_all_users(){
     	$users = DB::table('users')->offset(0)->limit(10)->get();
     	$users_count = $users->count();
@@ -67,6 +75,7 @@ class UserModel extends Model
     	$user = DB::table('users')->where('id', $data)->first();
     	return ($user) ? $user : false ;
     }
+    
     public function get_user_by_email($data){
     	$data = (int)$data;
     	$user = DB::table('users')->where('email', $data)->first();
@@ -111,8 +120,8 @@ class UserModel extends Model
 			'fname'        => $cur_user->fname,
 			'lname'        => $cur_user->lname,
             'email'        => $cur_user->email,
-            'created_at'   => Carbon\Carbon::parse($cur_user->created_at)->format('Y/m/d - i:s'),
-			'updated_at'   => Carbon\Carbon::parse($cur_user->updated_at)->format('Y/m/d - i:s'),
+            'created_at'   => Carbon\Carbon::parse($cur_user->created_at)->format('Y/m/d - h:i:s'),
+			'updated_at'   => Carbon\Carbon::parse($cur_user->updated_at)->format('Y/m/d - h:i:s'),
             'profile'      => $this->get_gravatar_img($cur_user->email, 21),
             'description'  => $this->get_user_meta($cur_user->id, 'description'),
             'website'      => $this->get_user_meta($cur_user->id, 'website'),
@@ -129,6 +138,12 @@ class UserModel extends Model
         return (count($users) == 1) ? $users->meta_value : false ;
     }
 
+        public function delete_user_meta($id, $key){
+            DB::table('user_meta')
+            ->where('user_id', $id)
+            ->where('key', $key)
+            ->delete();
+        }
 
     public function update_user_meta($id, $key, $value){
         $id = (int)$id;
@@ -161,15 +176,17 @@ class UserModel extends Model
 
 
     public function process_user_data($data){
+        
         $this->validator($data->all())->validate();
-
+        
         if ($this->get_user($data['user_id'])) {
             $save = $this->save_current_user($data);
-            return redirect()->back()->with('error_msg', 'Update sucess.' );
+            return redirect()->back()->with('success_msg', 'Update successful.' );
         }
 
-        return redirect()->back()->with('error_msg', 'Update sucess.' );
+        return redirect()->back()->with('error_msg', 'Update failed.' );
     }
+
 
     public function validator($data){
         return Validator::make($data, [
@@ -190,7 +207,8 @@ class UserModel extends Model
             ->update([
                 'fname' => sanitize_text($data['fname']),
                 'lname' => sanitize_text($data['lname']),
-                'email' => sanitize_email($data['email']),
+                'email' => sanitize_email($data['email']),                
+                'updated_at'  => date_format(date_create(),"Y-m-d H:i:s"),
             ]);
         $this->update_user_meta($data['user_id'], 'description', Purifier::clean($data['description'], array('AutoFormat.AutoParagraph' => false,'AutoFormat.RemoveEmpty'   => true)));
         $this->update_user_meta($data['user_id'], 'facebook', sanitize_url($data['facebook']));
@@ -209,8 +227,9 @@ class UserModel extends Model
                 'fname'        => $cur_user->fname,
                 'lname'        => $cur_user->lname,
                 'email'        => $cur_user->email,
-                'created_at'   => Carbon\Carbon::parse($cur_user->created_at)->format('Y/m/d - i:s'),
-                'updated_at'   => Carbon\Carbon::parse($cur_user->updated_at)->format('Y/m/d - i:s'),
+                'roll'          => $cur_user->roll,
+                'created_at'   => Carbon\Carbon::parse($cur_user->created_at)->format('Y/m/d - h:i:s'),
+                'updated_at'   => Carbon\Carbon::parse($cur_user->updated_at)->format('Y/m/d - h:i:s'),
                 'profile'      => $this->get_gravatar_img($cur_user->email, 21),
                 'description'  => $this->get_user_meta($cur_user->id, 'description'),
                 'website'      => $this->get_user_meta($cur_user->id, 'website'),
@@ -224,6 +243,130 @@ class UserModel extends Model
     }  
 
     public function process_edith_user_data($data, $id){
-        return $this->process_user_data($data);        
+        $cur_user = Auth::user();
+         if ($this->permission->user_can('edith_other_user', $cur_user->id) === false) {
+            return redirect()->back()->with('error_msg', 'Update failed.' );
+        }
+
+        $this->edith_user_validator($data->all())->validate();
+
+        if ($this->get_user($data['user_id'])) {
+            
+            return $this->save_edith_user($data);
+        }
+
+        return redirect()->back()->with('error_msg', 'Update failed.' );       
+    } 
+
+    public function save_edith_user($data){
+        $cur_user = Auth::user();
+        if ($this->permission->user_can('edith_roll', $cur_user->id) === true) {
+            $update = [
+                'fname' => sanitize_text($data['fname']),
+                'lname' => sanitize_text($data['lname']),
+                'roll'  => sanitize_text($data['roll']),
+                'email' => sanitize_email($data['email']),
+                'updated_at'  => date_format(date_create(),"Y-m-d H:i:s"),
+            ];
+        }else{
+
+            $update = [
+                'fname' => sanitize_text($data['fname']),
+                'lname' => sanitize_text($data['lname']),
+                'email' => sanitize_email($data['email']),
+                'updated_at'  => date_format(date_create(),"Y-m-d H:i:s"),
+            ];
+        }
+       DB::table('users')
+            ->where('id', $data['user_id'])
+            ->update($update);
+        $this->update_user_meta($data['user_id'], 'description', Purifier::clean($data['description'], array('AutoFormat.AutoParagraph' => false,'AutoFormat.RemoveEmpty'   => true)));
+        $this->update_user_meta($data['user_id'], 'facebook', sanitize_url($data['facebook']));
+        $this->update_user_meta($data['user_id'], 'website', sanitize_url($data['website']));
+        $this->update_user_meta($data['user_id'], 'google', sanitize_url($data['google']));
+        return redirect()->back()->with('success_msg', 'Update successful.');
+    }
+
+    public function edith_user_validator($data){
+
+
+        $cur_user = Auth::user();
+        if ($this->permission->user_can('edith_roll', $cur_user->id) === true) {
+            return Validator::make($data, [
+                'user_id'       => 'required|integer',
+                'fname'         => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{2,30}$/',
+                'lname'         => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{1,30}$/',
+                'email'         => ['required', 'string', 'email', 'max:255', new is_own_email($data['user_id'])],
+                'description'   => 'nullable',
+                'facebook'      => 'nullable|url|max:2500',
+                'website'       => 'nullable|url|max:2500',
+                'google'        => 'nullable|url|max:2500',
+                'roll'          => 'required|regex:/^[a-zA-Z]{2,30}$/',
+            ]);
+        }else{
+            return Validator::make($data, [
+                'user_id'       => 'required|integer',
+                'fname'         => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{2,30}$/',
+                'lname'         => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{1,30}$/',
+                'email'         => ['required', 'string', 'email', 'max:255', new is_own_email($data['user_id'])],
+                'description'   => 'nullable',
+                'facebook'      => 'nullable|url|max:2500',
+                'website'       => 'nullable|url|max:2500',
+                'google'        => 'nullable|url|max:2500',
+            ]);
+        }
     }    
+
+    public function insert_user($data){
+        $this->insert_user_validator($data->all())->validate();
+
+        return $this->save_insert_user($data);
+    }
+
+
+    public function insert_user_validator($data){
+        return Validator::make($data, [
+            'fname'         => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{2,30}$/',
+            'lname'         => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{1,30}$/',
+            'email'         => 'required|string|email|max:255|unique:users',
+            'password'      => 'required|string|min:6|confirmed',
+            'password_confirmation' => 'required|min:6',
+            'description'   => 'nullable',
+            'facebook'      => 'nullable|url|max:2500',
+            'website'       => 'nullable|url|max:2500',
+            'google'        => 'nullable|url|max:2500',
+            'roll'          => 'required|regex:/^[a-zA-Z]{2,30}$/',
+        ]);
+
+    }
+
+    public function save_insert_user($data){
+        $id = DB::table('users')->insertGetId(
+            [
+                'fname'     => sanitize_text($data['fname']),
+                'lname'     => sanitize_text($data['lname']),
+                'roll'      => sanitize_text($data['roll']),
+                'email'     => sanitize_email($data['email']),
+                'password'  => bcrypt($data['password']),
+                'created_at'  => date_format(date_create(),"Y-m-d H:i:s"),
+                'updated_at'  => date_format(date_create(),"Y-m-d H:i:s"),
+            ]
+        );
+        $this->update_user_meta($id, 'description', Purifier::clean($data['description'], array('AutoFormat.AutoParagraph' => false,'AutoFormat.RemoveEmpty'   => true)));
+        $this->update_user_meta($id, 'facebook', sanitize_url($data['facebook']));
+        $this->update_user_meta($id, 'website', sanitize_url($data['website']));
+        $this->update_user_meta($id, 'google', sanitize_url($data['google']));
+        return redirect('admin/user/'.$id.'/edit')->with('success_msg', 'Insert User successful.');
+
+    }
+
+    public function destroy_user($id){
+        DB::table('users')->where('id', $id)->delete();     
+        $this->delete_user_meta($id, 'facebook');   
+        $this->delete_user_meta($id, 'website');   
+        $this->delete_user_meta($id, 'description');   
+        $this->delete_user_meta($id, 'google');   
+        return redirect()->back()->with('success_msg', 'User Delete successful.' );
+    }
+
 }

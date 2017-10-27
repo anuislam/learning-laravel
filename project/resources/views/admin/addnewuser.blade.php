@@ -9,11 +9,19 @@ Add New user
     <!-- Breadcrumbs-->
     @include('admin.inc.breadcrumb')
 
+
         @if(Session::get('error_msg'))
-        <div class="alert alert-success" role="alert">
-          <strong>!Success</strong> {{ Session::get('error_msg') }}
+        <div class="alert alert-danger" role="alert">
+          <strong>!Error</strong> {{ Session::get('error_msg') }}
         </div>
         @endif
+
+        @if(Session::get('success_msg'))
+        <div class="alert alert-success" role="alert">
+          <strong>!Success</strong> {{ Session::get('success_msg') }}
+        </div>
+        @endif
+        
     <div class="row">
       <div class="col-md-8">
 
@@ -22,7 +30,7 @@ Add New user
             <div class="row">
               <div class="col-md-12">
                 <!-- Start Form -->
-            {!! Form::open(['url' => route('user.create'), 'method' => 'POST']) !!} 
+            {!! Form::open(['url' => route('stor-user'), 'method' => 'POST']) !!} 
 
                 {{ text_field([
                     'name' => 'fname',
@@ -44,6 +52,31 @@ Add New user
                     'value' => old('email'),
                     'atts' =>  ['placeholder' => 'Email Address', 'aria-describedby' => 'EmailAddress', 'class' => 'form-control']
                   ], $errors) }}
+
+                {{ password_field([
+                    'name' => 'password',
+                    'title' => 'Password',
+                    'atts' =>  ['placeholder' => 'Password', 'aria-describedby' => 'Password', 'class' => 'form-control']
+                  ], $errors) }}
+
+                {{ password_field([
+                    'name' => 'password_confirmation',
+                    'title' => 'Confirm Password',
+                    'atts' =>  ['placeholder' => 'confirm_password', 'aria-describedby' => 'confirm_password', 'class' => 'form-control']
+                  ], $errors) }}
+
+
+              @if($userpermission->user_can('edith_roll', $current_user['id']))
+                {{ select_field([
+                    'name' => 'roll',
+                    'title' => 'User Roll',
+                    'value' => @$edith_user['roll'],
+                    'atts' =>  ['aria-describedby' => 'Userrool', 'class' => 'form-control'],
+                    'items' =>  $userpermission->get_roll(),
+                  ], $errors) }}
+
+              @endif
+
 
                 {{ textarea_field([
                     'name' => 'description',

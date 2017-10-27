@@ -1,12 +1,11 @@
 <?php
 
-
 function text_field($data = array(), $errors){
-	$data['name'] 		 = (isset($data['name'])) ? $data['name'] : '' ;
-	$data['title'] 		 = (isset($data['title'])) ? $data['title'] : '' ;
-	$data['value'] 		 = (isset($data['value'])) ? $data['value'] : '' ;
-	$data['atts'] 		 = (isset($data['atts'])) ? $data['atts'] : [] ;	
-	?>
+  $data['name']      = (isset($data['name'])) ? $data['name'] : '' ;
+  $data['title']     = (isset($data['title'])) ? $data['title'] : '' ;
+  $data['value']     = (isset($data['value'])) ? $data['value'] : '' ;
+  $data['atts']      = (isset($data['atts'])) ? $data['atts'] : [] ;  
+  ?>
 
     <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
       <?php echo Form::label( $data['name'], $data['title'] ); ?>
@@ -18,7 +17,48 @@ function text_field($data = array(), $errors){
       <?php endif; ?>
     </div>
 
-	<?php
+  <?php
+}
+
+function password_field($data = array(), $errors){
+  $data['name']      = (isset($data['name'])) ? $data['name'] : '' ;
+  $data['title']     = (isset($data['title'])) ? $data['title'] : '' ;
+  $data['atts']      = (isset($data['atts'])) ? $data['atts'] : [] ;  
+  ?>
+
+    <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
+      <?php echo Form::label( $data['name'], $data['title'] ); ?>
+      <?php echo Form::password( $data['name'], $data['atts'] ); ?>
+      <?php if ($errors->has($data['name'])) : ?>
+        <span class="help-block">
+            <strong><?php echo $errors->first($data['name'])  ?></strong>
+        </span>
+      <?php endif; ?>
+    </div>
+
+  <?php
+}
+
+function select_field($data = array(), $errors){
+  $data['name']      = (isset($data['name'])) ? $data['name'] : '' ;
+  $data['title']     = (isset($data['title'])) ? $data['title'] : '' ;
+  $data['value']     = (isset($data['value'])) ? $data['value'] : '' ;
+  $data['atts']      = (isset($data['atts'])) ? $data['atts'] : [] ;  
+  $data['items']      = (isset($data['items'])) ? $data['items'] : [] ;  
+  ?>
+
+    <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
+      <?php echo Form::label( $data['name'], $data['title'] ); ?>
+
+      <?php echo Form::select($data['name'], $data['items'], $data['value'], $data['atts'] ); ?>
+      <?php if ($errors->has($data['name'])) : ?>
+        <span class="help-block">
+            <strong><?php echo $errors->first($data['name'])  ?></strong>
+        </span>
+      <?php endif; ?>
+    </div>
+
+  <?php
 }
 
 function email_field($data = array(), $errors){

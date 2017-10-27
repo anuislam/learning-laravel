@@ -22,7 +22,7 @@
 		if (empty($value) === false) {
 			switch ($name) {
             case 'integer':
-                return (is_numeric($value) === true) ? $value : false ;
+                return (is_numeric($value) === true) ? true : false ;
                 break;   
             case 'string':
                 return (is_string($value) === true) ? true : false ;

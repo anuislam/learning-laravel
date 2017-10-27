@@ -13,14 +13,24 @@ Admin Dashboard
 
 <!-- Start datatalbe -->
 
+    @if(Session::get('error_msg'))
+    <div class="alert alert-danger" role="alert">
+      <strong>!Error</strong> {{ Session::get('error_msg') }}
+    </div>
+    @endif
 
+    @if(Session::get('success_msg'))
+    <div class="alert alert-success" role="alert">
+      <strong>!Success</strong> {{ Session::get('success_msg') }}
+    </div>
+    @endif
     
     <div class="card mb-3">
       <div class="card-header">
         <i class="fa fa-table"></i> All Users</div>
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <table class="table table-bordered" id="admin_user_dataTable" width="100%" cellspacing="0">
             <thead>
               <tr>
                 <th width="30" class="text-center">Profile</th>
@@ -43,24 +53,6 @@ Admin Dashboard
                 <th>Actions</th>
               </tr>
             </tfoot>
-            <tbody>           
-            @if( $get_all_users !== false )   
-              @foreach ($get_all_users as $user)
-                <tr>
-                  <td>
-                    <img src="{{ $user['profile'] }}" alt="profile" width="35" height="35">
-                  </td>
-                  <td>{{ $user['fname'] }}</td>
-                  <td>{{ $user['lname'] }}</td>
-                  <td>{{ $user['email'] }}</td>
-                  <td>{{ $user['created_at'] }}</td>
-                  <td>{{ $user['roll'] }}</td>
-
-                  <td><a href="{{ url('admin/user/'.$user['id'].'/edit') }}" class="btn btn-secondary">Edith</a> <a href="" class="btn btn-danger">Delete</a></td>
-                </tr>
-              @endforeach
-            @endif
-            </tbody>
           </table>
         </div>
       </div>

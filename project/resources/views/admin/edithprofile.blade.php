@@ -10,10 +10,17 @@ Edith User
     @include('admin.inc.breadcrumb')
 
         @if(Session::get('error_msg'))
-        <div class="alert alert-success" role="alert">
-          <strong>!Success</strong> {{ Session::get('error_msg') }}
+        <div class="alert alert-danger" role="alert">
+          <strong>!Error</strong> {{ Session::get('error_msg') }}
         </div>
         @endif
+
+        @if(Session::get('success_msg'))
+        <div class="alert alert-success" role="alert">
+          <strong>!Success</strong> {{ Session::get('success_msg') }}
+        </div>
+        @endif
+        
     <div class="row">
       <div class="col-md-8">
 
@@ -50,6 +57,18 @@ Edith User
                     'value' => @$edith_user['email'],
                     'atts' =>  ['placeholder' => 'Email Address', 'aria-describedby' => 'EmailAddress', 'class' => 'form-control']
                   ], $errors) }}
+
+              @if($userpermission->user_can('edith_roll', $current_user['id']))
+
+                {{ select_field([
+                    'name' => 'roll',
+                    'title' => 'User Roll',
+                    'value' => @$edith_user['roll'],
+                    'atts' =>  ['aria-describedby' => 'Userrool', 'class' => 'form-control'],
+                    'items' =>   $userpermission->get_roll(),
+                  ], $errors) }}
+
+              @endif
 
                 {{ textarea_field([
                     'name' => 'description',

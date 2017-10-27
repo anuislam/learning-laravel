@@ -22,6 +22,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard');
     Route::resource('/user', 'Admin\UsersController');
     Route::get('/users', 'Admin\UsersController@all_users')->name('all-users');
+    Route::post('/user/stor-user', 'Admin\UsersController@stor_user')->name('stor-user');
+    Route::get('/users/datatable', 'Admin\UserDatatable@index')->name('user-datatable');
 
 });
 
