@@ -29,14 +29,19 @@ class UserPermission extends Model
             'create_user'    	 => true,
             'edith_roll'    	 => true,
             'delete_user'    	 => true,
+            'change_password'    	 => true,
+            'create_tarm'    	 => true,
             'read'     => true,
         ]);
         $this->add_cap('author',[
             'edith_user'        => true,
             'edith_other_user'  => true,
+            'change_password'  => true,
+            'create_tarm'  => true,
             'read'  => true,
         ]);
         $this->add_cap('subscriber', [
+            'change_password'        => true,
             'read'        => true,
         ]);
         $this->get_all_roll_cap = $this->get_all_roll_cap();

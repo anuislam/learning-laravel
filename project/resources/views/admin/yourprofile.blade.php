@@ -34,15 +34,19 @@ Admin Dashboard
                     {{ Html::image(get_gravatar_custom_img($current_user['email'], 200), $current_user['fname'], array('class' => 'img-thumbnail')) }}
                   </div>
                 </div>
+
+
                 <div class="row mb-3 mt-2">                  
                   <div class="col-md-6">
                     {{ HTML::link('https://www.gravatar.com/', 'Change Image', array(
                     'target' => '_blank',
                     'class' => 'btn btn-secondary d-inline-block',
                     ))}}
-                    {{ HTML::link('https://www.gravatar.com/', 'Change password', array(
-                    'class' => 'btn btn-secondary d-inline-block',
-                    ))}}
+                    @if($userpermission->user_can('change_password', $current_user['id']))
+                      {{ HTML::link(route('change-password'), 'Change password', array(
+                      'class' => 'btn btn-secondary d-inline-block',
+                      ))}}
+                    @endif
                   </div>
                 </div>
 

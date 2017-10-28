@@ -23,7 +23,10 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('/user', 'Admin\UsersController');
     Route::get('/users', 'Admin\UsersController@all_users')->name('all-users');
     Route::post('/user/stor-user', 'Admin\UsersController@stor_user')->name('stor-user');
-    Route::get('/users/datatable', 'Admin\UserDatatable@index')->name('user-datatable');
+    Route::post('/users/datatable', 'Admin\UserDatatable@index')->name('user-datatable');
+    Route::get('/change-password', 'Admin\UsersController@change_password')->name('change-password');
+    Route::post('/update-change-password', 'Admin\UsersController@update_change_password')->name('update-change-password');
+    Route::get('/tarm/{tarm?}', 'Admin\tarmController@index')->name('create-tarms');
 
 });
 

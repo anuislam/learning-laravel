@@ -28,9 +28,12 @@
             "App\\": "app/"
         },
         "files": [
+            "app/global/GlobalRegisterComponents.php",
+            "app/userRegister/UserRegisterComponents.php",
             "app/helpers/usersHelpers.php",
             "app/helpers/htmltag.php",
-            "app/helpers/sanitize.php"
+            "app/helpers/sanitize.php",
+            "app/global/AdminSetupMenu.php"
         ]
     },
     "autoload-dev": {

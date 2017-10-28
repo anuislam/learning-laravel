@@ -6,6 +6,7 @@ use DataTables;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
+use Carbon;
 
 class UserDatatable extends Controller
 {
@@ -24,6 +25,12 @@ class UserDatatable extends Controller
 
 
                 href="'.route('user.destroy', $user->id).'" class="btn btn-danger">Delete</a>';
+            })
+		->addColumn('created_at', function ($user) {
+                return Carbon\Carbon::parse($user->created_at)->format('Y/m/d - h:i:s');
+            })
+		->addColumn('updated_at', function ($user) {
+                return Carbon\Carbon::parse($user->created_at)->format('Y/m/d - h:i:s');
             })
 		->addColumn('profile', function ($user) {
                 return '<img src="'.get_gravatar_custom_img( $user->email, 35 ).'" alt="'.$user->fname.' '.$user->lname.'" width="35" height="35">';

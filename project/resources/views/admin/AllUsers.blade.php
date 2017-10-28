@@ -25,10 +25,9 @@ Admin Dashboard
     </div>
     @endif
     
-    <div class="card mb-3">
-      <div class="card-header">
-        <i class="fa fa-table"></i> All Users</div>
-      <div class="card-body">
+
+{{ heml_card_open('fa fa-user', 'All Users') }}
+
         <div class="table-responsive">
           <table class="table table-bordered" id="admin_user_dataTable" width="100%" cellspacing="0">
             <thead>
@@ -55,9 +54,7 @@ Admin Dashboard
             </tfoot>
           </table>
         </div>
-      </div>
-      <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-    </div>
+{{ heml_card_close('All Users.') }}
 
     <!-- end datatable -->
 

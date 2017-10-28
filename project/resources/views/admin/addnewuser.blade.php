@@ -62,7 +62,7 @@ Add New user
                 {{ password_field([
                     'name' => 'password_confirmation',
                     'title' => 'Confirm Password',
-                    'atts' =>  ['placeholder' => 'confirm_password', 'aria-describedby' => 'confirm_password', 'class' => 'form-control']
+                    'atts' =>  ['placeholder' => 'Confirm Password', 'aria-describedby' => 'confirm_password', 'class' => 'form-control']
                   ], $errors) }}
 
 

@@ -22,10 +22,13 @@
 		if (empty($value) === false) {
 			switch ($name) {
             case 'integer':
-                return (is_numeric($value) === true) ? true : false ;
+                return (preg_match('/^[0-9]{0,250}$/', $value)) ? true : false ;
                 break;   
             case 'string':
-                return (is_string($value) === true) ? true : false ;
+                return (preg_match('/^[a-zA-Z]{0,250}$/', $value)) ? true : false ;
+                break;  
+            case 'mix':
+                return (preg_match('/^[a-zA-Z0-9]{0,250}$/', $value)) ? true : false ;
                 break;            
             default:
                 return true;

@@ -9,6 +9,7 @@ use \Auth;
 
 
 
+
 class UsersController extends Controller
 {
     private $usermodel = '';
@@ -28,6 +29,7 @@ class UsersController extends Controller
         if ($this->permission->user_can('edith_user', $current_user['id'])) {
             return view('admin.yourprofile',[
                 'current_user'      => $current_user,
+                'userpermission'      => $this->permission,
             ]);
         }
         return '404page';
@@ -40,7 +42,8 @@ class UsersController extends Controller
         $current_user   = $usermodel->current_user();
         if ($this->permission->user_can('edith_other_user', $current_user['id'])) {
             return view('admin.AllUsers', [
-                'current_user'  => $current_user,
+                'current_user'        => $current_user,
+                'userpermission'      => $this->permission,
             ]);
         }
         return '404page';
@@ -104,7 +107,7 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        return $this->index();
+        return '404 page';
     }
 
     /**
@@ -172,6 +175,7 @@ class UsersController extends Controller
         if ($this->permission->user_can('delete_user', $cur_user->id) === false) {
             return redirect()->back()->with('error_msg', 'You have no delete permission.' );
         }
+
         $deleteble_user = $this->usermodel->get_user($id);
         if ($deleteble_user) {
             if ('administrator' == $deleteble_user->roll) {
@@ -185,5 +189,27 @@ class UsersController extends Controller
         return redirect()->back()->with('error_msg', 'Operation failed.' );
     }
 
+
+    public function change_password(){
+        $cur_user = Auth::user();
+        $usermodel          = $this->usermodel;
+        $current_user       = $usermodel->current_user();
+
+        if ($this->permission->user_can('change_password', $cur_user->id) === false) {
+            return '404 page';
+        }
+
+        return view('admin.changePassword',[
+                    'current_user'          => $current_user,
+                    'userpermission'        => $this->permission,
+                ]);
+    }
+
+    public function update_change_password(Request $request){   
+        $cur_user = Auth::user();     
+        $this->usermodel->change_password_validation($request->all())->validate();
+        return $this->usermodel->update_password($cur_user, $request['password']);
+        return redirect()->back()->with('error_msg', 'Operation failed.' );
+    }
 
 }

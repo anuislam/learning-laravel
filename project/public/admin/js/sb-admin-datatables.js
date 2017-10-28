@@ -6,7 +6,7 @@ $(document).ready(function() {
             "ajax":{
                      "url": global_data.data_table_url,
                      "dataType": "json",
-                     "type": "get",
+                     "type": "post",
                      "data":{ _token: global_data.token}
                    },
             "columns": [

@@ -11,6 +11,7 @@ use \Validator;
 use \Session;
 use \Purifier;
 use App\Rules\is_own_email;
+use App\Rules\ChangePassword;
 
 class UserModel extends Model
 {
@@ -367,6 +368,24 @@ class UserModel extends Model
         $this->delete_user_meta($id, 'description');   
         $this->delete_user_meta($id, 'google');   
         return redirect()->back()->with('success_msg', 'User Delete successful.' );
+    }
+
+    public function change_password_validation($data){
+        return Validator::make($data, [
+            'current_password'      => ['required', 'string', 'min:6', new ChangePassword()],
+            'password'              => 'required|string|min:6|same:password',
+            'password_confirmation' => 'required|min:6|same:password',
+        ]);
+    }
+
+    public function update_password($user, $value){
+        DB::table('users')
+        ->where('id', $user->id)
+        ->where('password', $user->password)
+        ->update([
+            'password' => bcrypt($value)
+        ]);
+        return redirect()->back()->with('success_msg', 'Password change successful.' );
     }
 
 }
