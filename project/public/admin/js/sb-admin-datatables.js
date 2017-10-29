@@ -21,5 +21,21 @@ $(document).ready(function() {
 
         });
 
+        $('#tarm_opject_table').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+                     "url": global_data.data_table_url,
+                     "dataType": "json",
+                     "type": "post",
+                     "data":{ _token: global_data.token}
+                   },
+            "columns": [
+                { "data": "fname" },
+                { "data": "action", searchable: false, orderable: false  },
+            ]
+
+        });
+
 
 });

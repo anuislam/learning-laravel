@@ -29,7 +29,7 @@ class UserPermission extends Model
             'create_user'    	 => true,
             'edith_roll'    	 => true,
             'delete_user'    	 => true,
-            'change_password'    	 => true,
+            'change_password'    => true,
             'create_tarm'    	 => true,
             'read'     => true,
         ]);

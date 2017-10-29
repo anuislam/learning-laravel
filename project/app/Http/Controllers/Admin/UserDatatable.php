@@ -7,9 +7,17 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
 use Carbon;
+use \Auth;
 
 class UserDatatable extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function index(){
 		return DataTables::of(DB::table('users')->select('id','fname', 'lname', 'email', 'roll', 'created_at', 'updated_at'))
 		->addColumn('action', function ($user) {
