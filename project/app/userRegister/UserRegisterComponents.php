@@ -1,8 +1,8 @@
 <?php
 
 register_tarm([
-	'id' 	 		 	=> 'categorys', //uniq
-	'class' 	 	 	=> 'Categorys',
+	'id' 	 		 	=> 'shipping', //uniq
+	'class' 	 	 	=> 'shipping',
 ]);
 
 // register_post_type([
@@ -39,6 +39,14 @@ register_menu([
 	'menu-icon' 	 	=> 'fa-list-ul', 
 	'capability' 	 	=> 'create_tarm', 
 	'url' 	 		 	=> ['create-tarms', '/'],
+]);
+
+register_menu([
+	'menu-title' 	 	=> 'Shipping',
+	'id' 	 		 	=> 'add-shipping',
+	'menu-icon' 	 	=> 'fa-list-ul', 
+	'capability' 	 	=> 'create_tarm', 
+	'url' 	 		 	=> ['create-tarms', 'shipping'],
 ]);
 
 

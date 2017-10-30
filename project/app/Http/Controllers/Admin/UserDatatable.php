@@ -19,32 +19,32 @@ class UserDatatable extends Controller
 
 
     public function index(){
-		return DataTables::of(DB::table('users')->select('id','fname', 'lname', 'email', 'roll', 'created_at', 'updated_at'))
-		->addColumn('action', function ($user) {
+        return DataTables::of(DB::table('users')->select('id','fname', 'lname', 'email', 'roll', 'created_at', 'updated_at'))
+        ->addColumn('action', function ($user) {
                 return '<a href="'.route('user.edit', $user->id).'" class="btn btn-secondary">Edith</a> <a
 
-			onclick="data_modal(this)" 
-			data-title="Ready to Delete?"
-			data-message=\'Are you sure you want to delete the user account?\'
-			cancel_text="Cancel"
-			submit_text="Delete"
-			data-type="post"
-			data-parameters=\'{"_token":"'. csrf_token() .'", "_method": "DELETE"}\'
+            onclick="data_modal(this)" 
+            data-title="Ready to Delete?"
+            data-message=\'Are you sure you want to delete the user account?\'
+            cancel_text="Cancel"
+            submit_text="Delete"
+            data-type="post"
+            data-parameters=\'{"_token":"'. csrf_token() .'", "_method": "DELETE"}\'
 
 
                 href="'.route('user.destroy', $user->id).'" class="btn btn-danger">Delete</a>';
             })
-		->addColumn('created_at', function ($user) {
+        ->addColumn('created_at', function ($user) {
                 return Carbon\Carbon::parse($user->created_at)->format('Y/m/d - h:i:s');
             })
-		->addColumn('updated_at', function ($user) {
+        ->addColumn('updated_at', function ($user) {
                 return Carbon\Carbon::parse($user->created_at)->format('Y/m/d - h:i:s');
             })
-		->addColumn('profile', function ($user) {
+        ->addColumn('profile', function ($user) {
                 return '<img src="'.get_gravatar_custom_img( $user->email, 35 ).'" alt="'.$user->fname.' '.$user->lname.'" width="35" height="35">';
             })
-		->escapeColumns(['*'])
-		->make(true);
+        ->escapeColumns(['*'])
+        ->make(true);
 
     }
 }

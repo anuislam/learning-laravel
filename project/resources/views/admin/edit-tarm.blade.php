@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('dashboard_tab_title')
- {{ $tarm_opject->pate_tab_title() }}
+ {{ $tarm_opject->edit_page_title($get_tarm) }}
 @endsection
 
 
@@ -23,42 +23,22 @@
         @endif
         
     <div class="row">
-      <div class="col-md-5">
+      <div class="col-md-8">
 
-{{ heml_card_open($tarm_opject->page_icon(), $tarm_opject->pate_title()) }}
+{{ heml_card_open($tarm_opject->page_icon(), $tarm_opject->edit_page_title($get_tarm)) }}
 
             <div class="row">
               <div class="col-md-12">
                 <!-- Start Form -->     
-
   
-                {{ $tarm_opject->tarm_form_output($errors) }}                
-
+                {{ $tarm_opject->tarm_edit_form_output($get_tarm, $errors) }}   
               
               <!-- End Form -->
 
               </div>
             </div>
 
-{{ heml_card_close($tarm_opject->pate_title()) }}
-
-      </div>
-      
-      <div class="col-md-7">
-
-{{ heml_card_open('fa fa-user', 'Create Tarm') }}
-
-            <div class="row">
-              <div class="col-md-12">
-
-
-{{ $tarm_opject->all_tarms_out_put($errors) }}
-
-
-              </div>
-            </div>
-
-{{ heml_card_close('Add New User.') }}
+{{ heml_card_close($tarm_opject->edit_page_footer_title($get_tarm)) }}
 
       </div>
     </div>

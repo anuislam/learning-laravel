@@ -20,20 +20,17 @@ $(document).ready(function() {
             ]
 
         });
-
-        $('#tarm_opject_table').DataTable({
+        var tarm_opject_table = $('#tarm_opject_table');
+        tarm_opject_table.DataTable({
             "processing": true,
             "serverSide": true,
             "ajax":{
-                     "url": global_data.data_table_url,
+                     "url": tarm_opject_table.attr('tarms-url'),
                      "dataType": "json",
                      "type": "post",
-                     "data":{ _token: global_data.token}
+                     "data":{ _token: global_data.token, _method: 'PATCH'}
                    },
-            "columns": [
-                { "data": "fname" },
-                { "data": "action", searchable: false, orderable: false  },
-            ]
+            "columns": JSON.parse(tarm_opject_table.attr('tarms-data'))
 
         });
 

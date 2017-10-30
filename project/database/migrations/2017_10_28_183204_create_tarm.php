@@ -18,6 +18,7 @@ class CreateTarm extends Migration
             $table->string('tarm-slug');
             $table->string('tarm-name');
             $table->string('description')->nullable();
+            $table->string('tarm-type')->nullable();
             $table->timestamps();
         });
     }

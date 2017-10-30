@@ -4,8 +4,24 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Form;
+use App\UserModel;
+use App\UserPermission;
+use \Auth;
+use \DB;
+use Validator;
+use Purifier;
+use Carbon;
 
 class TarmModel extends Model{
+
+
+    private $usermodel = '';
+    private $permission = '';
+
+    public function __construct(){
+        $this->usermodel = new UserModel();
+        $this->permission = new UserPermission();  
+    }
 
     public function pate_tab_title(){
     	return 'Categorys';
@@ -17,12 +33,11 @@ class TarmModel extends Model{
 
 
     public function page_icon(){
-    	return 'fa fa-facebook';
+    	return 'fa fa-pencil';
     }
 
     public function tarm_form_output($errors){
-		echo Form::open(['url' => route('stor-user'), 'method' => 'POST']); 
-
+		echo Form::open(['url' => route('stor-tarms', '/'), 'method' => 'POST']); 
 			text_field([
 				'name' => 'cat_name',
 				'title' => 'Category Name',
@@ -40,26 +55,179 @@ class TarmModel extends Model{
 			textarea_field([
 				'name' => 'cat_description',
 				'title' => 'Category Description',
-				'value' => old('description'),
+				'value' => old('cat_description'),
 				'atts' =>  ['placeholder' => 'Category Description', 'aria-describedby' => 'CategoryDescription', 'class' => 'form-control']
 			], $errors);
-
-
 			echo 	Form::submit('Add Category', ['class' => 'btn btn-primary mt-3',]);
 		echo Form::close();
     }
 
 
-    public function tarm_validation(){
-    	return 'fa fa-facebook';
+    public function tarm_validation($data){
+    	$cur_user = Auth::user();
+    	return Validator::make($data, [
+                'cat_name'      => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{2,30}$/|unique:tarms,tarm-name',
+                'cat_slug'      => 'required|string|max:255|regex:/^[a-zA-Z0-9-]{2,30}$/|unique:tarms,tarm-slug',
+                'cat_description'      => 'nullable',
+            ], [
+			    'cat_name.regex' 	=> 'The category name format is invalid.',
+			    'cat_name.required' => 'The category name field is required.',
+			    'cat_name.max' 		=> 'The category name may not be greater than 255 characters.',
+			    'cat_name.unique' 	=> 'The category name has already been taken.',
+			    'cat_name.string' 	=> 'The category name must be given string.',
+
+			    'cat_slug.regex' 	=> 'The category slug format is invalid.',
+			    'cat_slug.required' => 'The category slug field is required.',
+			    'cat_slug.max' 		=> 'The category slug may not be greater than 255 characters.',
+			    'cat_slug.unique' 	=> 'The category slug has already been taken.',
+			    'cat_slug.string' 	=> 'The category slug must be given string.',
+			]);
     }
 
-    public function tarm_data_process(){
-    	return 'fa fa-facebook';
+    public function tarm_data_process($request, $tarm_type){
+    	$this->tarm_validation($request->all())->validate();
+    	return $this->tarm_data_save($request, $tarm_type);
     }
 
-    public function tarm_data_save(){
-    	return 'fa fa-facebook';
+    public function tarm_data_save($data, $tarm_type){
+    	$id = DB::table('tarms')->insertGetId([
+    		'tarm-slug' => sanitize_text($data['cat_slug']),
+    		'tarm-name' => sanitize_text($data['cat_name']),
+    		'description' => Purifier::clean($data['cat_description'], array('AutoFormat.AutoParagraph' => false,'AutoFormat.RemoveEmpty'   => true)),
+    		'tarm-type' => sanitize_text($tarm_type),
+    		'created_at' => new \DateTime(),
+    		'updated_at' => new \DateTime(),
+    	]);
+    	if ($id) {
+    		return redirect()->back()->with('success_msg', 'Category create successful.');
+    	}
+    	return redirect()->back()->with('error_msg', 'Operation failed.');
+    }
+
+    public function user_can($user_id){
+    	if ($this->permission->user_can('create_tarm', $user_id)) {
+			return true;
+        }
+        return false;
+    }
+
+
+    public function all_tarms_out_put(){
+    	
+		?>
+	    <div class="table-responsive">
+	      <table class="table table-bordered" id="tarm_opject_table" width="100%" cellspacing="0" tarms-url="<?php echo route('tarms-all', '/'); ?>" tarms-data='<?php echo json_encode([
+    		['data' => 'tarm-name'],
+    		['data' => 'tarm-slug'],
+    		[
+    			'data' 		 => 'action',
+    			'searchable' => 'false',
+    			'orderable'  => 'false',
+    		]
+    	]);?>'>
+	        <thead>
+	          <tr>
+	            <th>Category name</th>
+	            <th>Category Slug</th>
+	            <th>Actions</th>
+	          </tr>
+	        </thead>
+	        <tfoot>
+	          <tr>
+	            <th>Category name</th>
+	            <th>Category Slug</th>
+	            <th>Actions</th>
+	          </tr>
+	        </tfoot>
+	      </table>
+	    </div>
+		<?php
+    }
+
+    public function tarm_edit_form_output($value = '', $errors)
+    {
+    	$value = json_decode(json_encode($value),true);
+		echo Form::open(['url' => route('edit-tarm-update', $value['id']), 'method' => 'POST']);
+		 echo Form::hidden('_method', 'PATCH');
+			text_field([
+				'name' => 'cat_name',
+				'title' => 'Category Name',
+				'value' => $value['tarm-name'],
+				'atts' =>  ['placeholder' => 'Category Name', 'aria-describedby' => 'CategoryName', 'class' => 'form-control']
+			], $errors);
+
+			text_field([
+				'name' => 'cat_slug',
+				'title' => 'Category Slug',
+				'value' => $value['tarm-slug'],
+				'atts' =>  ['placeholder' => 'Category Slug', 'aria-describedby' => 'CategorySlug', 'class' => 'form-control']
+			], $errors);
+
+			textarea_field([
+				'name' => 'cat_description',
+				'title' => 'Category Description',
+				'value' => $value['description'],
+				'atts' =>  ['placeholder' => 'Category Description', 'aria-describedby' => 'CategoryDescription', 'class' => 'form-control']
+			], $errors);
+			echo 	Form::submit('Update Category', ['class' => 'btn btn-primary mt-3',]);
+		echo Form::close();
+    }
+
+    public function get_tarms($id){
+        $id = (int)$id;
+        $data = DB::table('tarms')->where('id', $id)->first();
+        return ($data) ? $data : false ;
+    }
+
+
+    public function tarm_edit_data_process($request, $tarm_id = '' ) {
+    	$this->tarm_edit_validation($request->all(), $tarm_id)->validate();
+    	return $this->tarm_edit_data_update($request, $tarm_id);
+    }
+
+    public function tarm_edit_validation($data, $tarm_id){
+    	$cur_user = Auth::user();
+    	return Validator::make($data, [
+                'cat_name'      => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{2,30}$/|unique:tarms,tarm-name,'.$tarm_id,
+                'cat_slug'      => 'required|string|max:255|regex:/^[a-zA-Z0-9-]{2,30}$/|unique:tarms,tarm-slug,'.$tarm_id,
+                'cat_description'      => 'nullable',
+            ], [
+			    'cat_name.regex' 	=> 'The category name format is invalid.',
+			    'cat_name.required' => 'The category name field is required.',
+			    'cat_name.max' 		=> 'The category name may not be greater than 255 characters.'.$tarm_id,
+			    'cat_name.unique' 	=> 'The category name has already been taken.',
+			    'cat_name.string' 	=> 'The category name must be given string.',
+
+			    'cat_slug.regex' 	=> 'The category slug format is invalid.',
+			    'cat_slug.required' => 'The category slug field is required.',
+			    'cat_slug.max' 		=> 'The category slug may not be greater than 255 characters.',
+			    'cat_slug.unique' 	=> 'The category slug has already been taken.',
+			    'cat_slug.string' 	=> 'The category slug must be given string.',
+			]);
+    }
+
+    public function tarm_edit_data_update($data, $tarm_id){
+
+    	$data = DB::table('tarms')
+                    ->where('id',  $tarm_id)
+                    ->update([
+			    		'tarm-slug' => sanitize_text($data['cat_slug']),
+			    		'tarm-name' => sanitize_text($data['cat_name']),
+			    		'description' => Purifier::clean($data['cat_description'], array('AutoFormat.AutoParagraph' => false,'AutoFormat.RemoveEmpty'   => true)),
+			    		'updated_at' => new \DateTime(),
+                    ]);
+
+    	return redirect()->back()->with('success_msg', 'Update successful.');
+    }
+
+    public function edit_page_title($value='')
+    {
+    	$value = json_decode(json_encode($value),true);
+    	return $value['tarm-name'];
+    }
+    public function edit_page_footer_title($value='')
+    {
+    	return 'Last Updated '. Carbon\Carbon::parse($value->updated_at)->format('Y/m/d - h:i:s');
     }
 
 }
