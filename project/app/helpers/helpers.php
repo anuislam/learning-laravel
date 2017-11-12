@@ -40,5 +40,30 @@
 
     }
 
+    function upload_dir_url($path = ''){
+    	if (empty($path) === false) {
+    		return asset('public/upload').'/'.$path;
+    	}
+    	return asset('public/upload');
+    	
+    }
+    
+    function upload_dir_path($path = ''){
+    	if (empty($path) === false) {
+    		return public_path('upload').'/'.$path;
+    	}
+    	return public_path('upload');
+    }
 
-?>
+    function is_image($type){
+        $type = strtolower($type);
+
+        if($type == 'image/x-icon') {
+            return false;
+        }
+        
+        if(substr($type, 0, 5) == 'image') {
+            return true;
+        }
+        return false;
+    }

@@ -49,8 +49,8 @@ class shipping extends TarmModel
     public function tarm_validation($data){
     	$cur_user = Auth::user();
     	return Validator::make($data, [
-                'cat_name'      => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{2,30}$/|unique:tarms,tarm-name',
-                'cat_slug'      => 'required|string|max:255|regex:/^[a-zA-Z0-9-]{2,30}$/|unique:tarms,tarm-slug',
+                'cat_name'      => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{2,30}$/|unique:tarms,tarm-name,null,null,tarm-type,shipping',
+                'cat_slug'      => 'required|string|max:255|regex:/^[a-zA-Z0-9-]{2,30}$/|unique:tarms,tarm-slug,null,null,tarm-type,shipping',
                 'cat_description'      => 'nullable',
             ], [
 			    'cat_name.regex' 	=> 'The Shipping name format is invalid.',
@@ -127,7 +127,7 @@ class shipping extends TarmModel
 				'value' => $value['description'],
 				'atts' =>  ['placeholder' => 'Shipping Description', 'aria-describedby' => 'ShippingDescription', 'class' => 'form-control']
 			], $errors);
-			echo 	Form::submit('Update Category', ['class' => 'btn btn-primary mt-3',]);
+			echo 	Form::submit('Update Shipping', ['class' => 'btn btn-primary mt-3',]);
 		echo Form::close();
     }
 
@@ -135,8 +135,8 @@ class shipping extends TarmModel
     public function tarm_edit_validation($data, $tarm_id){
     	$cur_user = Auth::user();
     	return Validator::make($data, [
-                'cat_name'      => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{2,30}$/|unique:tarms,tarm-name,'.$tarm_id,
-                'cat_slug'      => 'required|string|max:255|regex:/^[a-zA-Z0-9-]{2,30}$/|unique:tarms,tarm-slug,'.$tarm_id,
+                'cat_name'      => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{2,30}$/|unique:tarms,tarm-name,'.$tarm_id.',id,tarm-type,shipping',
+                'cat_slug'      => 'required|string|max:255|regex:/^[a-zA-Z0-9-]{2,30}$/|unique:tarms,tarm-slug,'.$tarm_id.',id,tarm-type,shipping',
                 'cat_description'      => 'nullable',
             ], [
 			    'cat_name.regex' 	=> 'The Shipping name format is invalid.',

@@ -9,44 +9,43 @@ Admin Dashboard
     <!-- Breadcrumbs-->
     @include('admin.inc.breadcrumb')
 
+        @if(Session::get('error_msg'))
+        <div class="alert alert-danger" role="alert">
+          <strong>!Error</strong> {{ Session::get('error_msg') }}
+        </div>
+        @endif
+
+        @if(Session::get('success_msg'))
+        <div class="alert alert-success" role="alert">
+          <strong>!Success</strong> {{ Session::get('success_msg') }}
+        </div>
+        @endif
 
 
-<!-- Start datatalbe -->
+    <div class="row">
+      <div class="col-md-12">
 
-    @if(Session::get('error_msg'))
-    <div class="alert alert-danger" role="alert">
-      <strong>!Error</strong> {{ Session::get('error_msg') }}
-    </div>
-    @endif
-
-    @if(Session::get('success_msg'))
-    <div class="alert alert-success" role="alert">
-      <strong>!Success</strong> {{ Session::get('success_msg') }}
-    </div>
-    @endif
-    
-
-{{ heml_card_open('fa fa-user', 'All Users') }}
+{{ heml_card_open('fa fa-picture-o', 'All Media') }}
 
         <div class="table-responsive">
           <table class="table table-bordered" id="tarm_opject_table" width="100%" cellspacing="0"
-            tarms-url="{{ route('user-datatable') }}"
+            tarms-url="{{ route('media_datatable') }}"
             tarms-data="{{ json_encode([
                             [
-                              'data' => 'profile',
+                              'data' => 'image',
                               'searchable' => 'false',
                               'orderable'  => 'false',
                               ],
-                            ['data' => 'fname'],
-                            ['data' => 'lname'],
-                            ['data' => 'email'],
+                            ['data' => 'post_title'],
+                            ['data' => 'file_type'],
+                            ['data' => 'author_name'],
                             [
-                              'data'     => 'created_at',
+                              'data' => 'post_status',
                               'searchable' => 'false',
                               'orderable'  => 'false',
                             ],
                             [
-                              'data'     => 'roll',
+                              'data' => 'created_at',
                               'searchable' => 'false',
                               'orderable'  => 'false',
                             ],
@@ -59,30 +58,25 @@ Admin Dashboard
           >
             <thead>
               <tr>
-                <th width="30" class="text-center">Profile</th>
-                <th>Frist Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>join At</th>
-                <th>Roll</th>
-                <th>Actions</th>
+                <th width="150" class="text-center">Image</th>
+                <th>Media Title</th>
+                <th>File Type</th>
+                <th>Author</th>
+                <th>Media Status</th>
+                <th>Date</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tfoot>
               <tr>
-                <th>Profile</th>
-                <th>Frist Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>join At</th>
-                <th>Roll</th>
-                <th>Actions</th>
               </tr>
             </tfoot>
           </table>
         </div>
-{{ heml_card_close('All Users.') }}
 
-    <!-- end datatable -->
+{{ heml_card_close('All Media') }}
+
+      </div>
+    </div>
 
 @endsection

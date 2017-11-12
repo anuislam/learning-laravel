@@ -117,7 +117,6 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
-        $id = (int)$id;
         if (url_gard('integer', $id)) {   
 
             $current_user   = $this->usermodel->current_user();
@@ -136,7 +135,7 @@ class UsersController extends Controller
                 ]);
             }
         }
-        return '<h1>404 page</h1>';
+        return '404 page';
     }
 
     /**
@@ -147,7 +146,6 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id){
-        $id = (int)$id;
         $cur_user = Auth::user();
         if ($this->permission->user_can('edith_other_user', $cur_user->id) === false) {
             return redirect()->back()->with('error_msg', 'Update failed.' );
@@ -166,7 +164,6 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        $id = (int)$id;
         $cur_user = Auth::user();
         if (url_gard('integer', $id) === false) {
             return redirect()->back()->with('error_msg', 'Invalid Url.' );

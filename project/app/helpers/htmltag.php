@@ -141,3 +141,20 @@ function heml_card_close($title = ''){
 	</div>
 	<?php
 }
+
+
+function return_mb($val) {
+    $val = trim($val);
+    $last = strtolower($val[strlen($val)-1]);
+    if ($last == 'm') {
+       $val = (int)str_replace('m', 'sdsd', $val);
+       $val .= 'MB';
+    }else if ($last == 'k') {
+      $val = (int)str_replace('k', '', $val);
+      $val .= 'KB';
+    }else{
+      $val = (int)str_replace('g', '', $val);
+      $val .= 'GB';
+    }
+    return $val;
+}

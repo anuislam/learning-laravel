@@ -3,6 +3,14 @@ $GlobalTarms 	= [];
 $GlobalPostType = [];
 $Globalmenu = [];
 $Globaldropdownmenu = [];
+$GlobalImageCrop = [];
+
+function crop_image_size($data = []){
+	global $GlobalImageCrop;
+	$data['resize'] = (isset($data['resize'])) ? $data['resize'] : false ;
+	$GlobalImageCrop[] = $data;
+}
+
 function register_tarm($data = []){
 	global $GlobalTarms,$Globaldropdownmenu;
 	$GlobalTarms[] = $data;
@@ -44,6 +52,11 @@ function get_registered_menu(){
 function get_registered_dropdown_menu(){
 	global $Globaldropdownmenu;
 	return $Globaldropdownmenu;
+}
+
+function get_crop_image_size(){
+	global $GlobalImageCrop;
+	return $GlobalImageCrop;
 }
 
 function verify_registered_tarm($data){

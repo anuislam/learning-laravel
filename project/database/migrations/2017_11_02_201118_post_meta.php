@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTarm extends Migration
+class PostMeta extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateTarm extends Migration
      */
     public function up()
     {
-        Schema::create('tarms', function (Blueprint $table) {
+        Schema::create('post_meta', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('tarm-slug');
-            $table->string('tarm-name');
-            $table->longText('description')->nullable();
-            $table->string('tarm-type')->nullable();
-            $table->timestamps();
+            $table->bigInteger('post_id');
+            $table->string('meta_key');
+            $table->longText('meta_value')->nullable();
         });
     }
 
@@ -30,6 +28,6 @@ class CreateTarm extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tarms');    
+        Schema::dropIfExists('post_meta');
     }
 }

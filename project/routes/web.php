@@ -23,15 +23,17 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('/user', 'Admin\UsersController');
     Route::get('/users', 'Admin\UsersController@all_users')->name('all-users');
     Route::post('/user/stor-user', 'Admin\UsersController@stor_user')->name('stor-user');
-    Route::post('/users/datatable', 'Admin\UserDatatable@index')->name('user-datatable');
+    Route::patch('/users/datatable', 'Admin\UserDatatable@index')->name('user-datatable');
     Route::get('/change-password', 'Admin\UsersController@change_password')->name('change-password');
     Route::post('/update-change-password', 'Admin\UsersController@update_change_password')->name('update-change-password');
     Route::get('/tarm/{tarm?}', 'Admin\tarmController@index')->name('create-tarms');
     Route::post('/tarm/{tarm?}', 'Admin\tarmController@stor')->name('stor-tarms');
-    Route::PATCH('/tarm/all/{tarm?}', 'Admin\tarmController@get_all')->name('tarms-all');
+    Route::patch('/tarm/all/{tarm?}', 'Admin\tarmController@get_all')->name('tarms-all');
     Route::get('/edit-tarm/{tarm?}/{edit?}', 'Admin\tarmController@edith_tarms')->name('edit-tarm');
-    Route::PATCH('/edit-tarm/{tarm?}/{edit?}', 'Admin\tarmController@edit_tarm_update')->name('edit-tarm-update');
+    Route::patch('/edit-tarm/{tarm?}/{edit?}', 'Admin\tarmController@edit_tarm_update')->name('edit-tarm-update');
     Route::DELETE('/delete-tarm/{tarm?}/', 'Admin\tarmController@delete_tarm')->name('delete-tarm');
+    Route::resource('/media', 'Admin\MediaController');
+    Route::patch('/media-all', 'Admin\MediaController@media_datatable')->name('media_datatable');
 
 });
 

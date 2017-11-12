@@ -215,6 +215,12 @@ class tarmController extends Controller
                 return '404 page';
             }
 
+            $chack_tarm = $tarm_opject->get_tarms($tarmid);
+            $chack_tarm = json_decode(json_encode($chack_tarm), true);
+            if ($chack_tarm['tarm-type'] != $tarmname) {
+                return '404 page';
+            }
+            
             return view('admin.edit-tarm',[
                     'current_user'      => $current_user,
                     'userpermission'    => $this->permission,
@@ -236,6 +242,12 @@ class tarmController extends Controller
         }
 
         if ($tarm_opject->get_tarms($tarmid) === false) {
+            return '404 page';
+        }
+
+        $chack_tarm = $tarm_opject->get_tarms($tarmid);
+        $chack_tarm = json_decode(json_encode($chack_tarm), true);
+        if ($chack_tarm['tarm-type'] != 'category') {
             return '404 page';
         }
 

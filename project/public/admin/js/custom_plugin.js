@@ -37,8 +37,10 @@ $(document).ready(function(){
 function global_modal_on_submit(){
     if (global_modal_set_memori.type == 'post') {
         post(global_modal_set_memori.url, global_modal_set_memori.parameters);
-    }else{
+    }else if (global_modal_set_memori.type == 'url') {
         window.location.href = global_modal_set_memori.url;
+    }else{
+        global_modal_set_memori.parameters();
     }
 }
 

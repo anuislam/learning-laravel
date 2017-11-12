@@ -15,6 +15,7 @@
   <!-- Page level plugin CSS-->
   {{ Html::style(asset('public').'/admin/vendor/datatables/dataTables.bootstrap4.css') }}
   <!-- Custom styles for this template-->
+  {{ Html::style(asset('public').'/admin/css/upload.css') }}
   {{ Html::style(asset('public').'/admin/css/sb-admin.css') }}
   {{ Html::style(asset('public').'/admin/css/main.css') }}
 </head>
@@ -58,7 +59,6 @@
   <!-- Bootstrap core JavaScript-->
   <script>
     var global_data = {
-      data_table_url : '{{ route("user-datatable") }}',
       token : '{{ csrf_token() }}',
     }
   </script>
@@ -69,14 +69,16 @@
   <!-- Core plugin JavaScript-->
   {{ Html::script(asset('public').'/admin/vendor/jquery-easing/jquery.easing.min.js', ['type' => 'text/javascript']) }}
   <!-- Page level plugin JavaScript-->
-  {{ Html::script(asset('public').'/admin/vendor/chart.js/Chart.min.js', ['type' => 'text/javascript']) }}
+  <!--{{ Html::script(asset('public').'/admin/vendor/chart.js/Chart.min.js', ['type' => 'text/javascript']) }}-->
   {{ Html::script(asset('public').'/admin/vendor/datatables/jquery.dataTables.js', ['type' => 'text/javascript']) }}
   {{ Html::script(asset('public').'/admin/vendor/datatables/dataTables.bootstrap4.js', ['type' => 'text/javascript']) }}
   <!-- Custom scripts for all pages-->
   {{ Html::script(asset('public').'/admin/js/sb-admin.min.js', ['type' => 'text/javascript']) }}
   <!-- Custom scripts for this page-->
   {{ Html::script(asset('public').'/admin/js/sb-admin-datatables.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/js/sb-admin-charts.min.js', ['type' => 'text/javascript']) }}
+  <!--{{ Html::script(asset('public').'/admin/js/sb-admin-charts.min.js', ['type' => 'text/javascript']) }}e-->
+  {{ Html::script(asset('public').'/admin/js/core.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('public').'/admin/js/upload.js', ['type' => 'text/javascript']) }}
   {{ Html::script(asset('public').'/admin/js/custom_plugin.js', ['type' => 'text/javascript']) }}
   {{ Html::script(asset('public').'/admin/js/main.js', ['type' => 'text/javascript']) }}
 

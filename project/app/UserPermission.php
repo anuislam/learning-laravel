@@ -24,13 +24,20 @@ class UserPermission extends Model
             'edith_user'        => true,
             'edith_other_user'  => true,
             'edith_post'        => true,
-            'edith_other_post'  => true,
+            'edith_others_post'  => true,
             'manage_option'     => true,
             'create_user'    	 => true,
             'edith_roll'    	 => true,
             'delete_user'    	 => true,
             'change_password'    => true,
             'create_tarm'    	 => true,
+            'upload_file'    	 => true,
+            'edith_media'    	 => true,
+            'edith_others_media'    	 => true,
+            'delete_media'  => true,   
+            'delete_others_media' => true,
+            'see_media'    	 	 => true,        
+            'see_others_media' 	 => true,
             'read'     => true,
         ]);
         $this->add_cap('author',[
@@ -38,6 +45,10 @@ class UserPermission extends Model
             'edith_other_user'  => true,
             'change_password'  => true,
             'create_tarm'  => true,
+            'upload_file'  => true,
+            'edith_media'  => true,
+            'delete_media'  => true,   
+            'see_media'    	 	 => true, 
             'read'  => true,
         ]);
         $this->add_cap('subscriber', [

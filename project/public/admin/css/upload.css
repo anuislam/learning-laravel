@@ -1,0 +1,42 @@
+/*! formstone v1.4.1 [upload.css] 2017-10-31 | GPL-3.0 License | formstone.it */
+ul.media_upload_progress_bar {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+    display: block;
+}
+
+ul.media_upload_progress_bar
+ li {
+    margin: 15px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+ul.media_upload_progress_bar
+ li .progress {
+ 	float: left;
+    width: 100%;
+}
+
+ul.media_upload_progress_bar
+ li .progress .progress-bar {
+    height: 25px;
+}
+
+span.media-file-cancel {
+    position: absolute;
+    right: 15px;
+    bottom: 3px;
+    cursor: pointer;
+    color: #ff2222;
+    font-size: 15px;
+}
+
+span.media-file-name {
+    font-size: 13px;
+    color: #514e4e;
+}
+
+
+.fs-upload-target {cursor: pointer;width: 100%;padding: 100px 0;box-sizing: border-box;border: 5px dashed #a8a5a5;text-align: center;font-size: 28px;display: inline-block;color: #a8a5a5;margin: 0;}.fs-upload{position:relative;overflow:hidden}.fs-upload,.fs-upload *,.fs-upload :after,.fs-upload :before,.fs-upload:after,.fs-upload:before{-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-transition:none;transition:none;-webkit-user-select:none!important;-moz-user-select:none!important;-ms-user-select:none!important;user-select:none!important}.fs-upload-input{position:absolute;top:0;right:0;bottom:0;left:0;z-index:-1px;opacity:0;pointer-events:none}.fs-upload-target{cursor:pointer}.fs-upload-disabled .fs-upload-target,.no-touch .fs-upload-disabled:hover .fs-upload-target{cursor:default;cursor:not-allowed}

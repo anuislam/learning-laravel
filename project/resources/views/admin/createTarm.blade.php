@@ -46,7 +46,7 @@
       
       <div class="col-md-7">
 
-{{ heml_card_open('fa fa-user', 'Create Tarm') }}
+{{ heml_card_open('fa fa-user', $tarm_opject->pate_title()) }}
 
             <div class="row">
               <div class="col-md-12">
@@ -58,7 +58,7 @@
               </div>
             </div>
 
-{{ heml_card_close('Add New User.') }}
+{{ heml_card_close($tarm_opject->pate_title()) }}
 
       </div>
     </div>
