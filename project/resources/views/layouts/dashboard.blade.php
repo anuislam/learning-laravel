@@ -18,6 +18,7 @@
   {{ Html::style(asset('public').'/admin/css/upload.css') }}
   {{ Html::style(asset('public').'/admin/css/sb-admin.css') }}
   {{ Html::style(asset('public').'/admin/css/main.css') }}
+  @yield('style')
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -60,6 +61,8 @@
   <script>
     var global_data = {
       token : '{{ csrf_token() }}',
+      media_uploade_image_url : '{{ route("get-uploder") }}',
+      media_uploade_search_url : '{{ route("search-uploder") }}',
     }
   </script>
 
@@ -76,13 +79,14 @@
   {{ Html::script(asset('public').'/admin/js/sb-admin.min.js', ['type' => 'text/javascript']) }}
   <!-- Custom scripts for this page-->
   {{ Html::script(asset('public').'/admin/js/sb-admin-datatables.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('public').'/admin/js/jquery.nicescroll.min.js', ['type' => 'text/javascript']) }}
   <!--{{ Html::script(asset('public').'/admin/js/sb-admin-charts.min.js', ['type' => 'text/javascript']) }}e-->
   {{ Html::script(asset('public').'/admin/js/core.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/js/upload.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('public').'/admin/js/media-uploader.js', ['type' => 'text/javascript']) }}
+
+  @yield('script')
   {{ Html::script(asset('public').'/admin/js/custom_plugin.js', ['type' => 'text/javascript']) }}
   {{ Html::script(asset('public').'/admin/js/main.js', ['type' => 'text/javascript']) }}
-
-
 </body>
 
 </html>

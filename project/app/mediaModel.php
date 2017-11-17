@@ -80,11 +80,17 @@ class mediaModel extends Model{
 		        	}
 		        }
 		        $media_name = $next_id[0]->Auto_increment.'-full.'.$extension;
+		        $return_data['media_direct_url'] = upload_dir_url($folder.'/'.$media_name);
+
 				$return_data['thumbnail'] 	 = upload_dir_url($folder.'/'.$next_id[0]->Auto_increment.'-150x150.'.$extension);
+
+				$return_data['uploader_preview'] 	 = upload_dir_url($folder.'/'.$next_id[0]->Auto_increment.'-336x336.'.$extension);
 			}else{
 	        	$file->move($public_path, $next_id[0]->Auto_increment.'.'.$extension);
 	        	$media_name = $next_id[0]->Auto_increment.'.'.$extension;
 	        	$return_data['thumbnail'] = upload_dir_url('default/fileicon.png');
+	        	$return_data['uploader_preview'] = upload_dir_url('default/largefileicon.png');
+	        	$return_data['media_direct_url'] = upload_dir_url($folder.'/'.$media_name);
 	        }
 		}
 
@@ -105,6 +111,16 @@ class mediaModel extends Model{
 		return [
                 'type'      => 'success',
                 'data'      => $return_data,
+                'uploader_data' => [
+                	'thumbnail' => $return_data['thumbnail'],
+                	'media_direct_url' => $return_data['media_direct_url'],
+                	'uploader_preview' => $return_data['uploader_preview'],
+                	'alt' => '',
+                	'description' => '',
+                	'media_type' => $return_data['media_type'],
+                	'media_title' => $title,
+                	'media_id' => $return_data['media_id'],
+                ],
             ];
 	}
 
@@ -207,7 +223,14 @@ class mediaModel extends Model{
 	    $media_found    = false;
 	    $full_image    = false;
 	    $meta = DB::table('posts')
-	    ->where('id', $media_id)->first();
+	    ->where('id', $media_id)
+	    ->where('post_type', 'media')
+	    ->first();	    
+	    $media_type = $this->post->get_post_meta($media_id, 'file_type');
+	    if (is_image($media_type) === false) {
+	    	return [upload_dir_url('default/fileicon.png'), null, null];
+	    }
+
 	    $width 	= false;
 	    $height = false;
 	    $def_width = false;
@@ -328,6 +351,26 @@ class mediaModel extends Model{
 		}
 		DB::table('posts')->where('id', $id)->delete();
 		DB::table('post_meta')->where('post_id', $id)->delete();
+	}
+
+	public function get_all_medial(array $data = null){
+		$data['limit'] = (isset($data['limit'])) ? (int)$data['limit'] : 10 ;
+		$data['offset'] = (isset($data['offset'])) ? (int)$data['offset'] : 0 ;
+		$media = DB::table('posts');
+		$media->where('post_type', 'media');
+		if (isset($data['search_query'])) {
+			if (is_array($data['search_query'])) {
+				foreach ($data['search_query'] as $search_key => $search_value) {
+					$media->Where($search_key, 'like', '%'. $search_value .'%');
+				}
+			}
+		}
+		$media->offset($data['offset']);
+		$media->limit($data['limit']);
+		$media->orderBy('id','DESC');
+
+		$media_query = $media->get();
+		return ($media_query->count() > 0) ? $media_query : false ;
 	}
 
 }

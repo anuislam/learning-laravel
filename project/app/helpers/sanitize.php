@@ -1,6 +1,7 @@
 <?php
 
 function sanitize_text($data){
+	$data = trim($data);
 	$data = strip_tags($data);
 	$data = htmlentities($data);
 	$data = htmlspecialchars($data);

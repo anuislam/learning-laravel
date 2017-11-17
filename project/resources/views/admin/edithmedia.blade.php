@@ -125,3 +125,13 @@ Edith media
     </div>
 
 @endsection
+
+
+@section('style')
+
+@endsection
+
+@section('script')
+  {{ Html::script(asset('public').'/admin/js/core.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('public').'/admin/js/upload.js', ['type' => 'text/javascript']) }}
+@endsection

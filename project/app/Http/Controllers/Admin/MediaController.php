@@ -87,6 +87,26 @@ class MediaController extends Controller
         ]);
 
         if ($validation->passes()) {
+            $invalid_file = [
+                'js',
+                'css',
+                'html',
+                'php',
+            ];
+
+            if ($request->hasFile('file')) {          
+                $file       = $request->file('file');
+                $extension  = $file->getClientOriginalExtension();
+                foreach ($invalid_file as $value) {
+                    if ($value == $extension) {
+                       return  response()->json([
+                            'type'      => 'error',
+                            'errors'    => ['file' => ['Error: Invalid file type.']],
+                        ]);
+                    }
+                }
+            }
+
             $return_data = $this->mediaModel->process_store_media($request);
             return  response()->json($return_data);
         }else{

@@ -35,6 +35,12 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('/media', 'Admin\MediaController');
     Route::patch('/media-all', 'Admin\MediaController@media_datatable')->name('media_datatable');
 
+    Route::post('/uploder', 'Admin\uploderController@index')->name('get-uploder');
+    Route::patch('/uploder/search', 'Admin\uploderController@search')->name('search-uploder');
+    Route::DELETE('/uploder/{tarm?}', 'Admin\uploderController@delete')->name('delete-uploder');
+    Route::put('/uploder/{tarm?}', 'Admin\uploderController@update')->name('update-uploder');
+
+
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

@@ -37,26 +37,7 @@ Admin Dashboard
 {{ heml_card_open('fa fa-user', 'Add New Media') }}
 
 <div class="image_preview  my-3">
-  <div class="row" id="media_preview_append"><!-- 
-
-    <div class="col-6">
-      <div class="row my-4">
-        <div class="col-md-5">
-          <a href="">
-            <img src="http://laravel-project.com/public/upload/17-150x150.jpg" alt="" class="rounded w-100">
-          </a>
-        </div>
-        <div class="col-md-7">
-          <div class="d-block mb-4">
-            File name   : bla bla bla <br />
-            File title  : bla bla bla <br />
-            File alt    : bla bla bla <br />
-          </div>
-          <a href="#" class="btn btn btn-secondary">Edith</a>
-          <a href="#" class="btn btn btn-danger">Delete</a>
-        </div>
-      </div>
-    </div> -->
+  <div class="row" id="media_preview_append">
 
   </div>
 </div>
@@ -66,4 +47,15 @@ Admin Dashboard
       </div>
     </div>
 
+@endsection
+
+
+@section('style')
+
+<!-- custom style -->
+
+@endsection
+
+@section('script')
+  {{ Html::script(asset('public').'/admin/js/upload.js', ['type' => 'text/javascript']) }}
 @endsection

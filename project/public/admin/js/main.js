@@ -5,4 +5,10 @@ $(document).ready(function() {
 	        'X-CSRF-TOKEN': global_data.token
 	    }
 	});	
+
+});
+
+
+$(function() {  
+	$(".niceScroll").niceScroll();
 });

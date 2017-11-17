@@ -158,3 +158,38 @@ function return_mb($val) {
     }
     return $val;
 }
+
+function media_uploader($data = array(), $errors){
+  $data['name']      = (isset($data['name'])) ? $data['name'] : '' ;
+  $data['title']     = (isset($data['title'])) ? $data['title'] : '' ;
+  $data['value']     = (isset($data['value'])) ? $data['value'] : '' ;
+  $data['atts']      = (isset($data['atts'])) ? $data['atts'] : [] ;  
+  $data['atts']['id']     = $data['name'];  
+  ?>
+
+    <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
+      <?php echo Form::label( $data['name'], $data['title'] ); ?>
+        <a href="javascript:void(0)"            
+            <?php
+
+              if (is_array($data['atts'])) {
+                foreach ($data['atts'] as $key => $value) {
+                  echo ''.$key.'="'.$value.'" ';
+                }
+              }
+
+            ?>
+        >
+          <?php echo $data['title']; ?>
+        </a>
+
+
+      <?php if ($errors->has($data['name'])) : ?>
+        <span class="help-block">
+            <strong><?php echo $errors->first($data['name'])  ?></strong>
+        </span>
+      <?php endif; ?>
+    </div>
+
+  <?php
+}

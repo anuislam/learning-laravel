@@ -127,9 +127,9 @@ crop_image_size([
 ]);
 
 crop_image_size([
-	'name' 		=> 'post_image', //must be give an uniq name
-	'width' 	=> 600, 
-	'height' 	=> 400,
+	'name' 		=> 'media_preview', //must be give an uniq name
+	'width' 	=> 336, 
+	'height' 	=> 336,
 	'resize' 	=> false,
 ]);
 

@@ -41,6 +41,15 @@ class shipping extends TarmModel
 				'value' => old('cat_description'),
 				'atts' =>  ['placeholder' => 'Shipping Description', 'aria-describedby' => 'ShippingDescription', 'class' => 'form-control']
 			], $errors);
+
+			media_uploader([
+				'name' => 'media_uploader_test',
+				'title' => 'Upload Image',
+				'value' => '',
+				'atts' =>  ['class' => 'btn btn-secondary', 'data-toggle' => 'modal', 'data-target' => '#global_media_uploader']
+			], $errors);
+
+
 			echo 	Form::submit('Add Shipping', ['class' => 'btn btn-primary mt-3',]);
 		echo Form::close();
     }
