@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\UserModel;
+use App\mediaModel;
 use App\UserPermission;
 use App\TarmModel;
 use \Auth;
@@ -20,7 +21,7 @@ class tarmController extends Controller
     {
         $this->middleware('auth');
         $this->usermodel = new UserModel();
-        $this->permission = new UserPermission();  
+        $this->permission = new UserPermission();
     }
     /**
      * Display a listing of the resource.

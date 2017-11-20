@@ -147,7 +147,29 @@ class uploderController extends Controller {
     public function delete(){
     	return 'dssdsdsdddd';
     }
-    public function update(){
-    	return 'dssdsdsdddd';
+    public function update(Request $request, $id){
+        $usermodel      = $this->usermodel;
+        $current_user   = $usermodel->current_user();
+        if (url_gard('integer', $id) === false) {
+             return false;
+        }
+
+        if ($this->permission->user_can('edith_media', $current_user['id']) === false) {
+            return false;
+        }
+
+        $media = $this->mediaModel->get_media($id);
+        if ($media === false) {
+           return false;
+        }
+
+
+        if ($current_user['id'] != $media->post_author) {
+            if ($this->permission->user_can('edith_others_media', $current_user['id']) === false) {
+                return false;
+            }
+        }
+        return $this->mediaModel->process_uploader_update_media($request, $id);
+
     }
 }

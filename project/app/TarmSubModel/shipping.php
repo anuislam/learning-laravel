@@ -3,12 +3,17 @@
 namespace App\TarmSubModel;
 
 use App\TarmModel;
+use App\mediaModel;
+use App\post;
 use Form;
 use Auth;
 use Validator;
+use DB;
+use Purifier;
 
 class shipping extends TarmModel
 {
+
 	public function pate_tab_title(){
     	return 'shipping method';
     }
@@ -43,10 +48,25 @@ class shipping extends TarmModel
 			], $errors);
 
 			media_uploader([
-				'name' => 'media_uploader_test',
+				'name' => 'shiping_image',
 				'title' => 'Upload Image',
-				'value' => '',
-				'atts' =>  ['class' => 'btn btn-secondary', 'data-toggle' => 'modal', 'data-target' => '#global_media_uploader']
+				'value' => old('shiping_image'),
+				'atts' =>  [
+					'class' 		 => 'btn btn-secondary', 
+					'cancel_text' 	 => 'Cancel shiping image',
+					'submit_text' 	 => 'Select shiping image',
+					 ]
+			], $errors);
+
+			media_uploader([
+				'name' => 'shiping_image_two',
+				'title' => 'Upload Image',
+				'value' => old('shiping_image_two'),
+				'atts' =>  [
+					'class' 		 => 'btn btn-secondary', 
+					'cancel_text' 	 => 'Cancel shiping image',
+					'submit_text' 	 => 'Select shiping image',
+					 ]
 			], $errors);
 
 
@@ -61,6 +81,8 @@ class shipping extends TarmModel
                 'cat_name'      => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{2,30}$/|unique:tarms,tarm-name,null,null,tarm-type,shipping',
                 'cat_slug'      => 'required|string|max:255|regex:/^[a-zA-Z0-9-]{2,30}$/|unique:tarms,tarm-slug,null,null,tarm-type,shipping',
                 'cat_description'      => 'nullable',
+                'shiping_image'      => 'nullable|integer',
+                'shiping_image_two'      => 'nullable|integer',
             ], [
 			    'cat_name.regex' 	=> 'The Shipping name format is invalid.',
 			    'cat_name.required' => 'The Shipping name field is required.',
@@ -76,6 +98,23 @@ class shipping extends TarmModel
 			]);
     }
 
+
+    public function tarm_data_save($data, $tarm_type){
+    	$id = DB::table('tarms')->insertGetId([
+    		'tarm-slug' => sanitize_text($data['cat_slug']),
+    		'tarm-name' => sanitize_text($data['cat_name']),
+    		'description' => Purifier::clean($data['cat_description'], array('AutoFormat.AutoParagraph' => false,'AutoFormat.RemoveEmpty'   => true)),
+    		'tarm-type' => sanitize_text($tarm_type),
+    		'created_at' => new \DateTime(),
+    		'updated_at' => new \DateTime(),
+    	]);
+    	if ($id) {    
+    		$this->update_tarm_meta($id, 'shiping_image', (int)$data['shiping_image']);		
+    		$this->update_tarm_meta($id, 'shiping_image_two', (int)$data['shiping_image_two']);		
+    		return redirect()->back()->with('success_msg', 'Shipping create successful.');
+    	}
+    	return redirect()->back()->with('error_msg', 'Operation failed.');
+    }
 
 
     public function all_tarms_out_put(){
@@ -110,7 +149,6 @@ class shipping extends TarmModel
 		<?php
     }
 
-
     public function tarm_edit_form_output($value = '', $errors)
     {
     	$value = json_decode(json_encode($value),true);
@@ -136,21 +174,45 @@ class shipping extends TarmModel
 				'value' => $value['description'],
 				'atts' =>  ['placeholder' => 'Shipping Description', 'aria-describedby' => 'ShippingDescription', 'class' => 'form-control']
 			], $errors);
+
+			media_uploader([
+				'name' => 'shiping_image',
+				'title' => 'Upload Image',
+				'value' => $this->get_tarm_meta($value['id'], 'shiping_image'),
+				'atts' =>  [
+					'class' 		 => 'btn btn-secondary', 
+					'cancel_text' 	 => 'Cancel shiping image',
+					'submit_text' 	 => 'Select shiping image',
+					 ]
+			], $errors);
+
+			media_uploader([
+				'name' => 'shiping_image_two',
+				'title' => 'Upload Image',
+				'value' => $this->get_tarm_meta($value['id'], 'shiping_image_two'),
+				'atts' =>  [
+					'class' 		 => 'btn btn-secondary', 
+					'cancel_text' 	 => 'Cancel shiping image',
+					'submit_text' 	 => 'Select shiping image',
+					 ]
+			], $errors);
+
 			echo 	Form::submit('Update Shipping', ['class' => 'btn btn-primary mt-3',]);
 		echo Form::close();
     }
-
 
     public function tarm_edit_validation($data, $tarm_id){
     	$cur_user = Auth::user();
     	return Validator::make($data, [
                 'cat_name'      => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{2,30}$/|unique:tarms,tarm-name,'.$tarm_id.',id,tarm-type,shipping',
                 'cat_slug'      => 'required|string|max:255|regex:/^[a-zA-Z0-9-]{2,30}$/|unique:tarms,tarm-slug,'.$tarm_id.',id,tarm-type,shipping',
-                'cat_description'      => 'nullable',
+                'cat_description'      => 'nullable',                
+                'shiping_image'      	=> 'nullable|integer',
+                'shiping_image_two'      => 'nullable|integer'
             ], [
 			    'cat_name.regex' 	=> 'The Shipping name format is invalid.',
 			    'cat_name.required' => 'The Shipping name field is required.',
-			    'cat_name.max' 		=> 'The Shipping name may not be greater than 255 characters.'.$tarm_id,
+			    'cat_name.max' 		=> 'The Shipping name may not be greater than 1 characters.'.serialize($data),
 			    'cat_name.unique' 	=> 'The Shipping name has already been taken.',
 			    'cat_name.string' 	=> 'The Shipping name must be given string.',
 
@@ -161,6 +223,26 @@ class shipping extends TarmModel
 			    'cat_slug.string' 	=> 'The Shipping slug must be given string.',
 			]);
     }
+
+
+    public function tarm_edit_data_update($data, $tarm_id){
+
+    	$update_data = DB::table('tarms')
+                    ->where('id',  $tarm_id)
+                    ->update([
+			    		'tarm-slug' => sanitize_text($data['cat_slug']),
+			    		'tarm-name' => sanitize_text($data['cat_name']),
+			    		'description' => Purifier::clean($data['cat_description'], array('AutoFormat.AutoParagraph' => false,'AutoFormat.RemoveEmpty'   => true)),
+			    		'updated_at' => new \DateTime(),
+                    ]);
+		if ($update_data) {
+			$this->update_tarm_meta($tarm_id, 'shiping_image', (int)$data['shiping_image']);		
+			$this->update_tarm_meta($tarm_id, 'shiping_image_two', (int)$data['shiping_image_two']);
+		}	
+
+    	return redirect()->back()->with('success_msg', 'Update successful.');
+    }
+
 
 
 }

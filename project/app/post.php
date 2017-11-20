@@ -43,8 +43,9 @@ class post extends Model{
 
     public function get_post_meta($id, $key){
         $id = (int)$id;
-        $users = DB::table('post_meta')->select('meta_value')->where('post_id', $id)->where('meta_key', $key)->first();
-        return (count($users) == 1) ? $users->meta_value : false ;
+        $post_meta = DB::table('post_meta')->select('meta_value')->where('post_id', $id)->where('meta_key', $key)->first();
+
+        return (count($post_meta) == 1) ? $post_meta->meta_value : false ;
     }
 
     public function get_post($id){

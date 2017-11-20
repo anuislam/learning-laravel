@@ -27,10 +27,6 @@
 	color: #adb5bd !important;
 }
 
-label[for="media_uploader_test"] {
-    width: 100%;
-}
-
 #global_media_uploader .modal-dialog{
 	width: 1100px;
 	min-width: 1100px;
@@ -193,4 +189,18 @@ span.searcg_loader {
 }
 .position-relative{
     position: relative !important;
+}
+div#uploader_image_preview {
+    width: 100%;
+    float: left;
+    overflow: hidden;
+    margin: 20px 0;
+    display: none;
+}
+
+.has-error span.help-block {
+    font-size: 13px;
+    width: 100%;
+    margin: 10px 0;
+    float: left;
 }

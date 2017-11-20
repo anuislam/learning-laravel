@@ -55,21 +55,11 @@
               <span class="searcg_loader">
                 <i class="fa fa-refresh fa-spin"></i>
               </span>
-            <input placeholder="Search by Media Title" aria-describedby="SearchbyMediaTitle" class="form-control" name="uploader_media_search" type="text" value="" id="uploader_media_search"> </div>
+              <input placeholder="Search by Media Title" aria-describedby="SearchbyMediaTitle" class="form-control" name="uploader_media_search" type="text" value="" id="uploader_media_search"> </div>
 
 
             <ul class="row medial_uploder_image_list">
 
-            <!-- 
-
-              <li class="col-3">
-                <div class="media_uploader_image">
-                  <span class="media_uploder_image_select fa fa-check">
-                  </span>                  
-                  <img src="{{ upload_dir_url('default/Untitled.jpg') }}" alt="..." class="">
-                </div>
-                <input type="radio" name="media_uploader">
-              </li> -->
 
             </ul>
            </span>
@@ -84,13 +74,13 @@
               </span>
             </div>          
 
-            {!! Form::open(['url' => route('stor-user'), 'method' => 'POST']) !!} 
-
+            {!! Form::open(['url' => route('update-uploder'), 'method' => 'put', 'id' => 'media_uploader_form']) !!} 
+              {!! Form::hidden( 'uploader_media_id', '', ['id' => 'uploader_media_id'] ); !!}
              <div class="form-group ">
                 <label for="media_direct_url">Media Url</label>
                 <input class="form-control" type="text" placeholder="Media Url" readonly id="media_direct_url">   
              </div>
-
+                
               {{ text_field([
                   'name' => 'uploader_title',
                   'title' => 'Media Title',
@@ -113,7 +103,6 @@
                   'atts' =>  ['placeholder' => 'Description', 'aria-describedby' => 'Description', 'class' => 'form-control']
                 ], $errors) }}
 
-                {!! Form::submit('Save', ['class' => 'btn btn-success']) !!} 
             {!! Form::close() !!}
 
           </span>

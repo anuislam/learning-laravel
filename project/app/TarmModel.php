@@ -180,7 +180,7 @@ class TarmModel extends Model{
     }
 
 
-    public function tarm_edit_data_process($request, $tarm_id = '' ) {
+    public function tarm_edit_data_process($request, $tarm_id ) {
     	$this->tarm_edit_validation($request->all(), $tarm_id)->validate();
     	return $this->tarm_edit_data_update($request, $tarm_id);
     }
@@ -194,7 +194,7 @@ class TarmModel extends Model{
             ], [
 			    'cat_name.regex' 	=> 'The category name format is invalid.',
 			    'cat_name.required' => 'The category name field is required.',
-			    'cat_name.max' 		=> 'The category name may not be greater than 255 characters.'.$tarm_id,
+			    'cat_name.max' 		=> 'The category name may not be greater than 255 characters.',
 			    'cat_name.unique' 	=> 'The category name has already been taken.',
 			    'cat_name.string' 	=> 'The category name must be given string.',
 
@@ -229,5 +229,39 @@ class TarmModel extends Model{
     {
     	return 'Last Updated '. Carbon\Carbon::parse($value->updated_at)->format('Y/m/d - h:i:s');
     }
+
+
+    public function update_tarm_meta($id, $key, $value){
+        $id = (int)$id;
+        if ($this->tarm_meta_exists($id, $key)) {
+            $data = DB::table('tarm_meta')
+                    ->where('tarm_id',  $id)
+                    ->where('meta_key',  $key)
+                    ->update([
+                        'meta_value' => $value
+                    ]);            
+        }else{
+            $data = DB::table('tarm_meta')->insert([
+                'tarm_id' => $id,
+                'meta_key' => $key,
+                'meta_value' => $value
+            ]);
+        }
+        return ($data) ? true : false ;
+
+    }
+
+    public function tarm_meta_exists($id, $key){
+        $id = (int)$id;
+        $tarm_meta = DB::table('tarm_meta')->select('id')->where('tarm_id', $id)->where('meta_key', $key)->first();
+        return (count($tarm_meta) > 0) ? true : false ;
+    }
+
+    public function get_tarm_meta($id, $key){
+        $id = (int)$id;
+        $tarm_meta = DB::table('tarm_meta')->select('meta_value')->where('tarm_id', $id)->where('meta_key', $key)->first();
+        return (count($tarm_meta) == 1) ? $tarm_meta->meta_value : false ;
+    }
+
 
 }

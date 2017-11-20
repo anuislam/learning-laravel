@@ -312,7 +312,7 @@ class mediaModel extends Model{
 		return Validator::make($data, [
 			    'mtitle' 		 => 'nullable|string|max:255',
 			    'alt' 	 		 => 'nullable|string|max:255',
-			    'description' 	 => 'nullable',
+			    'description' 	 => 'nullable|max:5000',
 			    'media_status' 	 => 'required|string|max:30|regex:/^[a-zA-Z]{2,30}$/',
 			], 
 			[
@@ -372,5 +372,49 @@ class mediaModel extends Model{
 		$media_query = $media->get();
 		return ($media_query->count() > 0) ? $media_query : false ;
 	}
+
+	public function process_uploader_update_media($request, $id){
+		$data = $request->all();
+		$error = array();
+		$ck_error = false;
+		$error['uploader_alt']			= 'ok';
+		$error['uploader_title']		= 'ok';
+		$error['uploader_description']	= 'ok';
+		if (empty($data['alt']) === false) {
+			if (strlen($data['alt']) > 255) {
+				$error['uploader_alt'] = 'The Alt may not be greater than 255 characters.';
+				$ck_error = true;
+			}
+		}
+
+		if (empty($data['mtitle']) === false) {
+			if (strlen($data['mtitle']) > 255) {
+				$error['uploader_title'] = 'The media title may not be greater than 255 characters.';
+				$ck_error = true;
+			}
+		}
+
+		if (empty($data['description']) === false) {
+			if (strlen($data['description']) > 5000) {
+				$error['uploader_description'] = 'The Description may not be greater than 5000 characters.';
+				$ck_error = true;
+			}
+		}
+
+		if ($ck_error === false) {
+			$this->update_media([
+				'mtitle'		=>	$data['mtitle'],
+				'alt'			=>	$data['alt'],
+				'media_status'	=>	'publish',
+				'description'	=>	$data['description'],
+			], $id);
+		}
+
+		if (count($error) > 0) {
+			return $error;
+		}
+
+    }
+
 
 }
