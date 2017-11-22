@@ -15,10 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin-panel'], function () {
 
     Auth::routes();
-    Route::get('logout', 'Auth\LoginController@blank_logout');
+    Route::get('/', 'Admin\DashboardController@index');
     Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard');
     Route::resource('/user', 'Admin\UsersController');
     Route::get('/users', 'Admin\UsersController@all_users')->name('all-users');
@@ -40,7 +40,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::DELETE('/uploder/{tarm?}', 'Admin\uploderController@delete')->name('delete-uploder');
     Route::put('/uploder/{tarm?}', 'Admin\uploderController@update')->name('update-uploder');
 
-
+    Route::resource('/post', 'Admin\PostController');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

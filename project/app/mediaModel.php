@@ -198,7 +198,7 @@ class mediaModel extends Model{
             			$cur_user = Auth::user();
 						$return_data = '';
 						if ($this->permission->user_can('edith_media', $cur_user->id)) {
-							$return_data .= '<a href="'.route('media.edit', $data->id).'" class="btn btn-secondary">Edith</a> ';
+							$return_data .= '<a href="'.route('media.edit', $data->id).'" class="btn bg-purple btn-flat margin">Edith</a> ';
 						}
 						if ($this->permission->user_can('delete_media', $cur_user->id)) {
 							$return_data .= ' <a 
@@ -208,7 +208,7 @@ class mediaModel extends Model{
                         			cancel_text="Cancel" 
                         			submit_text="Delete"                   			
                         			data-type="post" data-parameters=\'{"_token":"'. csrf_token() .'", "_method": "DELETE"}\'
-                        			href="'.route('media.destroy', $data->id).'" class="btn btn-danger"
+                        			href="'.route('media.destroy', $data->id).'" class="btn bg-maroon btn-flat margin"
                         		>Delete</a>';
 						}
 

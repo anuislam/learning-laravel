@@ -1,27 +1,37 @@
 @extends('layouts.dashboard')
 
 @section('dashboard_tab_title')
-Add New user
+Add New user | Website
 @endsection
 
 
 @section('dashboard_content')
-    <!-- Breadcrumbs-->
-    @include('admin.inc.breadcrumb')
+    <section class="content-header">
+      <h1>
+        Add New Media
+        <small>Control panel</small>
+      </h1>
+       @include('admin.inc.breadcrumb')
+    </section>
 
-
+  <section class="content">
         @if(Session::get('error_msg'))
-        <div class="alert alert-danger" role="alert">
-          <strong>!Error</strong> {{ Session::get('error_msg') }}
+        <div class="alert alert-danger alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <h4><i class="icon fa fa-ban"></i> Error!</h4>
+          {{ Session::get('error_msg') }}
         </div>
+
         @endif
 
         @if(Session::get('success_msg'))
-        <div class="alert alert-success" role="alert">
-          <strong>!Success</strong> {{ Session::get('success_msg') }}
-        </div>
+              <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-check"></i> Success!</h4>
+                {{ Session::get('success_msg') }}
+              </div>
         @endif
-        
+
     <div class="row">
       <div class="col-md-8">
 
@@ -67,11 +77,12 @@ Add New user
 
 
               @if($userpermission->user_can('edith_roll', $current_user['id']))
+              
                 {{ select_field([
                     'name' => 'roll',
                     'title' => 'User Roll',
                     'value' => @$edith_user['roll'],
-                    'atts' =>  ['aria-describedby' => 'Userrool', 'class' => 'form-control'],
+                    'atts' =>  ['aria-describedby' => 'Userrool', 'class' => 'form-control select2', 'style' => 'width: 100%;'],
                     'items' =>  $userpermission->get_roll(),
                   ], $errors) }}
 
@@ -106,7 +117,7 @@ Add New user
                     'atts' =>  ['placeholder' => 'Google Profile Url', 'aria-describedby' => 'GoogleProfileUrl', 'class' => 'form-control']
                   ], $errors) }} 
 
-                  {!! Form::submit('Add New User', ['class' => 'btn btn-primary']) !!} 
+                  {!! Form::submit('Add New User', ['class' => 'btn bg-olive btn-flat']) !!} 
 
               {!! Form::close() !!}
               <!-- End Form -->
@@ -114,9 +125,9 @@ Add New user
               </div>
             </div>
 
-{{ heml_card_close('Add New User.') }}
+{{ heml_card_close() }}
 
       </div>
     </div>
-
+  </section>
 @endsection

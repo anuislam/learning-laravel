@@ -1,44 +1,45 @@
-
-  <div class="modal fade" id="global_modal" tabindex="-1" role="dialog" aria-labelledby="global_modal_label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="global_modal_label"></h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true" id="close_icon"></span>
-          </button>
-        </div>
-        <div class="modal-body"></div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" id="data_cancel" type="button" data-dismiss="modal"></button>
-          <button class="btn btn-primary" id="data_submit" type="button"></button>
-        </div>
+<div class="modal fade" id="global_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="global_modal_label" >Danger Modal</h4>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal" id="data_cancel"></button>
+        <button type="button" class="btn btn-outline" id="data_submit" ></button>
       </div>
     </div>
-  </div>  
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
 
 
-  <div class="modal fade" id="global_media_uploader" tabindex="-1" role="dialog" aria-labelledby="global_media_upload_label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="global_media_upload_label">this is uploader titme</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true" id="close_icon">
-              <i class="fa fa-times" aria-hidden="true"></i>
-            </span>
-          </button>
-        </div>
-        <div class="modal-body">
+        <div class="modal fade" id="global_media_uploader">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="global_media_upload_label"></h4>
+              </div>
+              <div class="modal-body">
+
+
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation"><a href="#nav-home" aria-controls="home" role="tab" data-toggle="tab">Upload Files</a></li>
+    <li role="presentation" class="active"><a href="#nav_media_uploader_tab_content" aria-controls="profile" role="tab" data-toggle="tab">Media Library</a></li>
+  </ul>
 
 
 
-<nav class="nav nav-tabs" id="myTab" role="tablist">
-  <a class="nav-item nav-link " id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Upload Files</a>
-  <a class="nav-item nav-link active" id="nav_media_uploader_tab" data-toggle="tab" href="#nav_media_uploader_tab_content" role="tab" aria-controls="nav-profile" aria-selected="false">Media Library</a>
-</nav>
 <div class="tab-content" id="uploder-nav-tabContent">
-  <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+  <div class="tab-pane" id="nav-home" role="tabpanel">
 
     <div 
         id="active_global_media_uploader"
@@ -46,10 +47,11 @@
     ></div>
 
   </div>
-  <div class="tab-pane fade show active" id="nav_media_uploader_tab_content" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+  <div class="tab-pane active" id="nav_media_uploader_tab_content" role="tabpanel" >
       <div class="row">
         <div class="col-md-8">
-          <span class="niceScroll"  id="uploader_media_image_list_content">            
+          <span class="uploader_slimScroll"  id="uploader_media_image_list_content">            
 
           <div class="form-group pt-3 position-relative">
               <span class="searcg_loader">
@@ -65,7 +67,7 @@
            </span>
         </div>
         <div class="col-md-4 my-2" id="uploader_info">
-          <span class="uploader_info_main niceScroll">
+          <span class="uploader_info_main uploader_slimScroll">
 
             <div class="form-group text-center my-2" id="uploader_info_image">
               <i class="fa fa-refresh fa-spin" style="display: none;"></i>
@@ -113,11 +115,18 @@
 </div>
 
 
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" id="uploder_cancel" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="uploder_submit" >Save changes</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
         </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" id="uploder_cancel" type="button" data-dismiss="modal">Cancel</button>
-          <button class="btn btn-primary" id="uploder_submit" type="button" >Select</button>
-        </div>
-      </div>
-    </div>
-  </div>
+
+
+
+
+

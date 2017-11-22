@@ -7,15 +7,16 @@ function text_field($data = array(), $errors){
   $data['atts']      = (isset($data['atts'])) ? $data['atts'] : [] ;  
   ?>
 
-    <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
-      <?php echo Form::label( $data['name'], $data['title'] ); ?>
-      <?php echo Form::text(  $data['name'], $data['value'], $data['atts'] ); ?>
-      <?php if ($errors->has($data['name'])) : ?>
-        <span class="help-block">
-            <strong><?php echo $errors->first($data['name'])  ?></strong>
-        </span>
-      <?php endif; ?>
-    </div>
+
+  <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
+    <?php echo Form::label( $data['name'], $data['title'], ['class' => 'control-label'] ); ?>
+    <?php echo Form::text(  $data['name'], $data['value'], $data['atts'] ); ?>
+    <?php if ($errors->has($data['name'])) : ?>
+    <span class="help-block">
+        <strong><?php echo $errors->first($data['name'])  ?></strong>
+    </span>
+    <?php endif; ?>
+  </div>
 
   <?php
 }
@@ -26,15 +27,15 @@ function password_field($data = array(), $errors){
   $data['atts']      = (isset($data['atts'])) ? $data['atts'] : [] ;  
   ?>
 
-    <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
-      <?php echo Form::label( $data['name'], $data['title'] ); ?>
-      <?php echo Form::password( $data['name'], $data['atts'] ); ?>
-      <?php if ($errors->has($data['name'])) : ?>
-        <span class="help-block">
-            <strong><?php echo $errors->first($data['name'])  ?></strong>
-        </span>
-      <?php endif; ?>
-    </div>
+  <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
+    <?php echo Form::label( $data['name'], $data['title'], ['class' => 'control-label'] ); ?>
+    <?php echo Form::password( $data['name'], $data['atts'] ); ?>
+    <?php if ($errors->has($data['name'])) : ?>
+    <span class="help-block">
+        <strong><?php echo $errors->first($data['name'])  ?></strong>
+    </span>
+    <?php endif; ?>
+  </div>
 
   <?php
 }
@@ -47,16 +48,16 @@ function select_field($data = array(), $errors){
   $data['items']      = (isset($data['items'])) ? $data['items'] : [] ;  
   ?>
 
-    <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
-      <?php echo Form::label( $data['name'], $data['title'] ); ?>
+  <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
+    <?php echo Form::label( $data['name'], $data['title'] ); ?>
+    <?php echo Form::select($data['name'], $data['items'], $data['value'], $data['atts'] ); ?>
+    <?php if ($errors->has($data['name'])) : ?>
+      <span class="help-block">
+          <strong><?php echo $errors->first($data['name'])  ?></strong>
+      </span>
+    <?php endif; ?>
+  </div>
 
-      <?php echo Form::select($data['name'], $data['items'], $data['value'], $data['atts'] ); ?>
-      <?php if ($errors->has($data['name'])) : ?>
-        <span class="help-block">
-            <strong><?php echo $errors->first($data['name'])  ?></strong>
-        </span>
-      <?php endif; ?>
-    </div>
 
   <?php
 }
@@ -68,15 +69,15 @@ function email_field($data = array(), $errors){
 	$data['atts'] 		 = (isset($data['atts'])) ? $data['atts'] : [] ;	
 	?>
 
-    <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
-      <?php echo Form::label( $data['name'], $data['title'] ); ?>
-      <?php echo Form::email(  $data['name'], $data['value'], $data['atts'] ); ?>
-      <?php if ($errors->has($data['name'])) : ?>
-        <span class="help-block">
-            <strong><?php echo $errors->first($data['name'])  ?></strong>
-        </span>
-      <?php endif; ?>
-    </div>
+  <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
+    <?php echo Form::label( $data['name'], $data['title'], ['class' => 'control-label'] ); ?>
+    <?php echo Form::email(  $data['name'], $data['value'], $data['atts'] ); ?>
+    <?php if ($errors->has($data['name'])) : ?>
+      <span class="help-block">
+          <strong><?php echo $errors->first($data['name'])  ?></strong>
+      </span>
+    <?php endif; ?>
+  </div>
 
 	<?php
 }
@@ -88,15 +89,21 @@ function textarea_field($data = array(), $errors){
 	$data['atts'] 		 = (isset($data['atts'])) ? $data['atts'] : [] ;	
 	?>
 
-    <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
-      <?php echo Form::label( $data['name'], $data['title'] ); ?>
-      <?php echo Form::textarea(  $data['name'], $data['value'], $data['atts'] ); ?>
-      <?php if ($errors->has($data['name'])) : ?>
-        <span class="help-block">
-            <strong><?php echo $errors->first($data['name'])  ?></strong>
-        </span>
-      <?php endif; ?>
-    </div>
+
+  <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
+    <?php 
+    if (empty($data['title']) === false) {
+      echo Form::label( $data['name'], $data['title'], ['class' => 'control-label'] );
+    }
+    ?>
+    <?php echo Form::textarea(  $data['name'], $data['value'], $data['atts'] ); ?>
+    <?php if ($errors->has($data['name'])) : ?>
+      <span class="help-block">
+          <strong><?php echo $errors->first($data['name'])  ?></strong>
+      </span>
+    <?php endif; ?>
+  </div>
+
 
 	<?php
 }
@@ -108,36 +115,44 @@ function url_field($data = array(), $errors){
 	$data['atts'] 		 = (isset($data['atts'])) ? $data['atts'] : [] ;	
 	?>
 
-    <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
-      <?php echo Form::label( $data['name'], $data['title'] ); ?>
-      <?php echo Form::url(  $data['name'], $data['value'], $data['atts'] ); ?>
-      <?php if ($errors->has($data['name'])) : ?>
-        <span class="help-block">
-            <strong><?php echo $errors->first($data['name'])  ?></strong>
-        </span>
-      <?php endif; ?>
-    </div>
+  <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
+    <?php echo Form::label( $data['name'], $data['title'], ['class' => 'control-label'] ); ?>
+    <?php echo Form::url(  $data['name'], $data['value'], $data['atts'] ); ?>
+    <?php if ($errors->has($data['name'])) : ?>
+      <span class="help-block">
+          <strong><?php echo $errors->first($data['name'])  ?></strong>
+      </span>
+    <?php endif; ?>
+  </div>
+
 
 	<?php
 }
 
 function heml_card_open($icon = '', $title = ''){	
 	?>
-	<div class="card mb-3">
-		<div class="card-header">
-		<i class="<?php echo $icon; ?>"></i> <?php echo $title; ?>
-		</div>
-		<div class="card-body">
+
+  <div class="box box-success">
+    <div class="box-header with-border ">
+      <h3 class="box-title"><i class="<?php echo $icon; ?>"></i> <?php echo $title; ?></h3>
+
+
+    <div class="box-tools pull-right">
+      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+      </button>
+    </div>
+
+
+    </div>
+    <div class="box-body">
+
+
 	<?php
 }
 
-function heml_card_close($title = ''){	
+function heml_card_close(){	
 	?>
-
 		</div>
-      <div class="card-footer small text-muted">
-        <?php echo $title; ?>
-      </div>
 	</div>
 	<?php
 }
@@ -186,7 +201,7 @@ function media_uploader($data = array(), $errors){
         >
           <?php echo $data['title']; ?>
         </a>
-
+        <a href="javascript:void(0)" class="btn bg-maroon btn-flat" onclick="media_removetag(this)">Remove</a>
 
       <?php if ($errors->has($data['name'])) : ?>
         <span class="help-block">
@@ -194,21 +209,23 @@ function media_uploader($data = array(), $errors){
         </span>
       <?php endif; ?>
 
-          <div id="uploader_image_preview" <?php echo (empty($data['value']) === false) ? 'style="display:block;"' : '' ;  ?>>
+          <div style="text-align: center;" class="uploader_image_preview" <?php echo (empty($data['value']) === false) ? 'style="display:block;"' : '' ;  ?>>
       <?php
         if (empty($data['value']) === false) {
             $media_details = $media->get_media($data['value']);
-            $file_type = $post->get_post_meta($data['value'], 'file_type');
-            $preview_image = $media->get_image_src('media_preview', $data['value']);
-            if (is_image($file_type) === true) {
+            if ($media_details) {
+              $file_type = $post->get_post_meta($data['value'], 'file_type');
+              $preview_image = $media->get_image_src('media_preview', $data['value']);
+              if (is_image($file_type) === true) {
+                ?>
+                <img src="<?php echo $preview_image[0]; ?>" class="rounded float-left img-thumbnail" alt="<?php echo $media_details->post_title; ?>">
+                <?php
+              }else{
               ?>
-              <img src="<?php echo $preview_image[0]; ?>" class="rounded float-left img-thumbnail" alt="<?php echo $media_details->post_title; ?>">
+                <img src="<?php echo upload_dir_url('default/largefileicon.png'); ?>" class="rounded float-left img-thumbnail" alt="<?php echo $media_details->post_title; ?>">
               <?php
-            }else{
-            ?>
-              <img src="<?php echo upload_dir_url('default/largefileicon.png'); ?>" class="rounded float-left img-thumbnail" alt="<?php echo $media_details->post_title; ?>">
-            <?php
-           }
+              }
+            }
         }
       ?>      
 

@@ -52,7 +52,8 @@ class RegisterController extends Controller
             'lname' => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{1,25}$/',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'password_confirmation' => 'required|min:6'
+            'password_confirmation' => 'required|min:6',
+            'agreement' => 'required|min:3'
         ]);
     }
 

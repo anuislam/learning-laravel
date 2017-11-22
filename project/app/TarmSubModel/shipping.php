@@ -52,7 +52,7 @@ class shipping extends TarmModel
 				'title' => 'Upload Image',
 				'value' => old('shiping_image'),
 				'atts' =>  [
-					'class' 		 => 'btn btn-secondary', 
+					'class' 		 => 'btn bg-purple btn-flat', 
 					'cancel_text' 	 => 'Cancel shiping image',
 					'submit_text' 	 => 'Select shiping image',
 					 ]
@@ -63,14 +63,14 @@ class shipping extends TarmModel
 				'title' => 'Upload Image',
 				'value' => old('shiping_image_two'),
 				'atts' =>  [
-					'class' 		 => 'btn btn-secondary', 
+					'class' 		 => 'btn bg-purple btn-flat', 
 					'cancel_text' 	 => 'Cancel shiping image',
 					'submit_text' 	 => 'Select shiping image',
 					 ]
 			], $errors);
 
 
-			echo 	Form::submit('Add Shipping', ['class' => 'btn btn-primary mt-3',]);
+			echo 	Form::submit('Add Shipping', ['class' => 'btn bg-olive btn-flat',]);
 		echo Form::close();
     }
 
@@ -120,8 +120,7 @@ class shipping extends TarmModel
     public function all_tarms_out_put(){
     	
 		?>
-	    <div class="table-responsive">
-	      <table class="table table-bordered" id="tarm_opject_table" width="100%" cellspacing="0" tarms-url="<?php echo route('tarms-all', 'shipping'); ?>" tarms-data='<?php echo json_encode([
+	      <table class="table table-bordered table-hover" id="tarm_opject_table" width="100%" cellspacing="0" tarms-url="<?php echo route('tarms-all', 'shipping'); ?>" tarms-data='<?php echo json_encode([
     		['data' => 'tarm-name'],
     		['data' => 'tarm-slug'],
     		[
@@ -145,7 +144,6 @@ class shipping extends TarmModel
 	          </tr>
 	        </tfoot>
 	      </table>
-	    </div>
 		<?php
     }
 
@@ -180,7 +178,7 @@ class shipping extends TarmModel
 				'title' => 'Upload Image',
 				'value' => $this->get_tarm_meta($value['id'], 'shiping_image'),
 				'atts' =>  [
-					'class' 		 => 'btn btn-secondary', 
+					'class' 		 => 'btn bg-purple btn-flat', 
 					'cancel_text' 	 => 'Cancel shiping image',
 					'submit_text' 	 => 'Select shiping image',
 					 ]
@@ -191,13 +189,13 @@ class shipping extends TarmModel
 				'title' => 'Upload Image',
 				'value' => $this->get_tarm_meta($value['id'], 'shiping_image_two'),
 				'atts' =>  [
-					'class' 		 => 'btn btn-secondary', 
+					'class' 		 => 'btn bg-purple btn-flat', 
 					'cancel_text' 	 => 'Cancel shiping image',
 					'submit_text' 	 => 'Select shiping image',
 					 ]
 			], $errors);
 
-			echo 	Form::submit('Update Shipping', ['class' => 'btn btn-primary mt-3',]);
+			echo 	Form::submit('Update Shipping', ['class' => 'btn bg-olive btn-flat',]);
 		echo Form::close();
     }
 

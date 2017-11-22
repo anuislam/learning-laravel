@@ -21,7 +21,7 @@ class UserDatatable extends Controller
     public function index(){
         return DataTables::of(DB::table('users')->select('id','fname', 'lname', 'email', 'roll', 'created_at', 'updated_at'))
         ->addColumn('action', function ($user) {
-                return '<a href="'.route('user.edit', $user->id).'" class="btn btn-secondary">Edith</a> <a
+                return '<a href="'.route('user.edit', $user->id).'" class="btn bg-purple btn-flat margin">Edith</a> <a
 
             onclick="data_modal(this)" 
             data-title="Ready to Delete?"
@@ -32,7 +32,7 @@ class UserDatatable extends Controller
             data-parameters=\'{"_token":"'. csrf_token() .'", "_method": "DELETE"}\'
 
 
-                href="'.route('user.destroy', $user->id).'" class="btn btn-danger">Delete</a>';
+                href="'.route('user.destroy', $user->id).'" class="btn bg-maroon btn-flat margin">Delete</a>';
             })
         ->addColumn('created_at', function ($user) {
                 return Carbon\Carbon::parse($user->created_at)->format('Y/m/d - h:i:s');

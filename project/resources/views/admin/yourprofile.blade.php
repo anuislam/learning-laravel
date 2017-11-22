@@ -1,24 +1,35 @@
 @extends('layouts.dashboard')
 
 @section('dashboard_tab_title')
-Admin Dashboard
+Your Profile | Website
 @endsection
 
 
 @section('dashboard_content')
-    <!-- Breadcrumbs-->
-    @include('admin.inc.breadcrumb')
+    <section class="content-header">
+      <h1>
+        Your 
+        <small>Profile</small>
+      </h1>
+       @include('admin.inc.breadcrumb')
+    </section>
 
+  <section class="content">
         @if(Session::get('error_msg'))
-        <div class="alert alert-danger" role="alert">
-          <strong>!Error</strong> {{ Session::get('error_msg') }}
+        <div class="alert alert-danger alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <h4><i class="icon fa fa-ban"></i> Error!</h4>
+          {{ Session::get('error_msg') }}
         </div>
+
         @endif
 
         @if(Session::get('success_msg'))
-        <div class="alert alert-success" role="alert">
-          <strong>!Success</strong> {{ Session::get('success_msg') }}
-        </div>
+              <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-check"></i> Success!</h4>
+                {{ Session::get('success_msg') }}
+              </div>
         @endif
 
 
@@ -30,8 +41,50 @@ Admin Dashboard
             <div class="row">
               <div class="col-md-12">
                 <div class="row">
-                  <div class="col-md-6">
-                    {{ Html::image(get_gravatar_custom_img($current_user['email'], 200), $current_user['fname'], array('class' => 'img-thumbnail')) }}
+                  <div class="col-md-12">
+
+
+          <div class="box box-widget widget-user">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-black" style="background: url('../dist/img/photo1.png') center center;">
+              <h3 class="widget-user-username">{{ $current_user['fname'].' '. $current_user['lname'] }}</h3>
+              <h5 class="widget-user-desc">Web Designer</h5>
+            </div>
+            <div class="widget-user-image">
+              {{ Html::image(get_gravatar_custom_img($current_user['email'], 128), $current_user['fname'], array('class' => 'img-circle', 'alt' => 'User Avatar')) }}
+            </div>
+            <div class="box-footer">
+              <div class="row">
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header">3,200</h5>
+                    <span class="description-text">SALES</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header">13,000</h5>
+                    <span class="description-text">FOLLOWERS</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4">
+                  <div class="description-block">
+                    <h5 class="description-header">35</h5>
+                    <span class="description-text">PRODUCTS</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+            </div>
+          </div>
+
+                    
                   </div>
                 </div>
 
@@ -40,11 +93,11 @@ Admin Dashboard
                   <div class="col-md-6">
                     {{ HTML::link('https://www.gravatar.com/', 'Change Image', array(
                     'target' => '_blank',
-                    'class' => 'btn btn-secondary d-inline-block',
+                    'class' => 'btn bg-purple btn-flat margin',
                     ))}}
                     @if($userpermission->user_can('change_password', $current_user['id']))
                       {{ HTML::link(route('change-password'), 'Change password', array(
-                      'class' => 'btn btn-secondary d-inline-block',
+                      'class' => 'btn bg-purple btn-flat margin',
                       ))}}
                     @endif
                   </div>
@@ -104,7 +157,7 @@ Admin Dashboard
 
                   {!! Form::hidden('user_id', $current_user['id']) !!}  
 
-                  {!! Form::submit('Update', ['class' => 'btn btn-primary']) !!} 
+                  {!! Form::submit('Update', ['class' => 'btn bg-olive btn-flat']) !!} 
 
               {!! Form::close() !!}
               <!-- End Form -->
@@ -112,9 +165,9 @@ Admin Dashboard
               </div>
             </div>
 
-{{ heml_card_close('Last Updated '.$current_user['updated_at']) }}
+{{ heml_card_close() }}
 
       </div>
     </div>
-
+</section>
 @endsection

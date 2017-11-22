@@ -27,7 +27,7 @@ function get_admin_sidebar_menu($user){
 		foreach ($admin_menu as $key => $value) {
 			$main_menu_title 		= (isset($value['menu-title'])) ? $value['menu-title'] : '' ;
 			$main_menu_id 	 		= (isset($value['id'])) ? $value['id'] : '' ;
-			$main_menu_icon  		= (isset($value['menu-icon'])) ? $value['menu-icon'] : 'fa-pencil' ;
+			$main_menu_icon  		= (isset($value['menu-icon'])) ? $value['menu-icon'] : 'fa-circle-o' ;
 			$dropdown 				= (isset($value['dropdown'])) ? $value['dropdown'] : '' ;
 			$main_menu_url 			= (isset($value['url'])) ? $value['url'] : '' ;
 			$main_menu_url 			= admin_menu_route_settion( $main_menu_url );
@@ -36,42 +36,44 @@ function get_admin_sidebar_menu($user){
 			if ($permission->user_can($main_menu_capability, $user)) {
 				if (empty($dropdown) === false) {
 					?>
-					<li class="nav-item" data-toggle="tooltip" data-placement="right" title="<?php echo $main_menu_title; ?>">
-					  <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#<?php echo $main_menu_id; ?>" data-parent="#dashboardMenu">
-					    <i class="fa fa-fw <?php echo $main_menu_icon; ?>"></i>
-					    <span class="nav-link-text"><?php echo $main_menu_title; ?></span>
-					  </a>
-
-					<ul class="sidenav-second-level collapse" id="<?php echo $main_menu_id; ?>">
-					<?php
+					<li class="treeview" title="<?php echo $main_menu_title; ?>">
+						<a href="#">
+							<i class="fa fa-fw <?php echo $main_menu_icon; ?>"></i>
+							<span><?php echo $main_menu_title; ?></span>
+						</a>
+					<ul class="treeview-menu">
+						<?php
 						foreach ($dropdown as $dropdownvalue) {
 							$menu_title = (isset($dropdownvalue['menu-title'])) ? $dropdownvalue['menu-title'] : '' ;
 							$menu_id = (isset($dropdownvalue['id'])) ? $dropdownvalue['id'] : '' ;
 							$menu_url = (isset($dropdownvalue['url'])) ? $dropdownvalue['url'] : '' ;
 							$menu_url = admin_menu_route_settion( $menu_url );
 							$menu_capability = (isset($dropdownvalue['capability'])) ? $dropdownvalue['capability'] : '' ;
+							$menu_icon = (isset($dropdownvalue['menu-icon'])) ? $dropdownvalue['menu-icon'] : 'fa fa-circle-o' ;
 
 							if ($permission->user_can($menu_capability, $user)) {
 								?>
-								<li>
-								  <a href="<?php echo $menu_url; ?>"><?php echo $menu_title; ?></a>
+								<li 
+									class="<?php echo admin_dashboard_active_menu($menu_url, true); ?>"
+								 ><a href="<?php echo $menu_url; ?>"><i class="fa <?php echo $menu_icon; ?>"></i> <?php echo $menu_title; ?></a></li>
+
 								</li>
 								<?php
 							}
-
-
 						}
 					?> 
-					</ul> 
-					</li><?php
+					</ul>
+					</li>
+
+				<?php
 				}else{
-					?>					
-						<li class="nav-item" data-toggle="tooltip" data-placement="right" title="<?php echo $main_menu_title; ?>">
-						  <a class="nav-link" href="<?php echo $main_menu_url; ?>">
-						    <i class="fa fa-fw <?php echo $main_menu_icon; ?>"></i>
-						    <span class="nav-link-text"><?php echo $main_menu_title; ?></span>
-						  </a>
-						</li>
+					?>	
+
+		<li title="<?php echo $main_menu_title; ?>" class="<?php echo admin_dashboard_active_menu($main_menu_url); ?>">
+          <a href="<?php echo $main_menu_url; ?>">
+            <i class="fa <?php echo $main_menu_icon; ?>"></i> <span><?php echo $main_menu_title; ?></span>
+          </a>
+        </li>				
 					<?php
 				}
 
@@ -85,6 +87,18 @@ function admin_menu_route_settion( $route='' )
 {
 	if (empty($route) === false) {
 		return ( is_array($route) === true) ? route($route[0], $route[1]) : route($route) ;
+	}
+	return false;
+}
+
+
+function admin_dashboard_active_menu($url, $sub = false){
+	$curr_url = url()->current();
+	if ($url == $curr_url) {
+		if ($sub === true) {
+			return 'sub_active';
+		}
+		return 'active';
 	}
 	return false;
 }

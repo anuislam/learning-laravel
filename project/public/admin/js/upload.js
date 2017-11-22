@@ -93,22 +93,22 @@ Formstone.Ready(function() {
       }else{      	
       	//html_li.find('span.media-file-cancel').html('Complete');
         if (chack_error.type == 'success') {
-          var media_html =     '<div class="col-6">'+
-                                '<div class="row my-4">'+
+          var media_html =     '<div class="col-sm-6">'+
+                                '<div class="row my-3">'+
                                   '<div class="col-md-5">'+
                                     '<a href="'+chack_error.data.media_url+'">'+
                                         '<img src="'+chack_error.data.thumbnail+'" alt="" class="rounded w-100">'+
                                     '</a>'+
                                   '</div>'+
                                   '<div class="col-md-7">'+
-                                    '<div class="d-block mb-4">'+
+                                    '<div class="d-block mb-3">'+
                                       'File name   : '+chack_error.data.media_name+' <br />'+
                                       'File title  : '+chack_error.data.media_title+' <br />'+
                                       'File type  : '+chack_error.data.media_type+' <br />'+
                                     '</div>';
 
               if (chack_error.data.media_edith_url) {
-                media_html +=  '<a href="'+chack_error.data.media_edith_url+'" class="btn btn btn-secondary">Edith</a>';
+                media_html +=  '<a href="'+chack_error.data.media_edith_url+'" class="btn bg-purple btn-flat margin">Edith</a>';
               }
 
               if (chack_error.data.media_delete_url) {
@@ -120,7 +120,7 @@ Formstone.Ready(function() {
                 'submit_text="Delete" '+
                 'data-type="post" data-parameters=\'{"_token":"'+ global_data.token +'", "_method": "DELETE"}\''+
 
-                 'href="'+chack_error.data.media_delete_url+'" class="btn btn btn-danger ml-3">Delete</a>';
+                 'href="'+chack_error.data.media_delete_url+'" class="btn bg-maroon btn-flat margin">Delete</a>';
               }
 
               media_html += '</div></div>';

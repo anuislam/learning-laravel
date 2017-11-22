@@ -23,6 +23,32 @@ Formstone.Ready(function() {
 		$(this).removeClass('fa-close').addClass('fa-check');
 	});
 
+	$('ul.medial_uploder_image_list').on('click', 'span.media_uploder_image_select', function(){
+		var main_li = $(this).closest('li');
+		media_id = main_li.attr('media_id');
+		delete_url = global_data.media_uploade_delete_url+'/'+media_id;
+		if (media_id) {
+			var result = confirm("Want to delete?");
+			if (result) {
+				 $.ajax({
+					type: 'POST',
+					url: delete_url,
+					data:{
+					  _method: 'DELETE'
+					},
+					success: function(data){
+						if (data == 'success') {
+							main_li.remove();
+							uploder_seleted = false;
+						}else{
+							alert(data);
+						}
+					}
+				});
+			}
+		}
+	});
+
 	$('ul.medial_uploder_image_list').on('click', '.media_uploader_image', function(){
 		var radio = $(this).closest('li');
 		var input = radio.find('input');
@@ -82,10 +108,7 @@ Formstone.Ready(function() {
 		      action: null
 		    },
 		    success: function(data){
-		     	$('ul.medial_uploder_image_list').html(data);	
-			     	setTimeout(function(){	  	
-					$(".niceScroll").getNiceScroll().resize();
-		  		}, 1000);    
+		     	$('ul.medial_uploder_image_list').html(data);
 				uploder_seleted	= false;
 		    }
 		  });
@@ -103,10 +126,11 @@ Formstone.Ready(function() {
 			if (return_selector !== false) {
 				var form_group = $('#'+return_selector).closest('.form-group');
 				form_group.find('input[name="'+return_selector+'"]').val(uploder_seleted.id);
-				var image_preview = form_group.find('#uploader_image_preview');
+				var image_preview = form_group.find('.uploader_image_preview');
 				image_preview.css('display', 'block');
 				image_preview.html('<img src="'+uploder_seleted.preview_image+'" class="rounded float-left img-thumbnail" alt="'+uploder_seleted.title+'">');
 				$('#global_media_uploader').modal('hide');
+				uploder_seleted = false;
 			}
 		}
 	});
@@ -211,7 +235,7 @@ function uploder_start(e, files){
 		'<div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 0;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>'+
 		'</div></li>';
 	});
-	$('#nav_media_uploader_tab').tab('show');
+	$('a[href="#nav_media_uploader_tab_content"]').tab('show');
 	$('.medial_uploder_image_list').prepend(data_html);
 }
 
@@ -292,4 +316,11 @@ function uploder_eError(e, file, error){
     target.find('#uploder_cancel').html(cancel_text);
     target.find('#uploder_submit').html(submit_text);    
     target.modal('show');
+  }
+
+  function media_removetag(th){
+  	var form_group = $(th).closest('.form-group');
+  	form_group.find('.uploader_image_preview').css('display', 'none');
+  	form_group.find('.uploader_image_preview img').remove();
+  	form_group.find('input').val('');
   }

@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('dashboard_tab_title')
-Edith media
+Edith media | Website
 @endsection
 
 @php
@@ -10,20 +10,30 @@ Edith media
 
 
 @section('dashboard_content')
-    <!-- Breadcrumbs-->
-    @include('admin.inc.breadcrumb')
+    <section class="content-header">
+      <h1>
+        Edith
+        <small>media</small>
+      </h1>
+       @include('admin.inc.breadcrumb')
+    </section>
 
-
+  <section class="content">
         @if(Session::get('error_msg'))
-        <div class="alert alert-danger" role="alert">
-          <strong>!Error</strong> {{ Session::get('error_msg') }}
+        <div class="alert alert-danger alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <h4><i class="icon fa fa-ban"></i> Error!</h4>
+          {{ Session::get('error_msg') }}
         </div>
+
         @endif
 
         @if(Session::get('success_msg'))
-        <div class="alert alert-success" role="alert">
-          <strong>!Success</strong> {{ Session::get('success_msg') }}
-        </div>
+              <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-check"></i> Success!</h4>
+                {{ Session::get('success_msg') }}
+              </div>
         @endif
         
     <div class="row">
@@ -48,7 +58,7 @@ Edith media
                 
               </div>
             </div>
-{{ heml_card_close('Edith media '.Carbon\Carbon::parse($media->updated_at)->format('Y-m-d h:i')) }}
+{{ heml_card_close() }}
 
 {{ heml_card_open('fa fa-picture-o', 'Edith media') }}
 
@@ -111,7 +121,7 @@ Edith media
 
 
 
-                  {!! Form::submit('Update media', ['class' => 'btn btn-primary']) !!} 
+                  {!! Form::submit('Update media', ['class' => 'btn bg-olive btn-flat']) !!} 
 
               {!! Form::close() !!}
               <!-- End Form -->
@@ -119,11 +129,11 @@ Edith media
               </div>
             </div>
 
-{{ heml_card_close('Edith media '.Carbon\Carbon::parse($media->updated_at)->format('Y-m-d h:i')) }}
+{{ heml_card_close() }}
 
       </div>
     </div>
-
+</section>
 @endsection
 
 

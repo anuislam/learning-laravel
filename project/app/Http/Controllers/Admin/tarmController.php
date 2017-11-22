@@ -139,7 +139,7 @@ class tarmController extends Controller
             return DataTables::of(DB::table('tarms')->select('id', 'tarm-slug', 'tarm-name', 'tarm-type')->where('tarm-type', $tarmname))
             ->addColumn('action', function ($tarm) {
                 $tarm_type = json_decode(json_encode($tarm), true);
-                return '<a href="'.route('edit-tarm', $tarm->id).'/'.$tarm_type['tarm-type'].'" class="btn btn-secondary">Edith</a> <a
+                return '<a href="'.route('edit-tarm', $tarm->id).'/'.$tarm_type['tarm-type'].'" class="btn bg-purple btn-flat margin">Edith</a> <a
 
             onclick="data_modal(this)" 
             data-title="Ready to Delete?"
@@ -150,7 +150,7 @@ class tarmController extends Controller
             data-parameters=\'{"_token":"'. csrf_token() .'", "_method": "DELETE"}\'
 
 
-                href="'.route('delete-tarm', $tarm->id).'" class="btn btn-danger">Delete</a>';
+                href="'.route('delete-tarm', $tarm->id).'" class="btn bg-maroon btn-flat margin">Delete</a>';
             })        
             ->escapeColumns(['*'])
             ->make(true);
@@ -165,7 +165,7 @@ class tarmController extends Controller
        return DataTables::of(DB::table('tarms')->select('id', 'tarm-slug', 'tarm-name', 'tarm-type')->where('tarm-type', 'category'))
         ->addColumn('action', function ($tarm) {
             global $tarmname;
-            return '<a href="'.route('edit-tarm', $tarm->id).'/" class="btn btn-secondary">Edith</a> <a
+            return '<a href="'.route('edit-tarm', $tarm->id).'/" class="btn bg-purple btn-flat margin">Edith</a> <a
 
         onclick="data_modal(this)" 
         data-title="Ready to Delete?"
@@ -176,7 +176,7 @@ class tarmController extends Controller
         data-parameters=\'{"_token":"'. csrf_token() .'", "_method": "DELETE"}\'
 
 
-            href="'.route('delete-tarm', $tarm->id).'" class="btn btn-danger">Delete</a>';
+            href="'.route('delete-tarm', $tarm->id).'" class="btn bg-maroon btn-flat margin">Delete</a>';
         })        
         ->escapeColumns(['*'])
         ->make(true);

@@ -6,30 +6,36 @@ Admin Dashboard
 
 
 @section('dashboard_content')
-    <!-- Breadcrumbs-->
-    @include('admin.inc.breadcrumb')
+    <section class="content-header">
+      <h1>
+        Add New Media
+        <small>Control panel</small>
+      </h1>
+       @include('admin.inc.breadcrumb')
+    </section>
 
+  <section class="content">
+        @if(Session::get('error_msg'))
+        <div class="alert alert-danger alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <h4><i class="icon fa fa-ban"></i> Error!</h4>
+          {{ Session::get('error_msg') }}
+        </div>
 
+        @endif
 
-<!-- Start datatalbe -->
-
-    @if(Session::get('error_msg'))
-    <div class="alert alert-danger" role="alert">
-      <strong>!Error</strong> {{ Session::get('error_msg') }}
-    </div>
-    @endif
-
-    @if(Session::get('success_msg'))
-    <div class="alert alert-success" role="alert">
-      <strong>!Success</strong> {{ Session::get('success_msg') }}
-    </div>
-    @endif
+        @if(Session::get('success_msg'))
+              <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-check"></i> Success!</h4>
+                {{ Session::get('success_msg') }}
+              </div>
+        @endif
     
 
 {{ heml_card_open('fa fa-user', 'All Users') }}
 
-        <div class="table-responsive">
-          <table class="table table-bordered" id="tarm_opject_table" width="100%" cellspacing="0"
+          <table class="table table-bordered table-hover" id="tarm_opject_table" width="100%" cellspacing="0"
             tarms-url="{{ route('user-datatable') }}"
             tarms-data="{{ json_encode([
                             [
@@ -80,9 +86,8 @@ Admin Dashboard
               </tr>
             </tfoot>
           </table>
-        </div>
-{{ heml_card_close('All Users.') }}
-
+{{ heml_card_close() }}
+</section>
     <!-- end datatable -->
 
 @endsection

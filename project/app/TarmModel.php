@@ -58,7 +58,7 @@ class TarmModel extends Model{
 				'value' => old('cat_description'),
 				'atts' =>  ['placeholder' => 'Category Description', 'aria-describedby' => 'CategoryDescription', 'class' => 'form-control']
 			], $errors);
-			echo 	Form::submit('Add Category', ['class' => 'btn btn-primary mt-3',]);
+			echo 	Form::submit('Add Category', ['class' => 'btn bg-olive btn-flat',]);
 		echo Form::close();
     }
 
@@ -115,8 +115,7 @@ class TarmModel extends Model{
     public function all_tarms_out_put(){
     	
 		?>
-	    <div class="table-responsive">
-	      <table class="table table-bordered" id="tarm_opject_table" width="100%" cellspacing="0" tarms-url="<?php echo route('tarms-all', '/'); ?>" tarms-data='<?php echo json_encode([
+	      <table class="table table-bordered table-hover" id="tarm_opject_table" width="100%" cellspacing="0" tarms-url="<?php echo route('tarms-all', '/'); ?>" tarms-data='<?php echo json_encode([
     		['data' => 'tarm-name'],
     		['data' => 'tarm-slug'],
     		[
@@ -140,7 +139,6 @@ class TarmModel extends Model{
 	          </tr>
 	        </tfoot>
 	      </table>
-	    </div>
 		<?php
     }
 
@@ -169,7 +167,7 @@ class TarmModel extends Model{
 				'value' => $value['description'],
 				'atts' =>  ['placeholder' => 'Category Description', 'aria-describedby' => 'CategoryDescription', 'class' => 'form-control']
 			], $errors);
-			echo 	Form::submit('Update Category', ['class' => 'btn btn-primary mt-3',]);
+			echo 	Form::submit('Update Category', ['class' => 'btn bg-olive btn-flat',]);
 		echo Form::close();
     }
 

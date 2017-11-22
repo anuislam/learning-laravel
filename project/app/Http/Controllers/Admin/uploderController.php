@@ -144,8 +144,31 @@ class uploderController extends Controller {
         return ob_get_clean();
     }
 
-    public function delete(){
-    	return 'dssdsdsdddd';
+    public function delete(Request $request, $id){
+        $usermodel      = $this->usermodel;
+        $current_user   = $usermodel->current_user();
+        if (url_gard('integer', $id) === false) {
+           return 'Invali Media';
+        }
+
+        if ($this->permission->user_can('delete_media', $current_user['id']) === false) {
+            return 'You have no media delete permission.';
+        }
+
+        $media = $this->mediaModel->get_media((int)$id);
+        if ($media === false) {
+            return 'This is not a valid media.';
+        }
+
+        if ($current_user['id'] != $media->post_author) {
+            if ($this->permission->user_can('delete_others_media', $current_user['id']) === false) {
+                return 'You have no other media delete permission.';
+            }
+        }
+
+        $this->mediaModel->process_delete_media($id);
+
+    	return  'success';
     }
     public function update(Request $request, $id){
         $usermodel      = $this->usermodel;

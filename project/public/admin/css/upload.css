@@ -26,16 +26,18 @@ ul.media_upload_progress_bar
 
 span.media-file-cancel {
     position: absolute;
-    right: 15px;
+    right: 5px;
     bottom: 3px;
     cursor: pointer;
     color: #ff2222;
     font-size: 15px;
+    top: 16px;
 }
 
 span.media-file-name {
     font-size: 13px;
-    color: #514e4e;
+    color: #fff;
+    font-weight: 600;
 }
 
 

@@ -34,16 +34,44 @@ register_menu([
 
 
 /*********************************************
-* Register Category menu
+* Register post menu
 **********************************************/
 
 register_menu([
-	'menu-title' 	 	=> 'Category',
-	'id' 	 		 	=> 'add-category',
-	'menu-icon' 	 	=> 'fa-list-ul', 
-	'capability' 	 	=> 'create_tarm', 
-	'url' 	 		 	=> ['create-tarms', '/'],
+	'menu-title' 	 	=> 'Post',
+	'id' 	 		 	=> 'post',
+	'menu-icon' 	 	=> 'fa-pencil-square-o', 
+	'capability' 	 	=> 'edith_post', 
 ]);
+
+
+register_dropdown_menu('post', [
+	'menu-title' 	 	=> 'All Posts',
+	'id' 	 		 	=> 'all-posts', //uniq
+	'url' 	 		 	=> 'post.index', //route
+	'menu-icon' 	 	=> 'fa-list-ul',
+	'capability' 	 	=> 'edith_post', //uniq
+]);
+
+register_dropdown_menu('post', [
+	'menu-title' 	 	=> 'Add New Post',
+	'id' 	 		 	=> 'add-new-post', //uniq
+	'url' 	 		 	=> 'post.create', //route
+	'menu-icon' 	 	=> 'fa-pencil',
+	'capability' 	 	=> 'edith_post', //uniq
+]);
+
+/*********************************************
+* Register Category menu
+**********************************************/
+register_dropdown_menu('post', [
+	'menu-title' 	 	=> 'Category',
+	'id' 	 		 	=> 'add-category', //uniq
+	'url' 	 		 	=> ['create-tarms', '/'], //route
+	'menu-icon' 	 	=> 'fa-list-ul',
+	'capability' 	 	=> 'edith_post', //uniq
+]);
+
 
 /*********************************************
 * Register Shipping menu
@@ -74,6 +102,7 @@ register_dropdown_menu('all-user', [
 	'menu-title' 	 	=> 'Add New User',
 	'id' 	 		 	=> 'add-new-user', //uniq
 	'url' 	 		 	=> 'user.create', //uniq
+	'menu-icon' 	 	=> 'fa-list-ul',
 	'capability' 	 	=> 'read', //uniq
 ]);
 
