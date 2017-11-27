@@ -68,5 +68,5 @@ Add New Media | Website
 @endsection
 
 @section('script')
-  {{ Html::script(asset('public').'/admin/js/upload.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('/admin/js/upload.js'), ['type' => 'text/javascript']) }}
 @endsection

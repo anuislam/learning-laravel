@@ -16,14 +16,14 @@ class Post extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('post_title');
-            $table->string('post_slug');
+            $table->string('post_slug')->nullable();
             $table->bigInteger('post_author');
             $table->longText('post_content')->nullable();
             $table->string('post_status')->nullable();
             $table->string('post_password')->nullable();
             $table->bigInteger('post_parent')->default(0);
             $table->bigInteger('comment_count')->default(0);
-            $table->bigInteger('post_type')->default('post');
+            $table->string('post_type')->default(0);
             $table->timestamps();
         });
     }

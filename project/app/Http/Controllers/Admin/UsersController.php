@@ -26,7 +26,7 @@ class UsersController extends Controller
     {
         $usermodel          = $this->usermodel;
         $current_user       = $usermodel->current_user();
-        if ($this->permission->user_can('edith_user', $current_user['id'])) {
+        if ($this->permission->user_can('read', $current_user['id'])) {
             return view('admin.yourprofile',[
                 'current_user'      => $current_user,
                 'userpermission'      => $this->permission,

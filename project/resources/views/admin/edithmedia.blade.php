@@ -93,7 +93,7 @@ Edith media | Website
                     'items' =>  [
                         'publish' => 'Publish',
                         'pending' => 'Pending',
-                        'invisible' => 'Invisible',
+                        'trush' => 'Trush',
                     ],
                   ], $errors) }}
 

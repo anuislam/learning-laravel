@@ -52,7 +52,7 @@ class post_type extends Model{
          $ret_data[$value['id']] = $value['tarm-name'];
         }
       }
-      return count($ret_data) > 0 ? $ret_data : false ;
+      return count($ret_data) > 0 ? $ret_data : [] ;
     }
 
 
@@ -86,7 +86,7 @@ class post_type extends Model{
     }else{
       $method = 'POST';
     }
-    echo Form::open(['url' =>  $route, 'method' => $method])
+    echo Form::open(['url' =>  $route, 'method' => $method]);
 ?>
 
 
@@ -236,22 +236,22 @@ class post_type extends Model{
 
   public function user_can($user_id, $post_author_id = '') {
       $cap = $this->post_type_setting();
-      $permission = new UserPermission();
-      if (is_array($cap['edit_post_type_cap'])) {
-        foreach ($cap['edit_post_type_cap'] as $type_cap) {
-          if (empty($post_author_id) === false) {       
-            if ($user_id != $post_author_id) {
-              if ($permission->user_can($type_cap, $user_id) === false) {
-                  return false;
-              }
-            }
-          }else{      
-            if ($permission->user_can($type_cap, $user_id) === false) {
-                return false;
-            }
-          }
-        }
-      }
+      // $permission = new UserPermission();
+      // if (is_array($cap['edit_post_type_cap'])) {
+      //   foreach ($cap['edit_post_type_cap'] as $type_cap) {
+      //     if (empty($post_author_id) === false) {       
+      //       if ($user_id != $post_author_id) {
+      //         if ($permission->user_can($type_cap, $user_id) === false) {
+      //             return false;
+      //         }
+      //       }
+      //     }else{      
+      //       if ($permission->user_can($type_cap, $user_id) === false) {
+      //           return false;
+      //       }
+      //     }
+      //   }
+      // }
 
       return true;
   }
@@ -458,15 +458,15 @@ class post_type extends Model{
     
       $cap = $this->post_type_setting();
       $permission = new UserPermission();
-      if (is_array($cap['datatable_post_type_cap'])) {
-        foreach ($cap['datatable_post_type_cap'] as $datatable_cap) {
+      // if (is_array($cap['datatable_post_type_cap'])) {
+      //   foreach ($cap['datatable_post_type_cap'] as $datatable_cap) {
 
-          if ($permission->user_can($datatable_cap, $user_id) === false) {
-              return false;
-          }
+      //     if ($permission->user_can($datatable_cap, $user_id) === false) {
+      //         return false;
+      //     }
 
-        }
-      }
+      //   }
+      // }
       return true;
   }
 
@@ -476,23 +476,23 @@ class post_type extends Model{
 
     $cap = $this->post_type_setting();
     $permission = new UserPermission();
-    if (is_array($cap['delete_post_type_cap'])) {
-      foreach ($cap['delete_post_type_cap'] as $delete_cap) {
-        if (empty($post_author_id) === false) {
-          if ($user_id != $post_author_id) {
-            if ($permission->user_can($delete_cap, $user_id) === false) {
-                return false;
-            }
-          }if ($permission->user_can($delete_cap, $user_id) === false) {
-              return false;
-          }
-        }else{
-          if ($permission->user_can($delete_cap, $user_id) === false) {
-              return false;
-          }
-        }
-      }
-    }
+    // if (is_array($cap['delete_post_type_cap'])) {
+    //   foreach ($cap['delete_post_type_cap'] as $delete_cap) {
+    //     if (empty($post_author_id) === false) {
+    //       if ($user_id != $post_author_id) {
+    //         if ($permission->user_can($delete_cap, $user_id) === false) {
+    //             return false;
+    //         }
+    //       }if ($permission->user_can($delete_cap, $user_id) === false) {
+    //           return false;
+    //       }
+    //     }else{
+    //       if ($permission->user_can($delete_cap, $user_id) === false) {
+    //           return false;
+    //       }
+    //     }
+    //   }
+    // }
     
       return true;
   }

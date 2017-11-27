@@ -143,14 +143,14 @@ register_dropdown_menu('all-user', [
 	'id' 	 		 	=> 'add-new-user', //uniq
 	'url' 	 		 	=> 'user.create', //uniq
 	'menu-icon' 	 	=> 'fa-list-ul',
-	'capability' 	 	=> 'read', //uniq
+	'capability' 	 	=> 'create_user', //uniq
 ]);
 
 register_dropdown_menu('all-user', [
 	'menu-title' 	 	=> 'All Users',
 	'id' 	 		 	=> 'all-users', //uniq
 	'url' 	 		 	=> 'all-users', //uniq
-	'capability' 	 	=> 'read', //uniq
+	'capability' 	 	=> 'edith_other_user', //uniq
 ]);
 
 register_dropdown_menu('all-user', [
