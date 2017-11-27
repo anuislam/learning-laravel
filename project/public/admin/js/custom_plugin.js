@@ -69,3 +69,52 @@ function post(path, parameters) {
     $(document.body).append(form);
     form.submit();
 }
+
+function open_modal_chack_slug(th) {
+
+    var form_group  = $(th).closest(".form-group");
+    var value       = form_group.attr('data-chack-value');
+    var url         = form_group.attr('data-chack-url');
+
+    var data_html = '<div class="form-group ">'+                        
+                        '<input placeholder="Enter Slug" class="form-control" type="text" value="'+value+'" id="chack_post_type_slug">'+
+                    '</div>';
+
+    open_modal({
+        title: 'upload image',
+        message: data_html,
+        cancel_text: 'Cancel',
+        close_icon:  String('fa-times'),
+        submit_text: 'Edith',
+        on_submit: {
+            type: 'action',
+            url: null,
+            parameters: function () {
+                // var after_edit_val = $('#chack_post_type_slug').val();
+                // $.ajax({
+                //     type: 'POST',
+                //     url: url,
+                //     data:{
+                //       value: String(after_edit_val)
+                //     },
+                //     success: function(data){
+                //         if (data != 'empty') {
+                //             if (data.type == ' error') {
+                //                 alert(data.message);
+                //             }else{
+                //                 form_group.attr('data-chack-value', data.value);
+                //                 form_group.find('input[type="hidden"]').val(data.value);
+                //                 form_group.find('.form-control').html(data.value);
+                //                 $('#global_modal').modal('hide');
+                //             }
+                //         }
+                //     }
+                // });
+
+
+
+            }
+           },
+    });
+}
+

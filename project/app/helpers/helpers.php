@@ -28,7 +28,7 @@
                 return (preg_match('/^[a-zA-Z]{0,250}$/', $value)) ? true : false ;
                 break;  
             case 'mix':
-                return (preg_match('/^[a-zA-Z0-9]{0,250}$/', $value)) ? true : false ;
+                return (preg_match('/^[a-zA-Z0-9\-]{0,250}$/', $value)) ? true : false ;
                 break;            
             default:
                 return true;
@@ -42,9 +42,9 @@
 
     function upload_dir_url($path = ''){
     	if (empty($path) === false) {
-    		return asset('public/upload').'/'.$path;
+    		return asset('upload').'/'.$path;
     	}
-    	return asset('public/upload');
+    	return asset('upload');
     	
     }
     
@@ -68,3 +68,14 @@
         return false;
     }
 
+
+    function format_status_tag($value, array $data){
+        if (is_array($data)) {
+            foreach ($data as $key => $btnvalue) {
+               if ($value == $btnvalue) {
+                   return '<span class="label label-'.$key.'">'.ucfirst($value).'</span>';
+                   break;
+               }
+            }
+        }
+    }

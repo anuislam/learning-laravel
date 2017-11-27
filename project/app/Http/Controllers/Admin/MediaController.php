@@ -11,7 +11,7 @@ use App\UserModel;
 use App\mediaModel;
 use Image;
 use Validator;
-use App\post;
+use App\BlogPost;
 
 class MediaController extends Controller
 {
@@ -25,14 +25,14 @@ class MediaController extends Controller
         $this->usermodel    = new UserModel();
         $this->permission   = new UserPermission();  
         $this->mediaModel   = new mediaModel();  
-        $this->postmodel    = new post();  
+        $this->postmodel    = new BlogPost();  
     }
 
     public function index()    {
         $usermodel      = $this->usermodel;
         $current_user   = $usermodel->current_user();
         if ($this->permission->user_can('see_media', $current_user['id']) === false) {   
-            return '404 page';
+            return abort(404);
         }
 
 
@@ -53,7 +53,7 @@ class MediaController extends Controller
         $current_user   = $usermodel->current_user();
 
         if ($this->permission->user_can('upload_file', $current_user['id']) === false) {
-            return '404 page';
+            return abort(404);
         }
         return view('admin.add-new-media',[
                 'current_user'        => $current_user,
@@ -127,7 +127,7 @@ class MediaController extends Controller
      */
     public function show($id)
     {
-        return '404 page';
+        return abort(404);
     }
 
     /**
@@ -140,21 +140,21 @@ class MediaController extends Controller
         $usermodel      = $this->usermodel;
         $current_user   = $usermodel->current_user();
         if (url_gard('integer', $id) === false) {
-             return '404 page';
+             return abort(404);
         }
 
         if ($this->permission->user_can('edith_media', $current_user['id']) === false) {
-            return '404 page';
+            return abort(404);
         }
 
         $media = $this->mediaModel->get_media($id);
         if ($media === false) {
-           return '404 page';
+           return abort(404);
         }
 
         if ($current_user['id'] != $media->post_author) {
             if ($this->permission->user_can('edith_others_media', $current_user['id']) === false) {
-                return '404 page';
+                return abort(404);
             }
         }
 

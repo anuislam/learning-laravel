@@ -182,7 +182,7 @@ function media_uploader($data = array(), $errors){
   $data['atts']      = (isset($data['atts'])) ? $data['atts'] : [] ;  
   $data['atts']['id']     = $data['name'];  
   $media = new App\mediaModel();
-  $post = new App\post();
+  $post = new App\BlogPost();
   ?>
 
     <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
@@ -236,3 +236,59 @@ function media_uploader($data = array(), $errors){
 
   <?php
 }
+
+
+
+function html_tab($content){
+  ?>
+
+
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+
+<?php
+$a1 = 0;
+
+if (is_array($content)) {
+  foreach ($content as $tab_key => $tab_value) {
+    ?>
+
+      <li class="<?php echo ($a1 == 0) ? 'active' : '' ; ?>"><a href="#tab_<?php echo $tab_key; ?>" data-toggle="tab" ><?php echo $tab_value['tab_title'] ?></a></li>
+
+    <?php
+    $a1++;
+  }
+}
+
+?>
+            </ul>
+            <div class="tab-content">
+
+
+<?php
+
+$a2 = 0;
+
+if (is_array($content)) {
+  foreach ($content as $tab_key => $tab_value) {
+    ?>
+
+
+    <div class="tab-pane <?php echo ($a2 == 0) ? 'active' : '' ; ?>" id="tab_<?php echo $tab_key; ?>">
+      <?php echo $tab_value['tab_content'] ?>
+    </div>
+
+    <?php
+    $a2++;
+  }
+}
+
+
+?>            
+            </div>
+            <!-- /.tab-content -->
+          </div>
+  <?php
+}
+
+

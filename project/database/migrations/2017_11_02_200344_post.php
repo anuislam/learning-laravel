@@ -16,6 +16,7 @@ class Post extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('post_title');
+            $table->string('post_slug');
             $table->bigInteger('post_author');
             $table->longText('post_content')->nullable();
             $table->string('post_status')->nullable();

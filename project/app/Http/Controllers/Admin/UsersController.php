@@ -32,7 +32,7 @@ class UsersController extends Controller
                 'userpermission'      => $this->permission,
             ]);
         }
-        return '404page';
+        return abort(404);
     }
 
 
@@ -46,7 +46,7 @@ class UsersController extends Controller
                 'userpermission'      => $this->permission,
             ]);
         }
-        return '404page';
+        return abort(404);
     }
 
     /**
@@ -59,7 +59,7 @@ class UsersController extends Controller
         $current_user   = $this->usermodel->current_user();
 
         if ($this->permission->user_can('create_user', $current_user['id']) === false) {
-            return '404page';
+            return abort(404);
         }
 
         return view('admin.addnewuser',[
@@ -107,7 +107,7 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        return '404 page';
+        return abort(404);
     }
 
     /**
@@ -122,7 +122,7 @@ class UsersController extends Controller
             $current_user   = $this->usermodel->current_user();
 
             if ($this->permission->user_can('edith_other_user', $current_user['id']) === false) {
-                return '<h1>404 page</h1>';
+                return abort(404);
             }
 
 
@@ -135,7 +135,7 @@ class UsersController extends Controller
                 ]);
             }
         }
-        return '404 page';
+        return abort(404);
     }
 
     /**
@@ -193,7 +193,7 @@ class UsersController extends Controller
         $current_user       = $usermodel->current_user();
 
         if ($this->permission->user_can('change_password', $cur_user->id) === false) {
-            return '404 page';
+            return abort(404);
         }
 
         return view('admin.changePassword',[

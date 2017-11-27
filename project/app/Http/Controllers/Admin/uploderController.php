@@ -8,7 +8,7 @@ use App\UserModel;
 use App\mediaModel;
 use App\UserPermission;
 use \Auth;
-use App\post;
+use App\BlogPost;
 
 
 class uploderController extends Controller {
@@ -22,7 +22,7 @@ class uploderController extends Controller {
         $this->usermodel    = new UserModel();
         $this->permission   = new UserPermission();  
         $this->mediaModel   = new mediaModel();  
-        $this->postmodel    = new post();  
+        $this->postmodel    = new BlogPost();  
     }
 
     public function index(){

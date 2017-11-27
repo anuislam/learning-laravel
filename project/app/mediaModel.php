@@ -5,7 +5,6 @@ use Illuminate\Database\Eloquent\Model;
 use Image;
 use \DB;
 use \Auth;
-use App\post;
 use File;
 use App\UserPermission;
 use App\UserModel;
@@ -13,13 +12,15 @@ use DataTables;
 use Validator;
 use Purifier;
 
+use App\BlogPost;
+
 class mediaModel extends Model{
 
     private $permission = '';
     private $post = '';
     public function __construct(){
         $this->permission = new UserPermission();  
-        $this->post 	  = new post();  
+        $this->post 	  = new BlogPost();  
         $this->usermodel  = new UserModel();  
     }
 

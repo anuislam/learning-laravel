@@ -90,8 +90,9 @@ class TarmModel extends Model{
     }
 
     public function tarm_data_save($data, $tarm_type){
+        $data['cat_slug'] = sunatize_slug_text($data['cat_slug']);
     	$id = DB::table('tarms')->insertGetId([
-    		'tarm-slug' => sanitize_text($data['cat_slug']),
+    		'tarm-slug' => sanitize_text(strtolower($data['cat_slug'])),
     		'tarm-name' => sanitize_text($data['cat_name']),
     		'description' => Purifier::clean($data['cat_description'], array('AutoFormat.AutoParagraph' => false,'AutoFormat.RemoveEmpty'   => true)),
     		'tarm-type' => sanitize_text($tarm_type),
@@ -115,7 +116,7 @@ class TarmModel extends Model{
     public function all_tarms_out_put(){
     	
 		?>
-	      <table class="table table-bordered table-hover" id="tarm_opject_table" width="100%" cellspacing="0" tarms-url="<?php echo route('tarms-all', '/'); ?>" tarms-data='<?php echo json_encode([
+	      <table class="table table-bordered table-hover" id="tarm_opject_table" width="100%" cellspacing="0" tarms-url='<?php echo route('tarms-all', '/'); ?>' tarms-data='<?php echo json_encode([
     		['data' => 'tarm-name'],
     		['data' => 'tarm-slug'],
     		[
@@ -205,11 +206,11 @@ class TarmModel extends Model{
     }
 
     public function tarm_edit_data_update($data, $tarm_id){
-
+        $data['cat_slug'] = sunatize_slug_text($data['cat_slug']);
     	$data = DB::table('tarms')
                     ->where('id',  $tarm_id)
                     ->update([
-			    		'tarm-slug' => sanitize_text($data['cat_slug']),
+			    		'tarm-slug' => sanitize_text(strtolower($data['cat_slug'])),
 			    		'tarm-name' => sanitize_text($data['cat_name']),
 			    		'description' => Purifier::clean($data['cat_description'], array('AutoFormat.AutoParagraph' => false,'AutoFormat.RemoveEmpty'   => true)),
 			    		'updated_at' => new \DateTime(),
@@ -261,5 +262,13 @@ class TarmModel extends Model{
         return (count($tarm_meta) == 1) ? $tarm_meta->meta_value : false ;
     }
 
+    public function get_tarm_query(array $data){
+        $query = DB::table('tarms');
+        if (isset($data['tarm-type']) === true) {
+                $query->where('tarm-type', $data['tarm-type']);
+        }
+        $tarm_data = $query->get();
+        return ( $tarm_data->count() > 0 ) ? $tarm_data : false ;
+    }
 
 }

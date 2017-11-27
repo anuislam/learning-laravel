@@ -18,14 +18,37 @@ $(document).ready(function() {
                          "type": "post",
                          "data":{ _token: global_data.token, _method: 'PATCH'}
                        },
-                "columns": JSON.parse(tarm_opject_table.attr('tarms-data'))
+                "columns": JSON.parse(tarm_opject_table.attr('tarms-data').trim())
+
+
+        // initComplete: function () {
+        //     this.api().columns().every( function () {
+        //         var column = this;
+        //         var select = $('<select><option value=""></option></select>')
+        //             .appendTo( $(column.footer()).empty() )
+        //             .on( 'change', function () {
+        //                 var val = $.fn.dataTable.util.escapeRegex(
+        //                     $(this).val()
+        //                 );
+ 
+        //                 column
+        //                     .search( val ? '^'+val+'$' : '', true, false )
+        //                     .draw();
+        //             } );
+ 
+        //         column.data().unique().sort().each( function ( d, j ) {
+        //             select.append( '<option value="'+d+'">'+d+'</option>' )
+        //         } );
+        //     } );
+        // }
+
+
 
             });
         }
 
 
-
-	$('.select2').select2();
+    var $multiSelect = $(".select2").select2();
 
     $('.uploader_slimScroll').slimScroll({
         height: '500px',
@@ -36,43 +59,35 @@ $(document).ready(function() {
     $('li.sub_active').addClass('active');
 
 
-    tinymce.init({
-        selector: 'textarea.tainy_mce',
 
-        plugins: "fullscreen image code colorpicker importcss autolink link importcss media lists table importcss paste image textcolor visualblocks template preview hr",
-         toolbar: 'undo redo | bold italic underline | link hr | alignleft aligncenter alignright | blockquote bullist numlist outdent indent | code | currentdate | fullscreen | table | image | forecolor | backcolor | visualblocks template preview hr fontsizeselect',
-        menu: {
-            edit: {title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall'},
-            insert: {title: 'Insert', items: 'link media | template hr'},
-            view: {title: 'View', items: 'visualaid'},
-            format: {title: 'Format', items: 'bold italic underline strikethrough superscript subscript | formats | removeformat '},
-            table: {title: 'Table', items: 'inserttable tableprops deletetable | cell row column'},
-            tools: {title: 'Tools', items: 'spellchecker code'}
-        },
-        fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt 37pt',
-
-        setup: function(editor) { 
-
-            function toTimeHtml(date) {
-              return '<time datetime="' + date.toString() + '">' + date.toDateString() + '</time>';
-            }
-            
-            function insertDate() {
-              // var html = toTimeHtml(new Date());
-              // editor.insertContent(html);
-                $('#global_media_uploader').modal('show');
-            }
-
-            editor.addButton('currentdate', {
-              //icon: 'fa fa-faceboo',
-              image: 'http://p.yusukekamiyamane.com/icons/search/fugue/icons/calendar-blue.png',
-              tooltip: "Insert Current Date",
-              onclick: insertDate
-            });
-          }
-    });    
-  
-
+    // $('.post_type_chack_slug').on('focusout', function(){
+    //     var form_group  = $('div.get_post_type_chack_slug_message');
+    //     var url         = form_group.attr('data-chack-url');
+    //     var value       = $(this).val();   
+    //         $.ajax({
+    //             type: 'POST',
+    //             url: url,
+    //             data:{
+    //               value: String(value)
+    //             },
+    //             success: function(data){
+    //                 if (data != 'empty') {
+    //                     if (data.type == ' error') {
+    //                         form_group.addClass('.has-error');                            
+    //                         if (form_group.find('.help-block').length > 0) {
+    //                             form_group.find('.help-block').html('<strong>'+data.message+'</strong>');
+    //                         }else{
+    //                             form_group.append('<span class="help-block"><strong>'+data.message+'</strong></span>');
+    //                         }
+    //                     }else{
+    //                         form_group.attr('data-chack-value', data.value);
+    //                         form_group.find('input[type="hidden"]').val(data.value);
+    //                         form_group.find('.form-control').html(data.value);
+    //                     }
+    //                 }
+    //             }
+    //         });
+    // });
 
 });
 

@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/home', 'HomeController@index')->name('home');
+
 Route::group(['prefix' => 'admin-panel'], function () {
 
     Auth::routes();
@@ -40,7 +42,14 @@ Route::group(['prefix' => 'admin-panel'], function () {
     Route::DELETE('/uploder/{tarm?}', 'Admin\uploderController@delete')->name('delete-uploder');
     Route::put('/uploder/{tarm?}', 'Admin\uploderController@update')->name('update-uploder');
 
-    Route::resource('/post', 'Admin\PostController');
+    Route::get('/post-type/all/{post_type}', 'Admin\PostController@index')->name('all-posts');
+    Route::patch('/post-type/all/{post_type}', 'Admin\PostController@show')->name('get-all-posts');
+    Route::get('/post-type/{post}', 'Admin\PostController@create')->name('create_post_type');
+    Route::get('/post-type/{post}/edit/{post_type}', 'Admin\PostController@edit')->name('edit_post_type');
+    Route::post('/post-type/{post}', 'Admin\PostController@store')->name('stor_post');
+    Route::patch('/post-type/{post}/{post_type}', 'Admin\PostController@update')->name('post_type_update');
+    Route::DELETE('/post-type/{post}/{post_type}', 'Admin\PostController@destroy')->name('post_type_delete');
+    Route::post('/chack-slug', 'Admin\PostController@chack_slug')->name('chack-slug');
+
 });
 
-Route::get('/home', 'HomeController@index')->name('home');

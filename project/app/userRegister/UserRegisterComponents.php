@@ -4,24 +4,27 @@ register_tarm([
 	'id' 	 		 	=> 'shipping', //uniq
 	'class' 	 	 	=> 'shipping',
 ]);
-
-// register_post_type([
-// 	'menu-title' 	 	=> 'Categorys',
-// 	'id' 	 		 	=> 'threee', //uniq
-// 	'title' 	 		=> 'post',
-// 	'page-title' 		=> 'post',
-// 	'add-new' 	 		=> 'Add new post',
-// 	'add-new-route' 	=> 'route-name',
-// 	'all-post-route' 	=> 'all-post-route-name',
-// 	'slug' 		 		=> 'add-post',
-// 	'parent' 	 		=> 'add-category',
-// 	'class'      		=> 'postclass', //opject name
-// ]);
+register_tarm([
+	'id' 	 		 	=> 'tags', //uniq
+	'class' 	 	 	=> 'tags',
+]);
 
 
 /*********************************************
 * Register Dashboard menu
 **********************************************/
+
+register_post_type([
+	'id' 	 		 	=> 'page', //uniq
+	'class'      		=> 'page', //opject name
+]);
+
+register_post_type([
+	'id' 	 		 	=> 'post', //uniq
+	'class'      		=> 'post', //opject name
+]);
+
+
 
 
 register_menu([
@@ -48,7 +51,7 @@ register_menu([
 register_dropdown_menu('post', [
 	'menu-title' 	 	=> 'All Posts',
 	'id' 	 		 	=> 'all-posts', //uniq
-	'url' 	 		 	=> 'post.index', //route
+	'url' 	 		 	=> ['all-posts', 'post'], //route
 	'menu-icon' 	 	=> 'fa-list-ul',
 	'capability' 	 	=> 'edith_post', //uniq
 ]);
@@ -56,7 +59,7 @@ register_dropdown_menu('post', [
 register_dropdown_menu('post', [
 	'menu-title' 	 	=> 'Add New Post',
 	'id' 	 		 	=> 'add-new-post', //uniq
-	'url' 	 		 	=> 'post.create', //route
+	'url' 	 		 	=> ['create_post_type', 'post'], //route
 	'menu-icon' 	 	=> 'fa-pencil',
 	'capability' 	 	=> 'edith_post', //uniq
 ]);
@@ -69,7 +72,44 @@ register_dropdown_menu('post', [
 	'id' 	 		 	=> 'add-category', //uniq
 	'url' 	 		 	=> ['create-tarms', '/'], //route
 	'menu-icon' 	 	=> 'fa-list-ul',
+	'capability' 	 	=> 'create_tarm', //uniq
+]);
+
+register_dropdown_menu('post', [
+	'menu-title' 	 	=> 'Tags',
+	'id' 	 		 	=> 'add-tags', //uniq
+	'url' 	 		 	=> ['create-tarms', 'tags'], //route
+	'menu-icon' 	 	=> 'fa-list-ul',
+	'capability' 	 	=> 'create_tarm', //uniq
+]);
+
+
+/*********************************************
+* Register page
+**********************************************/
+
+
+register_menu([
+	'menu-title' 	 	=> 'Page',
+	'id' 	 		 	=> 'page',
+	'menu-icon' 	 	=> 'fa-pencil-square-o', 
+	'capability' 	 	=> 'edith_page', 
+]);
+
+register_dropdown_menu('page', [
+	'menu-title' 	 	=> 'All Page',
+	'id' 	 		 	=> 'all-page', //uniq
+	'url' 	 		 	=> ['all-posts', 'page'], //route
+	'menu-icon' 	 	=> 'fa-list-ul',
 	'capability' 	 	=> 'edith_post', //uniq
+]);
+
+register_dropdown_menu('page', [
+	'menu-title' 	 	=> 'App New Page',
+	'id' 	 		 	=> 'add-page', //uniq
+	'url' 	 		 	=> ['create_post_type', 'page'], //route
+	'menu-icon' 	 	=> 'fa-list-ul',
+	'capability' 	 	=> 'edith_page', //uniq
 ]);
 
 

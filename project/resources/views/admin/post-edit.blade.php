@@ -5,14 +5,14 @@ $setting = $post_type->post_type_setting();
 @endphp
 
 @section('dashboard_tab_title')
-{{ $setting['add_new_title'] }} | {{ $setting['page_sub_title'] }}
+{{ $setting['edit_post_title'] }} | {{ $setting['page_sub_title'] }}
 @endsection
 
 
 @section('dashboard_content')
     <section class="content-header">
       <h1>
-        {{ $setting['add_new_title'] }}
+        {{ $setting['edit_post_title'] }}
         <small>{{ $setting['page_sub_title'] }}</small>
       </h1>
        @include('admin.inc.breadcrumb')
@@ -36,7 +36,7 @@ $setting = $post_type->post_type_setting();
       </div>
     @endif
 
-  {{ $post_type->post_content_output($errors) }}
+  {{ $post_type->post_type_edit_output($data_value, $errors) }}
 
 </section>
 @endsection

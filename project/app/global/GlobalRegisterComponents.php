@@ -71,4 +71,16 @@ function verify_registered_tarm($data){
 	}
 	return false;
 }
+function verify_registered_post_type($data){
+	$all_post_type = get_registered_post_type();
+	if (is_array($all_post_type) === true) {
+		foreach ($all_post_type as $psot => $postvalue) {
+			if ($postvalue['id'] == $data) {
+				return true;
+				break;
+			}
+		}
+	}
+	return false;
+}
 

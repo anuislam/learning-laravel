@@ -34,23 +34,23 @@ class tarmController extends Controller
         if (empty($url_data) === false) {
 
             if (url_gard('string', $url_data) === false) {
-               return '404 page';
+               return abort(404);
             }
 
             if (verify_registered_tarm($url_data) === false) {
-                return '404 page';
+                return abort(404);
             }
 
             $tarm_opject = 'App\TarmSubModel\\'.$url_data;
 
             if (!class_exists($tarm_opject)) {
-                return '404 page';
+                return abort(404);
             }
 
             $tarm_opject = new $tarm_opject();
 
             if ($tarm_opject->user_can($current_user['id']) === false) {
-                return '404 page';
+                return abort(404);
             }
 
             return view('admin.createTarm',[
@@ -64,7 +64,7 @@ class tarmController extends Controller
         $tarm_opject = new TarmModel();
 
         if ($tarm_opject->user_can($current_user['id']) === false) {
-            return '404 page';
+            return abort(404);
         }
 
         return view('admin.createTarm',[
@@ -139,7 +139,7 @@ class tarmController extends Controller
             return DataTables::of(DB::table('tarms')->select('id', 'tarm-slug', 'tarm-name', 'tarm-type')->where('tarm-type', $tarmname))
             ->addColumn('action', function ($tarm) {
                 $tarm_type = json_decode(json_encode($tarm), true);
-                return '<a href="'.route('edit-tarm', $tarm->id).'/'.$tarm_type['tarm-type'].'" class="btn bg-purple btn-flat margin">Edith</a> <a
+                return '<a href="'.route('edit-tarm', $tarm->id).'/'.$tarm_type['tarm-type'].'" class="btn bg-purple btn-flat">Edith</a> <a
 
             onclick="data_modal(this)" 
             data-title="Ready to Delete?"
@@ -150,7 +150,7 @@ class tarmController extends Controller
             data-parameters=\'{"_token":"'. csrf_token() .'", "_method": "DELETE"}\'
 
 
-                href="'.route('delete-tarm', $tarm->id).'" class="btn bg-maroon btn-flat margin">Delete</a>';
+                href="'.route('delete-tarm', $tarm->id).'" class="btn bg-maroon btn-flat">Delete</a>';
             })        
             ->escapeColumns(['*'])
             ->make(true);
@@ -165,7 +165,7 @@ class tarmController extends Controller
        return DataTables::of(DB::table('tarms')->select('id', 'tarm-slug', 'tarm-name', 'tarm-type')->where('tarm-type', 'category'))
         ->addColumn('action', function ($tarm) {
             global $tarmname;
-            return '<a href="'.route('edit-tarm', $tarm->id).'/" class="btn bg-purple btn-flat margin">Edith</a> <a
+            return '<a href="'.route('edit-tarm', $tarm->id).'/" class="btn bg-purple btn-flat">Edith</a> <a
 
         onclick="data_modal(this)" 
         data-title="Ready to Delete?"
@@ -176,7 +176,7 @@ class tarmController extends Controller
         data-parameters=\'{"_token":"'. csrf_token() .'", "_method": "DELETE"}\'
 
 
-            href="'.route('delete-tarm', $tarm->id).'" class="btn bg-maroon btn-flat margin">Delete</a>';
+            href="'.route('delete-tarm', $tarm->id).'" class="btn bg-maroon btn-flat">Delete</a>';
         })        
         ->escapeColumns(['*'])
         ->make(true);
@@ -189,37 +189,37 @@ class tarmController extends Controller
         if (empty($tarmname) === false) {
 
             if (url_gard('integer', $tarmid) === false) {
-               return '404 page';
+               return abort(404);
             }
 
             if (url_gard('string', $tarmname) === false) {
-               return '404 page';
+               return abort(404);
             }
 
             if (verify_registered_tarm($tarmname) === false) {
-                return '404 page';
+                return abort(404);
             }
 
             $tarm_opject = 'App\TarmSubModel\\'.$tarmname;
 
             if (!class_exists($tarm_opject)) {
-                return '404 page';
+                return abort(404);
             }
 
             $tarm_opject = new $tarm_opject();
 
             if ($tarm_opject->user_can($current_user['id']) === false) {
-                return '404 page';
+                return abort(404);
             }
 
             if ($tarm_opject->get_tarms($tarmid) === false) {
-                return '404 page';
+                return abort(404);
             }
 
             $chack_tarm = $tarm_opject->get_tarms($tarmid);
             $chack_tarm = json_decode(json_encode($chack_tarm), true);
             if ($chack_tarm['tarm-type'] != $tarmname) {
-                return '404 page';
+                return abort(404);
             }
             
             return view('admin.edit-tarm',[
@@ -232,24 +232,24 @@ class tarmController extends Controller
         }
 
         if (url_gard('integer', $tarmid) === false) {
-           return '404 page';
+           return abort(404);
         }
 
 
         $tarm_opject = new TarmModel();
 
         if ($tarm_opject->user_can($current_user['id']) === false) {
-            return '404 page';
+            return abort(404);
         }
 
         if ($tarm_opject->get_tarms($tarmid) === false) {
-            return '404 page';
+            return abort(404);
         }
 
         $chack_tarm = $tarm_opject->get_tarms($tarmid);
         $chack_tarm = json_decode(json_encode($chack_tarm), true);
         if ($chack_tarm['tarm-type'] != 'category') {
-            return '404 page';
+            return abort(404);
         }
 
         return view('admin.edit-tarm',[

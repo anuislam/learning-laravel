@@ -25,6 +25,10 @@ class UserPermission extends Model
             'edith_other_user'  => true,
             'edith_post'        => true,
             'edith_others_post'  => true,
+            'see_post'  		 => true,
+            'see_others_post'  => true,
+            'delete_post'  => true,   
+            'delete_others_post' => true,
             'manage_option'     => true,
             'create_user'    	 => true,
             'edith_roll'    	 => true,
@@ -38,6 +42,8 @@ class UserPermission extends Model
             'delete_others_media' => true,
             'see_media'    	 	 => true,        
             'see_others_media' 	 => true,
+            'edith_page' 	 	 => true,
+            'edith_other_page' 	 => true,
             'read'     => true,
         ]);
         $this->add_cap('author',[

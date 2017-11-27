@@ -55,7 +55,7 @@ Formstone.Ready(function() {
             	onCancelAll();
             }
            },
-    })
+    });
 
     // $(this).parents("form").find(".filelist.queue")
     //   .find("li")

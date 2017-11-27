@@ -9,24 +9,24 @@
   <meta name="author" content="">
   <title>@yield('dashboard_tab_title')</title>
   <!-- Bootstrap core CSS-->
-  {{ Html::style(asset('public').'/admin/bower_components/bootstrap/dist/css/bootstrap.min.css') }}
+  {{ Html::style(asset('').'/admin/bower_components/bootstrap/dist/css/bootstrap.min.css') }}
   <!-- Custom fonts for this template-->
-   {{ Html::style(asset('public').'/admin/bower_components/font-awesome/css/font-awesome.min.css') }}
+   {{ Html::style(asset('').'/admin/bower_components/font-awesome/css/font-awesome.min.css') }}
   <!-- Page level plugin CSS-->
-  {{ Html::style(asset('public').'/admin/bower_components/Ionicons/css/ionicons.min.css') }}
-  {{ Html::style(asset('public').'/admin/dist/css/AdminLTE.min.css') }}
-  {{ Html::style(asset('public').'/admin/dist/css/skins/_all-skins.min.css') }}
-  {{ Html::style(asset('public').'/admin/bower_components/morris.js/morris.css') }}
-  {{ Html::style(asset('public').'/admin/bower_components/jvectormap/jquery-jvectormap.css') }}
-  {{ Html::style(asset('public').'/admin/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}
-  {{ Html::style(asset('public').'/admin/bower_components/select2/dist/css/select2.min.css') }}
-  {{ Html::style(asset('public').'/admin/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}
+  {{ Html::style(asset('').'/admin/bower_components/Ionicons/css/ionicons.min.css') }}
+  {{ Html::style(asset('').'/admin/dist/css/AdminLTE.min.css') }}
+  {{ Html::style(asset('').'/admin/dist/css/skins/_all-skins.min.css') }}
+  {{ Html::style(asset('').'/admin/bower_components/morris.js/morris.css') }}
+  {{ Html::style(asset('').'/admin/bower_components/jvectormap/jquery-jvectormap.css') }}
+  {{ Html::style(asset('').'/admin/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}
+  {{ Html::style(asset('').'/admin/bower_components/select2/dist/css/select2.min.css') }}
+  {{ Html::style(asset('').'/admin/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}
 
-  {{ Html::style(asset('public').'/admin/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}
-  {{ Html::style(asset('public').'/admin/dist/css/AdminLTE.min.css') }}
+  {{ Html::style(asset('').'/admin/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}
+  {{ Html::style(asset('').'/admin/dist/css/AdminLTE.min.css') }}
   <!-- Custom styles for this template-->
-  {{ Html::style(asset('public').'/admin/css/upload.css') }}
-  {{ Html::style(asset('public').'/admin/css/main.css') }}
+  {{ Html::style(asset('').'/admin/css/upload.css') }}
+  {{ Html::style(asset('').'/admin/css/main.css') }}
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -97,42 +97,43 @@
     }
   </script>
 
-  {{ Html::script(asset('public').'/admin/bower_components/jquery/dist/jquery.min.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/bower_components/jquery-ui/jquery-ui.min.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/bower_components/jquery/dist/jquery.min.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/bower_components/jquery-ui/jquery-ui.min.js', ['type' => 'text/javascript']) }}
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button);
 </script>
-  {{ Html::script(asset('public').'/admin/bower_components/bootstrap/dist/js/bootstrap.min.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/bower_components/bootstrap/dist/js/bootstrap.min.js', ['type' => 'text/javascript']) }}
   <!-- Core plugin JavaScript-->
-  {{ Html::script(asset('public').'/admin/bower_components/raphael/raphael.min.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/bower_components/morris.js/morris.min.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/plugins/jvectormap/jquery-jvectormap-world-mill-en.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/bower_components/jquery-knob/dist/jquery.knob.min.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/bower_components/moment/min/moment.min.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/bower_components/bootstrap-daterangepicker/daterangepicker.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/bower_components/raphael/raphael.min.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/bower_components/morris.js/morris.min.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/plugins/jvectormap/jquery-jvectormap-world-mill-en.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/bower_components/jquery-knob/dist/jquery.knob.min.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/bower_components/moment/min/moment.min.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/bower_components/bootstrap-daterangepicker/daterangepicker.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js', ['type' => 'text/javascript']) }}
 
-  {{ Html::script(asset('public').'/admin/bower_components/jquery-slimscroll/jquery.slimscroll.min.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/plugins/iCheck/icheck.min.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/bower_components/fastclick/lib/fastclick.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/bower_components/select2/dist/js/select2.full.min.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/bower_components/datatables.net/js/jquery.dataTables.min.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/bower_components/jquery-slimscroll/jquery.slimscroll.min.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/plugins/iCheck/icheck.min.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/bower_components/fastclick/lib/fastclick.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/bower_components/select2/dist/js/select2.full.min.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/bower_components/datatables.net/js/jquery.dataTables.min.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js', ['type' => 'text/javascript']) }}
 
-  {{ Html::script(asset('public').'/admin/bower_components/tinymce/tinymce.min.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/dist/js/adminlte.min.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/bower_components/tinymce/tinymce.min.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/js/tinymcesetup.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/dist/js/adminlte.min.js', ['type' => 'text/javascript']) }}
   <!-- Page level plugin JavaScript-->
 
-  {{ Html::script(asset('public').'/admin/js/core.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/js/uploader_plugin.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/js/media-uploader.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/js/core.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/js/uploader_plugin.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/js/media-uploader.js', ['type' => 'text/javascript']) }}
 
   @yield('script')
-  {{ Html::script(asset('public').'/admin/js/custom_plugin.js', ['type' => 'text/javascript']) }}
-  {{ Html::script(asset('public').'/admin/js/main.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/js/custom_plugin.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/js/main.js', ['type' => 'text/javascript']) }}
 </body>
 
 </html>

@@ -1,15 +1,19 @@
 @extends('layouts.dashboard')
 
+
+@php
+$setting = $post_type->post_type_setting();
+@endphp
+
 @section('dashboard_tab_title')
- {{ $tarm_opject->pate_tab_title() }}
+{{ $setting['all_post_title'] }} | {{ $setting['page_sub_title'] }}
 @endsection
 
 
 @section('dashboard_content')
     <section class="content-header">
-      <h1>
-        {{$tarm_opject->pate_title()}}
-        <small>Control panel</small>
+      <h1>{{ $setting['all_post_title'] }}
+        <small>{{ $setting['page_sub_title'] }}</small>
       </h1>
        @include('admin.inc.breadcrumb')
     </section>
@@ -31,46 +35,14 @@
                 {{ Session::get('success_msg') }}
               </div>
         @endif
-        
-    <div class="row">
-      <div class="col-md-5">
-
-{{ heml_card_open($tarm_opject->page_icon(), $tarm_opject->pate_title()) }}
-
-            <div class="row">
-              <div class="col-md-12">
-                <!-- Start Form -->     
-
-  
-                {{ $tarm_opject->tarm_form_output($errors) }}                
-
-              
-              <!-- End Form -->
-
-              </div>
-            </div>
-
-{{ heml_card_close() }}
-
-      </div>
-      
-      <div class="col-md-7">
-
-{{ heml_card_open('fa fa-user', $tarm_opject->pate_title()) }}
-
-            <div class="row">
-              <div class="col-md-12">
+    
 
 
-{{ $tarm_opject->all_tarms_out_put($errors) }}
+
+{{ $post_type->show_all_post_type_output() }}
 
 
-              </div>
-            </div>
-
-{{ heml_card_close() }}
-
-      </div>
-    </div>
 </section>
+    <!-- end datatable -->
+
 @endsection

@@ -8,7 +8,7 @@
 @section('dashboard_content')
     <section class="content-header">
       <h1>
-        Add New Media
+        {{$tarm_opject->edit_page_title($get_tarm)}}
         <small>Control panel</small>
       </h1>
        @include('admin.inc.breadcrumb')

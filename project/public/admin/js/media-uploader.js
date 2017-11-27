@@ -123,7 +123,10 @@ Formstone.Ready(function() {
 				// preview_image: 	media_preview,
 	$('#global_media_uploader').on('click', '#uploder_submit', function(){
 		if (uploder_seleted !== false) {
-			if (return_selector !== false) {
+			if (return_selector == 'tinymce') {
+				return false;
+				return_selector !== false;
+			}else if (return_selector !== false) {
 				var form_group = $('#'+return_selector).closest('.form-group');
 				form_group.find('input[name="'+return_selector+'"]').val(uploder_seleted.id);
 				var image_preview = form_group.find('.uploader_image_preview');

@@ -238,3 +238,7 @@ div#uploader_image_preview {
 div.mce-fullscreen{
     z-index: 4444 !important;
 }
+
+div#global_media_uploader {
+    z-index: 9999999;
+}

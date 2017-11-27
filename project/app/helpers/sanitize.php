@@ -9,6 +9,17 @@ function sanitize_text($data){
 	return $data;
 }
 
+
+function sunatize_slug_text($data){
+    $rep = ['@','!','#','$','%','^','<','>','.','?',')','(','=','/','\\','"','\'','&','*',';',':','[',']','|','_','+'
+            ];
+    $data = str_replace(' ', '-', $data);
+    $data = str_replace($rep, '', $data);
+    return $data;
+}
+
+
+
 function sanitize_url($data, $scheme = 'http://'){	
 	if (empty($data) === false) {
 		return parse_url($data, PHP_URL_SCHEME) === null ? filter_var($scheme . $data, FILTER_SANITIZE_URL) : filter_var($data, FILTER_SANITIZE_URL) ;

@@ -100,8 +100,9 @@ class shipping extends TarmModel
 
 
     public function tarm_data_save($data, $tarm_type){
+    	$data['cat_slug'] = sunatize_slug_text($data['cat_slug']);
     	$id = DB::table('tarms')->insertGetId([
-    		'tarm-slug' => sanitize_text($data['cat_slug']),
+    		'tarm-slug' => sanitize_text(strtolower($data['cat_slug'])),
     		'tarm-name' => sanitize_text($data['cat_name']),
     		'description' => Purifier::clean($data['cat_description'], array('AutoFormat.AutoParagraph' => false,'AutoFormat.RemoveEmpty'   => true)),
     		'tarm-type' => sanitize_text($tarm_type),
@@ -224,11 +225,11 @@ class shipping extends TarmModel
 
 
     public function tarm_edit_data_update($data, $tarm_id){
-
+    	$data['cat_slug'] = sunatize_slug_text($data['cat_slug']);
     	$update_data = DB::table('tarms')
                     ->where('id',  $tarm_id)
                     ->update([
-			    		'tarm-slug' => sanitize_text($data['cat_slug']),
+			    		'tarm-slug' => sanitize_text(strtolower($data['cat_slug'])),
 			    		'tarm-name' => sanitize_text($data['cat_name']),
 			    		'description' => Purifier::clean($data['cat_description'], array('AutoFormat.AutoParagraph' => false,'AutoFormat.RemoveEmpty'   => true)),
 			    		'updated_at' => new \DateTime(),

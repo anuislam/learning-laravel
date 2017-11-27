@@ -11,6 +11,7 @@
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "*",
         "mews/purifier": "^2.0",
+        "intervention/image": "*",
         "yajra/laravel-datatables-oracle": "~8.0"
     },
     "require-dev": {
@@ -26,7 +27,8 @@
         ],
         "psr-4": {
             "App\\": "app/",
-            "TarmSubModel\\": "app/TarmSubModel/"
+            "TarmSubModel\\": "app/TarmSubModel/",
+            "PostSubModel\\": "app/PostSubModel/"
         },
         "files": [
             "app/global/GlobalRegisterComponents.php",
