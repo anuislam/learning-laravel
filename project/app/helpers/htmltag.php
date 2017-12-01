@@ -190,9 +190,11 @@ function media_uploader($data = array(), $errors){
         <a href="javascript:void(0)"            
             <?php
 
-              if (is_array($data['atts'])) {
-                foreach ($data['atts'] as $key => $value) {
-                  echo ''.$key.'="'.$value.'" ';
+              if (isset($data['atts'])) {
+                if (is_array($data['atts'])) {
+                  foreach ($data['atts'] as $key => $value) {
+                    echo ''.$key.'="'.$value.'" ';
+                  }
                 }
               }
 
@@ -289,6 +291,48 @@ if (is_array($content)) {
             <!-- /.tab-content -->
           </div>
   <?php
+}
+
+
+
+function post_type_slug_checker($ajax_url, $value = '', $atts = array()){
+?>
+  <div class="form-group" 
+    
+    data-chack-url="<?php echo $ajax_url; ?>"
+    data-chack-value="<?php echo (empty($value) === false) ? $value : '' ?>"
+            <?php
+
+              if (isset($atts['atts'])) {
+                if (is_array($atts['atts'])) {
+                  foreach ($atts['atts'] as $attskey => $attsvalue) {
+                    echo ''.$attskey.'="'.$attsvalue.'" ';
+                  }
+                }
+              }
+
+            ?>
+    >
+    <label for="post_slug" class="control-label"><?php echo @$atts['title'] ?></label>
+    <div class="input-group input-group-sm">    
+      <?php echo Form::hidden(
+        'post_slug', (empty($value) === false) ? $value : ''  ); ?>
+      <span class="form-control"><?php echo (empty($value) === false) ? $value : '' ?></span>
+      <span class="input-group-btn">
+        <button type="button" class="btn bg-olive" 
+
+        onclick="open_modal_chack_slug(this)"
+        data-title="<?php echo @$atts['title'] ?>"
+        cancel_text="Cancel"
+        submit_text="Change"
+        
+        >Edit</button>
+      </span>
+    </div>
+  </div>
+<?php
+
+
 }
 
 

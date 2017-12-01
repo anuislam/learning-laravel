@@ -59,10 +59,10 @@ class PostController extends Controller{
         $post_opject = new $post_opject();  
 
 
-
-        if ($post_opject->user_can_post_type_show($current_user['id']) === false) {
+        if (chack_post_type_user_roll($post_opject, 'read_post', 'read_post') === false) {
             return abort(404);
         }
+
 
         return view('admin.all-posts',[
             'current_user'        => $current_user,
@@ -97,7 +97,7 @@ class PostController extends Controller{
 
         $post_opject = new $post_opject();
 
-        if ($post_opject->user_can($current_user['id']) === false) {
+        if (chack_post_type_user_roll($post_opject, 'create_posts', 'create_posts') === false) {
             return abort(404);
         }
 
@@ -138,7 +138,7 @@ class PostController extends Controller{
 
         $post_opject = new $post_opject();
 
-        if ($post_opject->user_can($current_user['id']) === false) {
+        if (chack_post_type_user_roll($post_opject, 'create_posts', 'create_posts') === false) {
             return redirect()->back()->with('error_msg', 'You have no permission.' );
         }
 
@@ -169,18 +169,18 @@ class PostController extends Controller{
         $post_opject = 'App\PostSubModel\\'.$post_type;
 
         if (!class_exists($post_opject)) {
-            return abort(404);
+            return false;
         }
 
         $post_opject = new $post_opject();
 
 
-        if ($post_opject->user_can_post_type_show($current_user['id']) === false) {
+        if (chack_post_type_user_roll($post_opject, 'read_post', 'read_post') === false) {
             return false;
         }
-        
-        if ($post_opject->user_can_datatable_cap($current_user['id']) === false) {
-           $table_query['author'] = $current_user['id'];
+
+        if (chack_post_type_user_roll($post_opject, 'read_others_post', 'read_others_post') === false) {
+            $table_query['author'] = $current_user['id'];
         }
 
         $table_query['post_type'] = $post_type;
@@ -227,10 +227,16 @@ class PostController extends Controller{
                 return abort(404);
             }
 
-            if ($post_opject->user_can($current_user['id'], $edit_post_data->post_author) === false) {
+
+            if (chack_post_type_user_roll($post_opject, 'edith_post', 'edith_post') === false) {
                 return abort(404);
             }
 
+            if ($current_user['id'] != $edit_post_data->post_author) {
+                if (chack_post_type_user_roll($post_opject, 'edith_others_post', 'edith_others_post') === false) {
+                    return abort(404);
+                }
+            }
             return view('admin.post-edit',[
                 'current_user'        => $current_user,
                 'userpermission'      => $this->permission,
@@ -280,8 +286,15 @@ class PostController extends Controller{
             return redirect()->back()->with('error_msg', 'Invalid post type.' );
         }
 
-        if ($post_opject->user_can($current_user['id'], $edit_post_data->post_author) === false) {
-           return redirect()->back()->with('error_msg', 'You have no permission.' );
+
+        if (chack_post_type_user_roll($post_opject, 'edith_post', 'edith_post') === false) {
+            return redirect()->back()->with('error_msg', 'You have no permission.' );
+        }
+
+        if ($current_user['id'] != $edit_post_data->post_author) {
+            if (chack_post_type_user_roll($post_opject, 'edith_others_post', 'edith_others_post') === false) {
+                return redirect()->back()->with('error_msg', 'You have no permission.' );
+            }
         }
 
         return $post_opject->post_type_edit_data_process($request, $post_type, (int)$id);
@@ -296,10 +309,8 @@ class PostController extends Controller{
      */
     public function destroy(Request $request, $id, $post_type){
 
-
         $usermodel      = $this->usermodel;
         $current_user   = $usermodel->current_user();
-
 
         if (url_gard('integer', $id) === false) {
              return redirect()->back()->with('error_msg', 'Invalid post type id.' );
@@ -325,15 +336,39 @@ class PostController extends Controller{
             return redirect()->back()->with('error_msg', 'Invalid post type.' );
         }
 
-        if ($post_opject->user_can_delete_post($current_user['id'], $edit_post_data->post_author) === false) {
-           return redirect()->back()->with('error_msg', 'You have no permission.' );
+
+        if (chack_post_type_user_roll($post_opject, 'delete_post', 'delete_post') === false) {
+            return redirect()->back()->with('error_msg', 'You have no permission.' );
         }
 
+        if ($current_user['id'] != $edit_post_data->post_author) {
+            if (chack_post_type_user_roll($post_opject, 'delete_others_post', 'delete_others_post') === false) {
+                return redirect()->back()->with('error_msg', 'You have no permission.' );
+            }
+        }
+        
         return $this->post_type->prepare_delete_post($id, $post_type);
     }
 
 
     public function chack_slug(Request $request){
-
+        $post_data = $request->all();
+        $value = $post_data['value'];
+        $post_id = (int)$post_data['post_id'];
+        if (empty($value) === false) {
+            $slug = sunatize_slug_text($value);
+            if ($this->postmodel->chack_post_post_slug($slug, $post_id) === false) {
+                return [
+                    'type'=> 'error',
+                    'message'=> 'Slug Exists'
+                ];
+            }else{
+                return [
+                    'type'=> 'success',
+                    'value' => $slug,
+                ];
+            }
+        }
+        return false;
     }
 }

@@ -8,11 +8,11 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
 
-  {{ Html::style(asset('public').'/admin/bower_components/bootstrap/dist/css/bootstrap.min.css') }}
-  {{ Html::style(asset('public').'/admin/bower_components/font-awesome/css/font-awesome.min.css') }}
-  {{ Html::style(asset('public').'/admin/bower_components/Ionicons/css/ionicons.min.css') }}
-  {{ Html::style(asset('public').'/admin/dist/css/AdminLTE.min.css') }}
-  {{ Html::style(asset('public').'/admin/plugins/iCheck/square/blue.css') }}
+  {{ Html::style(asset('/admin/bower_components/bootstrap/dist/css/bootstrap.min.css')) }}
+  {{ Html::style(asset('/admin/bower_components/font-awesome/css/font-awesome.min.css')) }}
+  {{ Html::style(asset('/admin/bower_components/Ionicons/css/ionicons.min.css')) }}
+  {{ Html::style(asset('/admin/dist/css/AdminLTE.min.css')) }}
+  {{ Html::style(asset('/admin/plugins/iCheck/square/blue.css')) }}
 
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -42,11 +42,11 @@
 <!-- /.login-box -->
 
 <!-- jQuery 3 -->
-{{ Html::script(asset('public').'/admin/bower_components/jquery/dist/jquery.min.js', ['type' => 'text/javascript']) }}
+{{ Html::script( asset('/admin/bower_components/jquery/dist/jquery.min.js'), ['type' => 'text/javascript']) }}
 <!-- Bootstrap 3.3.7 -->
-{{ Html::script(asset('public').'/admin/bower_components/bootstrap/dist/js/bootstrap.min.js', ['type' => 'text/javascript']) }}
+{{ Html::script(asset('/admin/bower_components/bootstrap/dist/js/bootstrap.min.js'), ['type' => 'text/javascript']) }}
 <!-- iCheck -->
-{{ Html::script(asset('public').'/admin/plugins/iCheck/icheck.min.js', ['type' => 'text/javascript']) }}
+{{ Html::script(asset('/admin/plugins/iCheck/icheck.min.js'), ['type' => 'text/javascript']) }}
 <script>
   $(function () {
     $('input').iCheck({

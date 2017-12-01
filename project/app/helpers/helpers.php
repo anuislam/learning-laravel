@@ -79,3 +79,17 @@
             }
         }
     }
+
+
+// $obj ===== post type object 
+// $chak ===== chack user roll
+// $def ===== default user roll
+
+    function chack_post_type_user_roll($obj, $chak, $def) {
+        $user = Auth::User()->id;
+        $cap = $obj->post_type_setting();
+        $cap = (isset($cap['capability'])) ? $cap['capability'] : '' ;
+        $see_post = (isset($cap[$chak])) ? $cap[$chak] : $def ;
+        $permission = new App\UserPermission();
+        return $permission->user_can($see_post, $user);
+    }

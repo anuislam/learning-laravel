@@ -77,21 +77,21 @@ class BlogPost extends Model{
         $data = $post->first();
         if ($post->count() > 0) {
             if ($id == $data->id) {
-                return true;
+                return ($post->count() == 1) ? true : false ;
             }
             return false;
         }
         return true;
     }
 
-  public function slug_format($slug){
+  public function slug_format($slug, $post_id = false){
     
     $rep = ['@','!','#','$','%','^','<','>','.','?',')','(','=','/','\\','"','\'','&','*',';',':','[',']','|','_','+'
             ];
     $slug = str_replace(' ', '-', $slug);
     $slug = str_replace($rep, '', $slug);
 
-    if ($this->chack_post_post_slug($slug) === false) {
+    if ($this->chack_post_post_slug($slug, $post_id) === false) {
       $next_id  = DB::select("show table status like 'posts'");
       $next_id  = $next_id[0]->Auto_increment;    
       $slug .= '-'.$next_id;  

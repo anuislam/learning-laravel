@@ -42,25 +42,17 @@ class page extends post_type{
         'add_new_title'            => 'Add New Page',
         'all_post_title'            => 'All Pages',
         'edit_post_title'            => 'Edit Page',
-
         'page_sub_title'        => 'Blog Page',
-
         'capability'        	=> [
-		  'edit_post'          => 'edit_book', 
-		  'read_post'          => 'read_book', 
-		  'delete_post'        => 'delete_book', 
-		  'edit_posts'         => 'edit_books', 
-		  'edit_others_posts'  => 'edit_others_books', 
-		  'publish_posts'      => 'publish_books',       
-		  'read_private_posts' => 'read_private_books', 
-		  'create_posts'       => 'edit_books', 
+    		  'edith_post'          => 'edith_post', 
+    		  'edith_others_post'  => 'edith_others_post',  
+    		  'read_post'          => 'read_post', 
+    		  'read_others_post'   => 'read_others_post', 
+    		  'delete_post'        => 'delete_posssst', 
+    		  'delete_others_post' => 'delete_others_post', 
+    		  'create_posts'       => 'create_posts', 
         ],
 
-
-        'edit_post_type_cap'    => ['edith_page', 'edith_other_page', 'manage_option'],
-        'show_post_type_cap'    => ['see_post', 'manage_option'],
-        'datatable_post_type_cap'    => ['manage_option'],
-        'delete_post_type_cap'    => ['manage_option'],
       ];
     }
 
@@ -78,7 +70,8 @@ class page extends post_type{
 	    $this->post_type_output(
 	      route('post_type_update', [$data->id, $data->post_type]), 
 	      $error_msg, [
-	        'post_title' => $data->post_title,
+          'post_title' => $data->post_title,
+	        'post_id' => $data->id,
 	        'post_slug' => $data->post_slug,
 	        'post_content' => $data->post_content,
 	        'post_status' => $data->post_status
@@ -89,7 +82,7 @@ class page extends post_type{
 
   public function post_type_validation($data){
       return Validator::make($data, [
-                'post_title'      => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{2,255}$/',
+                'post_title'      => 'required|string|max:255',
                 'post_content'      => 'nullable|max:10000',
                 'post_status' => 'required|string',
             ], [
@@ -133,13 +126,14 @@ class page extends post_type{
  public function post_type_edit_data_uppdate($data , $post_id, $post_type){
     $usermodel      = $this->usermodel;
     $current_user   = $usermodel->current_user();
-
+    $data['post_slug'] = $this->postmodel->slug_format($data['post_slug'], $post_id);
       DB::table('posts')
       ->where('id', $post_id)
       ->where('post_type', $post_type)
       ->update([
         'post_title'   => sanitize_text($data['post_title']),
         'post_status'  => sanitize_text($data['post_status']),
+        'post_slug'  => sanitize_text($data['post_slug']),
         'post_content' => Purifier::clean($data['post_content'], array('AutoFormat.AutoParagraph' => false)),
         'updated_at' => new \DateTime(),
       ]);
@@ -180,30 +174,13 @@ public function post_type_output( $route, $error_msg , $value = '' ){
 
 
     if (empty($value) === false) {
-?>
 
-  <div class="form-group <?php echo $error_msg->has('post_slug') ? 'has-error' : '' ?> get_post_type_chack_slug_message" 
-    
-    data-chack-url="<?php echo route('chack-slug'); ?>"
-    data-chack-value="<?php echo (empty($value['post_slug']) === false) ? $value['post_slug'] : old('post_slug') ?>"
-
-    >
-    <label for="post_slug" class="control-label">Page slug</label>
-    <div class="input-group input-group-sm">    
-      <?php echo Form::hidden(
-        'post_slug', (empty($value['post_slug']) === false) ? $value['post_slug'] : old('post_slug')  ); ?>
-      <span class="form-control"><?php echo (empty($value['post_slug']) === false) ? $value['post_slug'] : old('post_slug'); ?></span>
-      <span class="input-group-btn">
-        <button type="button" class="btn bg-olive"  <?php
-          if (empty($value) === false) {
-            echo 'onclick="open_modal_chack_slug(this)';
-          }
-        ?> ">Edit</button>
-      </span>
-    </div>
-  </div>
-
-<?php
+      post_type_slug_checker(route('chack-slug'), $value['post_slug'], [
+          'title' => 'Page slug',
+          'atts'  => [
+            'data-post-id' => $value['post_id']
+          ]
+      ]);
 
     }
 

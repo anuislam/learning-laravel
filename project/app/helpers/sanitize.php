@@ -3,8 +3,8 @@
 function sanitize_text($data){
 	$data = trim($data);
 	$data = strip_tags($data);
-	$data = htmlentities($data);
-	$data = htmlspecialchars($data);
+	$data = htmlentities($data, ENT_XHTML, 'UTF-8');
+	$data = htmlspecialchars($data, ENT_XHTML, 'UTF-8');
 	$data = filter_var($data, FILTER_SANITIZE_STRING);
 	return $data;
 }

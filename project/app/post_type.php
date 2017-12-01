@@ -70,6 +70,7 @@ class post_type extends Model{
       $error_msg, [
         'post_title' => $data->post_title,
         'post_slug' => $data->post_slug,
+        'post_id' => $data->id,
         'post_content' => $data->post_content,
         'post_status' => $data->post_status,
         'post_tags' => explode(',', $post_tags),
@@ -109,30 +110,13 @@ class post_type extends Model{
 
 
     if (empty($value) === false) {
-?>
 
-  <div class="form-group <?php echo $error_msg->has('post_slug') ? 'has-error' : '' ?> get_post_type_chack_slug_message" 
-    
-    data-chack-url="<?php echo route('chack-slug'); ?>"
-    data-chack-value="<?php echo (empty($value['post_slug']) === false) ? $value['post_slug'] : old('post_slug') ?>"
-
-    >
-    <label for="post_slug" class="control-label">Post slug</label>
-    <div class="input-group input-group-sm">    
-      <?php echo Form::hidden(
-        'post_slug', (empty($value['post_slug']) === false) ? $value['post_slug'] : old('post_slug')  ); ?>
-      <span class="form-control"><?php echo (empty($value['post_slug']) === false) ? $value['post_slug'] : old('post_slug'); ?></span>
-      <span class="input-group-btn">
-        <button type="button" class="btn bg-olive"  <?php
-          if (empty($value) === false) {
-            echo 'onclick="open_modal_chack_slug(this)';
-          }
-        ?> ">Edit</button>
-      </span>
-    </div>
-  </div>
-
-<?php
+      post_type_slug_checker(route('chack-slug'), $value['post_slug'], [
+          'title' => 'Post slug',
+          'atts'  => [
+            'data-post-id' => $value['post_id']
+          ]
+      ]);
 
     }
 
@@ -234,28 +218,6 @@ class post_type extends Model{
 <?php echo Form::close();
   }
 
-  public function user_can($user_id, $post_author_id = '') {
-      $cap = $this->post_type_setting();
-      // $permission = new UserPermission();
-      // if (is_array($cap['edit_post_type_cap'])) {
-      //   foreach ($cap['edit_post_type_cap'] as $type_cap) {
-      //     if (empty($post_author_id) === false) {       
-      //       if ($user_id != $post_author_id) {
-      //         if ($permission->user_can($type_cap, $user_id) === false) {
-      //             return false;
-      //         }
-      //       }
-      //     }else{      
-      //       if ($permission->user_can($type_cap, $user_id) === false) {
-      //           return false;
-      //       }
-      //     }
-      //   }
-      // }
-
-      return true;
-  }
-
 
   public function post_type_data_process($request, $post_type){
     $this->post_type_validation($request->all())->validate();
@@ -264,7 +226,7 @@ class post_type extends Model{
 
   public function post_type_validation($data){
       return Validator::make($data, [
-                'post_title'      => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{2,255}$/',
+                'post_title'      => 'required|string|max:255|',
                 'post_content'      => 'nullable|max:10000',
                 'post_status' => 'required|string',
 
@@ -275,7 +237,6 @@ class post_type extends Model{
                 'post_category.*' => 'nullable|integer',
                 'post_image' => 'nullable|integer',
             ], [
-          'post_title.regex'    => 'The Post Title format is invalid.',
           'post_title.required' => 'The Post Title field is required.',
           'post_title.max'      => 'The Post Title may not be greater than 255 characters.',
           'post_title.string'   => 'The Post Title must be given string.',
@@ -344,7 +305,7 @@ class post_type extends Model{
   public function post_type_edit_data_uppdate($data , $post_id, $post_type){
     $usermodel      = $this->usermodel;
     $current_user   = $usermodel->current_user();
-
+    $data['post_slug'] = $this->postmodel->slug_format($data['post_slug'], $post_id);
     if (isset($data['post_tags'])) {
       $data['post_tags']      = implode(',', $data['post_tags']);
     }
@@ -358,6 +319,7 @@ class post_type extends Model{
       ->update([
         'post_title'   => sanitize_text($data['post_title']),
         'post_status'  => sanitize_text($data['post_status']),
+        'post_slug'    => sanitize_text($data['post_slug']),
         'post_content' => Purifier::clean($data['post_content'], array('AutoFormat.AutoParagraph' => false)),
         'updated_at' => new \DateTime(),
       ]);
@@ -370,20 +332,6 @@ class post_type extends Model{
 
 
 
-  public function user_can_post_type_show($user_id){
-
-      $cap = $this->post_type_setting();
-      $permission = new UserPermission();
-      if (is_array($cap['show_post_type_cap'])) {
-        foreach ($cap['show_post_type_cap'] as $type_cap) {
-            if ($permission->user_can($type_cap, $user_id) === false) {
-                return false;
-            }
-        }
-      }
-
-      return true;
-  }
 
   public function show_all_post_type_output(){
 
@@ -451,50 +399,6 @@ class post_type extends Model{
 <?php echo heml_card_close(); ?>
 
    <?php
-  }
-
-
-  public function user_can_datatable_cap($user_id){
-    
-      $cap = $this->post_type_setting();
-      $permission = new UserPermission();
-      // if (is_array($cap['datatable_post_type_cap'])) {
-      //   foreach ($cap['datatable_post_type_cap'] as $datatable_cap) {
-
-      //     if ($permission->user_can($datatable_cap, $user_id) === false) {
-      //         return false;
-      //     }
-
-      //   }
-      // }
-      return true;
-  }
-
-
-
-  public function user_can_delete_post($user_id, $post_author_id = '') {
-
-    $cap = $this->post_type_setting();
-    $permission = new UserPermission();
-    // if (is_array($cap['delete_post_type_cap'])) {
-    //   foreach ($cap['delete_post_type_cap'] as $delete_cap) {
-    //     if (empty($post_author_id) === false) {
-    //       if ($user_id != $post_author_id) {
-    //         if ($permission->user_can($delete_cap, $user_id) === false) {
-    //             return false;
-    //         }
-    //       }if ($permission->user_can($delete_cap, $user_id) === false) {
-    //           return false;
-    //       }
-    //     }else{
-    //       if ($permission->user_can($delete_cap, $user_id) === false) {
-    //           return false;
-    //       }
-    //     }
-    //   }
-    // }
-    
-      return true;
   }
 
 
@@ -604,9 +508,6 @@ class post_type extends Model{
     ->make(true);
 
   }
-
-
-
 
 
 }

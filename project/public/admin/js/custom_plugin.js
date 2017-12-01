@@ -75,44 +75,43 @@ function open_modal_chack_slug(th) {
     var form_group  = $(th).closest(".form-group");
     var value       = form_group.attr('data-chack-value');
     var url         = form_group.attr('data-chack-url');
+    var pop_title   = $(th).attr('data-title');
+    var cancel_text   = $(th).attr('cancel_text');
+    var submit_text   = $(th).attr('submit_text');
 
     var data_html = '<div class="form-group ">'+                        
-                        '<input placeholder="Enter Slug" class="form-control" type="text" value="'+value+'" id="chack_post_type_slug">'+
+                        '<input placeholder="'+pop_title+'" class="form-control" type="text" value="'+value+'" id="chack_post_type_slug">'+
                     '</div>';
 
     open_modal({
-        title: 'upload image',
+        title: pop_title,
         message: data_html,
-        cancel_text: 'Cancel',
+        cancel_text: cancel_text,
         close_icon:  String('fa-times'),
-        submit_text: 'Edith',
+        submit_text: String(submit_text),
         on_submit: {
             type: 'action',
             url: null,
             parameters: function () {
-                // var after_edit_val = $('#chack_post_type_slug').val();
-                // $.ajax({
-                //     type: 'POST',
-                //     url: url,
-                //     data:{
-                //       value: String(after_edit_val)
-                //     },
-                //     success: function(data){
-                //         if (data != 'empty') {
-                //             if (data.type == ' error') {
-                //                 alert(data.message);
-                //             }else{
-                //                 form_group.attr('data-chack-value', data.value);
-                //                 form_group.find('input[type="hidden"]').val(data.value);
-                //                 form_group.find('.form-control').html(data.value);
-                //                 $('#global_modal').modal('hide');
-                //             }
-                //         }
-                //     }
-                // });
-
-
-
+                 var after_edit_val = $('#chack_post_type_slug').val();
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data:{
+                      value: String(after_edit_val),
+                      post_id: form_group.attr('data-post-id')
+                    },
+                    success: function(data){
+                        if (data.type == 'error') {
+                            alert(data.message);
+                        }else{
+                            form_group.attr('data-chack-value', data.value);
+                            form_group.find('input[type="hidden"]').val(data.value);
+                            form_group.find('.form-control').html(data.value);
+                            $('#global_modal').modal('hide');
+                        }
+                    }
+                });
             }
            },
     });
