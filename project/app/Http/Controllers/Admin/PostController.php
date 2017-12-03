@@ -49,6 +49,8 @@ class PostController extends Controller{
             return abort(404);
         }
 
+        $data = str_replace('-', '_', $data);
+
         $post_opject = 'App\PostSubModel\\'.$data;
         
 
@@ -87,6 +89,8 @@ class PostController extends Controller{
         if (verify_registered_post_type($urldata) === false) {
             return abort(404);
         }
+
+        $urldata = str_replace('-', '_', $urldata);
 
         $post_opject = 'App\PostSubModel\\'.$urldata;
         
@@ -129,6 +133,9 @@ class PostController extends Controller{
             return redirect()->back()->with('error_msg', 'Invalid post type.' );
         }
 
+        $post_type = str_replace('-', '_', $post_type);
+
+
         $post_opject = 'App\PostSubModel\\'.$post_type;
         
 
@@ -165,6 +172,8 @@ class PostController extends Controller{
         if (verify_registered_post_type($post_type) === false) {
              return false;
         }
+
+        $post_type = str_replace('-', '_', $post_type);
 
         $post_opject = 'App\PostSubModel\\'.$post_type;
 
@@ -215,6 +224,9 @@ class PostController extends Controller{
             if (verify_registered_post_type($post_type) === false) {
                 return abort(404);
             }
+
+
+            $post_type = str_replace('-', '_', $post_type);
 
             $post_opject = 'App\PostSubModel\\'.$post_type;
             if (!class_exists($post_opject)) {
@@ -274,6 +286,8 @@ class PostController extends Controller{
             return redirect()->back()->with('error_msg', 'Invalid post type.' );
         }
 
+        $post_type = str_replace('-', '_', $post_type);
+
         $post_opject = 'App\PostSubModel\\'.$post_type;
         if (!class_exists($post_opject)) {
             return redirect()->back()->with('error_msg', 'Invalid post type.' );
@@ -323,6 +337,8 @@ class PostController extends Controller{
         if (verify_registered_post_type($post_type) === false) {
             return redirect()->back()->with('error_msg', 'Invalid post type.' );
         }
+
+        $post_type = str_replace('-', '_', $post_type);
 
         $post_opject = 'App\PostSubModel\\'.$post_type;
         if (!class_exists($post_opject)) {

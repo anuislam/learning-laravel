@@ -4,6 +4,7 @@ $GlobalPostType = [];
 $Globalmenu = [];
 $Globaldropdownmenu = [];
 $GlobalImageCrop = [];
+$GlobalMenupage = [];
 
 function crop_image_size($data = []){
 	global $GlobalImageCrop;
@@ -14,6 +15,11 @@ function crop_image_size($data = []){
 function register_tarm($data = []){
 	global $GlobalTarms,$Globaldropdownmenu;
 	$GlobalTarms[] = $data;
+}
+
+function add_admin_page($data = []){
+	global $GlobalMenupage;
+	$GlobalMenupage[] = $data;
 }
 
 function register_post_type($data = []){
@@ -34,6 +40,11 @@ function register_dropdown_menu($id, $data = []){
 	];
 }
 
+
+function get_add_admin_page(){
+	global $GlobalMenupage;
+	return $GlobalMenupage;
+}
 
 function get_registered_tarms(){
 	global $GlobalTarms;
@@ -59,6 +70,19 @@ function get_crop_image_size(){
 	return $GlobalImageCrop;
 }
 
+function verify_admin_page($data){
+	$all_page = get_add_admin_page();
+	if (is_array($all_page) === true) {
+		foreach ($all_page as $page => $pagevalue) {
+			if ($pagevalue['id'] == $data) {
+				return true;
+				break;
+			}
+		}
+	}
+	return false;
+}
+
 function verify_registered_tarm($data){
 	$all_tarms = get_registered_tarms();
 	if (is_array($all_tarms) === true) {
@@ -71,6 +95,8 @@ function verify_registered_tarm($data){
 	}
 	return false;
 }
+
+
 function verify_registered_post_type($data){
 	$all_post_type = get_registered_post_type();
 	if (is_array($all_post_type) === true) {

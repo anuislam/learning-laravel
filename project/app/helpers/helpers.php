@@ -93,3 +93,10 @@
         $permission = new App\UserPermission();
         return $permission->user_can($see_post, $user);
     }
+
+
+    function get_option($type){
+        $option_get = new App\options($type);
+        $option = $option_get->option_exists();
+        return (isset($option->options_value)) ? unserialize($option->options_value) : false;
+    }

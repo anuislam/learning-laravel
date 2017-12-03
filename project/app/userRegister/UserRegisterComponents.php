@@ -4,6 +4,7 @@ register_tarm([
 	'id' 	 		 	=> 'shipping', //uniq
 	'class' 	 	 	=> 'shipping',
 ]);
+
 register_tarm([
 	'id' 	 		 	=> 'tags', //uniq
 	'class' 	 	 	=> 'tags',
@@ -209,3 +210,35 @@ crop_image_size([
 	'resize' 	=> false // fit image
 ]);
 
+//admin dasboard page
+
+add_admin_page([
+	'id' 	 		 	=> 'genarel', //uniq
+	'class' 	 	 	=> 'genarel',
+]);
+
+add_admin_page([
+	'id' 	 		 	=> 'theme-option', //uniq
+	'class' 	 	 	=> 'theme-option',
+]);
+
+register_menu([
+	'menu-title' 	 	=> 'Settings',
+	'id' 	 		 	=> 'settings',
+	'menu-icon' 	 	=> 'fa-list-ul', 
+	'capability' 	 	=> 'manage_option',
+]);
+
+register_dropdown_menu('settings', [
+	'menu-title' 	 	=> 'Genarel',
+	'id' 	 		 	=> 'genarel-setting', //uniq
+	'capability' 	 	=> 'manage_option', //uniq
+	'url' 	 		 	=> ['admin-page', 'genarel'],
+]);
+
+register_dropdown_menu('settings', [
+	'menu-title' 	 	=> 'Thheme Option',
+	'id' 	 		 	=> 'theme-option', //uniq
+	'capability' 	 	=> 'manage_option', //uniq
+	'url' 	 		 	=> ['admin-page', 'theme-option'],
+]);

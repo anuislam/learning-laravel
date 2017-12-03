@@ -51,5 +51,9 @@ Route::group(['prefix' => 'admin-panel'], function () {
     Route::DELETE('/post-type/{post}/{post_type}', 'Admin\PostController@destroy')->name('post_type_delete');
     Route::post('/chack-slug', 'Admin\PostController@chack_slug')->name('chack-slug');
 
+    Route::get('/page/{post}', 'Admin\adminpageController@index')->name('admin-page');
+    Route::put('/page/{post}', 'Admin\adminpageController@update')->name('option-update');
+
+
 });
 

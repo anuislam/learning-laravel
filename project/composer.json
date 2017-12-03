@@ -28,7 +28,8 @@
         "psr-4": {
             "App\\": "app/",
             "TarmSubModel\\": "app/TarmSubModel/",
-            "PostSubModel\\": "app/PostSubModel/"
+            "PostSubModel\\": "app/PostSubModel/",
+            "AdminPagesubmode\\": "app/AdminPagesubmode/"
         },
         "files": [
             "app/global/GlobalRegisterComponents.php",

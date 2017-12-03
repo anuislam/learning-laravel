@@ -41,6 +41,7 @@ class tarmController extends Controller
                 return abort(404);
             }
 
+            $url_data = str_replace('-', '_', $url_data);
             $tarm_opject = 'App\TarmSubModel\\'.$url_data;
 
             if (!class_exists($tarm_opject)) {
@@ -87,7 +88,8 @@ class tarmController extends Controller
             if (verify_registered_tarm($tarmname) === false) {
                 return redirect()->back()->with('error_msg', 'Operation failed.');
             }
-
+            
+            $tarmname = str_replace('-', '_', $tarmname);
             $tarm_opject = 'App\TarmSubModel\\'.$tarmname;
 
             if (!class_exists($tarm_opject)) {
@@ -123,7 +125,7 @@ class tarmController extends Controller
             if (verify_registered_tarm($tarmname) === false) {
                 return false;
             }
-
+            $tarmname = str_replace('-', '_', $tarmname);
             $tarm_opject = 'App\TarmSubModel\\'.$tarmname;
 
             if (!class_exists($tarm_opject)) {
@@ -199,7 +201,7 @@ class tarmController extends Controller
             if (verify_registered_tarm($tarmname) === false) {
                 return abort(404);
             }
-
+            $tarmname = str_replace('-', '_', $tarmname);
             $tarm_opject = 'App\TarmSubModel\\'.$tarmname;
 
             if (!class_exists($tarm_opject)) {
@@ -275,7 +277,7 @@ class tarmController extends Controller
             if (verify_registered_tarm($tarmname) === false) {
                 return redirect()->back()->with('error_msg', 'Operation failed.');
             }
-
+            $tarmname = str_replace('-', '_', $tarmname);
             $tarm_opject = 'App\TarmSubModel\\'.$tarmname;
 
             if (!class_exists($tarm_opject)) {
