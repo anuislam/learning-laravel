@@ -167,7 +167,7 @@ return [
         Mews\Purifier\PurifierServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-
+        Gornymedia\Shortcodes\ShortcodesServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -234,6 +234,7 @@ return [
         'Purifier' => Mews\Purifier\Facades\Purifier::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Shortcode' => 'Gornymedia\Shortcodes\Facades\Shortcode',
 
     ],
 

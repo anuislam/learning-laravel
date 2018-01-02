@@ -289,7 +289,7 @@ class post_type extends Model{
 
         return redirect()->route('edit_post_type', [$id, 'post'])->with('success_msg', 'Post create successful.');
       }
-      return redirect()->back()->with('error_msg', 'Post create failed.');
+      return redirect()->back()->with('error_msg', 'Failed to create Post.');
   }
 
 

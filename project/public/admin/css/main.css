@@ -198,8 +198,8 @@ span.media_uploader_error_msg {
 
 span.searcg_loader {
     position: absolute;
-    right: 16px;
-    top: 20px;
+    right: 5px;
+    top: 32px;
     display: inline-block;
     height: 30px;
     width: 30px;

@@ -12,6 +12,7 @@ use Validator;
 use DB;
 use Purifier;
 use App\options;
+use Shortcode;
 
 class genarel extends admin_page{
 
@@ -24,6 +25,7 @@ class genarel extends admin_page{
     }
 
     public function page_content_output($error_msg = ''){
+
     	$option = get_option('genarel');
     	?>
 <?php echo Form::open(['url' =>  route('option-update', 'genarel'), 'method' => 'PUT']); ?>

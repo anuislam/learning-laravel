@@ -26,6 +26,9 @@
   {{ Html::style(asset('').'/admin/dist/css/AdminLTE.min.css') }}
   <!-- Custom styles for this template-->
   {{ Html::style(asset('').'/admin/css/upload.css') }}
+
+  {{ Html::style(asset('').'/admin/nestablemenu/style.css') }}
+
   {{ Html::style(asset('').'/admin/css/main.css') }}
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -93,6 +96,8 @@
       media_uploade_image_url : '{{ route("get-uploder") }}',
       media_uploade_search_url : '{{ route("search-uploder") }}',
       media_uploade_delete_url : '{{ route("delete-uploder") }}',
+      add_menu_item : '{{ route("add_menu_item") }}',
+      delete_menu_item : '{{ route("delete_menu_item") }}',
       upload_dir_url : '{{ upload_dir_url() }}',
     }
   </script>
@@ -131,6 +136,8 @@
   {{ Html::script(asset('').'/admin/js/uploader_plugin.js', ['type' => 'text/javascript']) }}
   {{ Html::script(asset('').'/admin/js/media-uploader.js', ['type' => 'text/javascript']) }}
 
+  {{ Html::script(asset('').'/admin/nestablemenu/jquery.nestable.js', ['type' => 'text/javascript']) }}
+  {{ Html::script(asset('').'/admin/nestablemenu/jquery.nestable-custom.js', ['type' => 'text/javascript']) }}
   @yield('script')
   {{ Html::script(asset('').'/admin/js/custom_plugin.js', ['type' => 'text/javascript']) }}
   {{ Html::script(asset('').'/admin/js/main.js', ['type' => 'text/javascript']) }}

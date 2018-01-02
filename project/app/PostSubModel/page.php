@@ -95,8 +95,6 @@ class page extends post_type{
 
           'post_status.required'    => 'The Page Status field is required.',
           'post_status.string'       => 'The Page Status must be given string.',
-
-
       ]);
   }
 

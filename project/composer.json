@@ -7,11 +7,12 @@
     "require": {
         "php": ">=7.0.0",
         "fideloper/proxy": "~3.3",
+        "gornymedia/laravel-shortcodes": "^1.2",
+        "intervention/image": "*",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "*",
         "mews/purifier": "^2.0",
-        "intervention/image": "*",
         "yajra/laravel-datatables-oracle": "~8.0"
     },
     "require-dev": {

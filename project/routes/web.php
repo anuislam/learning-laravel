@@ -54,6 +54,12 @@ Route::group(['prefix' => 'admin-panel'], function () {
     Route::get('/page/{post}', 'Admin\adminpageController@index')->name('admin-page');
     Route::put('/page/{post}', 'Admin\adminpageController@update')->name('option-update');
 
+    Route::put('/add-menu-item', 'Admin\menuController@add_item')->name('add_menu_item');
+    Route::patch('/add-menu-item', 'Admin\menuController@delete_item')->name('delete_menu_item');
+    Route::put('/add-main-menu', 'Admin\menuController@add_main_menu')->name('add_main_menu');
+    Route::DELETE('/delete-menu', 'Admin\menuController@delete_main_menu')->name('delete_menu');
+
+
 
 });
 

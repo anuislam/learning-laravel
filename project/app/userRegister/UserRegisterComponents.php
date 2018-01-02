@@ -25,7 +25,10 @@ register_post_type([
 	'class'      		=> 'post', //opject name
 ]);
 
-
+register_post_type([
+	'id' 	 		 	=> 'nav-menu', //uniq
+	'class'      		=> 'nav-menu', //opject name
+]);
 
 
 register_menu([
@@ -98,7 +101,7 @@ register_menu([
 ]);
 
 register_dropdown_menu('page', [
-	'menu-title' 	 	=> 'All Page',
+	'menu-title' 	 	=> 'All Pages',
 	'id' 	 		 	=> 'all-page', //uniq
 	'url' 	 		 	=> ['all-posts', 'page'], //route
 	'menu-icon' 	 	=> 'fa-list-ul',
@@ -112,6 +115,17 @@ register_dropdown_menu('page', [
 	'menu-icon' 	 	=> 'fa-list-ul',
 	'capability' 	 	=> 'edith_page', //uniq
 ]);
+
+
+
+register_menu([
+	'menu-title' 	 	=> 'Nav Menu',
+	'id' 	 		 	=> 'nav-menu',
+	'menu-icon' 	 	=> 'fa-list-ul', 
+	'capability' 	 	=> 'manage_option',
+	'url' 	 		 	=> ['create_post_type', 'nav-menu'],
+]);
+
 
 
 /*********************************************
@@ -211,6 +225,7 @@ crop_image_size([
 ]);
 
 //admin dasboard page
+
 
 add_admin_page([
 	'id' 	 		 	=> 'genarel', //uniq

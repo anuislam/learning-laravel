@@ -21,9 +21,13 @@ var global_modal_set_memori = '';
 function open_modal(data){
     var target = $('#global_modal'); 
     if (data.popup_type) {
+        target.removeClass('modal-success');
         target.addClass(data.popup_type);
     }else{
         target.addClass('modal-success');
+        target.removeClass('modal-danger');
+        target.removeClass('modal-primary');
+        target.removeClass('modal-warning');
     }
     target.find('.modal-title').html(data.title);
     target.find('.modal-body').html(data.message);
@@ -117,3 +121,12 @@ function open_modal_chack_slug(th) {
     });
 }
 
+
+function ValidURL(str) {
+var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+  if(!regex .test(str)) {
+    return false;
+  } else {
+    return true;
+  }
+}
