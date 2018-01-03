@@ -60,6 +60,5 @@ Route::group(['prefix' => 'admin-panel'], function () {
     Route::DELETE('/delete-menu', 'Admin\menuController@delete_main_menu')->name('delete_menu');
 
 
-
 });
 

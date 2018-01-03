@@ -48,7 +48,7 @@ class page extends post_type{
     		  'edith_others_post'  => 'edith_others_post',  
     		  'read_post'          => 'read_post', 
     		  'read_others_post'   => 'read_others_post', 
-    		  'delete_post'        => 'delete_posssst', 
+    		  'delete_post'        => 'delete_post', 
     		  'delete_others_post' => 'delete_others_post', 
     		  'create_posts'       => 'create_posts', 
         ],

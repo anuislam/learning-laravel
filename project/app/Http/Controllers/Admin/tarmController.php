@@ -42,13 +42,28 @@ class tarmController extends Controller
             }
 
             $url_data = str_replace('-', '_', $url_data);
-            $tarm_opject = 'App\TarmSubModel\\'.$url_data;
 
-            if (!class_exists($tarm_opject)) {
+           
+
+            $fornt_obj = 'App\FrontendModel\\'.$url_data;  
+
+            $back_obj = 'App\TarmSubModel\\'.$url_data;       
+
+            $ck_file = false;
+            if (class_exists($fornt_obj)) {
+                $ck_file = true;
+                $path_obj = $fornt_obj;
+            }else if(class_exists($back_obj)){
+                $ck_file = true;
+                $path_obj = $back_obj;
+            }
+
+            if ($ck_file === false) {
                 return abort(404);
             }
 
-            $tarm_opject = new $tarm_opject();
+
+            $tarm_opject = new $path_obj;
 
             if ($tarm_opject->user_can($current_user['id']) === false) {
                 return abort(404);
@@ -90,13 +105,27 @@ class tarmController extends Controller
             }
             
             $tarmname = str_replace('-', '_', $tarmname);
-            $tarm_opject = 'App\TarmSubModel\\'.$tarmname;
 
-            if (!class_exists($tarm_opject)) {
+
+            $fornt_obj = 'App\FrontendModel\\'.$tarmname;  
+
+            $back_obj = 'App\TarmSubModel\\'.$tarmname;       
+
+            $ck_file = false;
+            if (class_exists($fornt_obj)) {
+                $ck_file = true;
+                $path_obj = $fornt_obj;
+            }else if(class_exists($back_obj)){
+                $ck_file = true;
+                $path_obj = $back_obj;
+            }
+
+            if ($ck_file === false) {
                 return redirect()->back()->with('error_msg', 'Operation failed.');
             }
 
-            $tarm_opject = new $tarm_opject();
+
+            $tarm_opject = new $path_obj;
 
             if ($tarm_opject->user_can($current_user['id']) === false) {
                 return redirect()->back()->with('error_msg', 'Operation failed.');
@@ -126,13 +155,26 @@ class tarmController extends Controller
                 return false;
             }
             $tarmname = str_replace('-', '_', $tarmname);
-            $tarm_opject = 'App\TarmSubModel\\'.$tarmname;
 
-            if (!class_exists($tarm_opject)) {
+            $fornt_obj = 'App\FrontendModel\\'.$tarmname;  
+
+            $back_obj = 'App\TarmSubModel\\'.$tarmname;       
+
+            $ck_file = false;
+            if (class_exists($fornt_obj)) {
+                $ck_file = true;
+                $path_obj = $fornt_obj;
+            }else if(class_exists($back_obj)){
+                $ck_file = true;
+                $path_obj = $back_obj;
+            }
+
+            if ($ck_file === false) {
                 return false;
             }
 
-            $tarm_opject = new $tarm_opject();
+
+            $tarm_opject = new $path_obj();
 
             if ($tarm_opject->user_can($current_user['id']) === false) {
                 return false;
@@ -202,13 +244,25 @@ class tarmController extends Controller
                 return abort(404);
             }
             $tarmname = str_replace('-', '_', $tarmname);
-            $tarm_opject = 'App\TarmSubModel\\'.$tarmname;
 
-            if (!class_exists($tarm_opject)) {
+            $fornt_obj = 'App\FrontendModel\\'.$tarmname;  
+
+            $back_obj = 'App\TarmSubModel\\'.$tarmname;       
+
+            $ck_file = false;
+            if (class_exists($fornt_obj)) {
+                $ck_file = true;
+                $path_obj = $fornt_obj;
+            }else if(class_exists($back_obj)){
+                $ck_file = true;
+                $path_obj = $back_obj;
+            }
+
+            if ($ck_file === false) {
                 return abort(404);
             }
 
-            $tarm_opject = new $tarm_opject();
+            $tarm_opject = new $path_obj();
 
             if ($tarm_opject->user_can($current_user['id']) === false) {
                 return abort(404);
@@ -278,13 +332,25 @@ class tarmController extends Controller
                 return redirect()->back()->with('error_msg', 'Operation failed.');
             }
             $tarmname = str_replace('-', '_', $tarmname);
-            $tarm_opject = 'App\TarmSubModel\\'.$tarmname;
 
-            if (!class_exists($tarm_opject)) {
-                return redirect()->back()->with('error_msg', 'Operation failed.');
+            $fornt_obj = 'App\FrontendModel\\'.$tarmname;  
+
+            $back_obj = 'App\TarmSubModel\\'.$tarmname;       
+
+            $ck_file = false;
+            if (class_exists($fornt_obj)) {
+                $ck_file = true;
+                $path_obj = $fornt_obj;
+            }else if(class_exists($back_obj)){
+                $ck_file = true;
+                $path_obj = $back_obj;
             }
 
-            $tarm_opject = new $tarm_opject();
+            if ($ck_file === false) {
+               return redirect()->back()->with('error_msg', 'Operation failed.');
+            }
+
+            $tarm_opject = new $path_obj();
 
             if ($tarm_opject->user_can($current_user['id']) === false) {
                 return redirect()->back()->with('error_msg', 'Operation failed.');

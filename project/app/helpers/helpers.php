@@ -1,4 +1,6 @@
 <?php 
+
+
 	function get_gravatar_custom_img( $email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
 	    $url = 'https://www.gravatar.com/avatar/';
 	    $url .= md5( strtolower( trim( $email ) ) );

@@ -41,9 +41,22 @@ class adminpageController extends Controller{
         }
         $url_data = str_replace('-', '_', $url_data);
 
-        $path_obj = 'App\AdminPagesubmode\\'.$url_data; 
-        if (!class_exists($path_obj)) {
-            return abort(404);
+        $fornt_obj = 'App\FrontendModel\\'.$url_data;  
+
+        $back_obj = 'App\AdminPagesubmode\\'.$url_data;         
+
+        $ck_file = false;
+
+        if (class_exists($fornt_obj)) {
+            $ck_file = true;
+            $path_obj = $fornt_obj;
+        }else if(class_exists($back_obj)){
+        	$ck_file = true;
+        	$path_obj = $back_obj;
+        }
+
+        if ($ck_file === false) {
+        	return abort(404);
         }
 
         $setting_obj = new $path_obj;
@@ -77,11 +90,24 @@ class adminpageController extends Controller{
 
         $option_type = str_replace('-', '_', $option_type);
 
-        $path_obj = 'App\AdminPagesubmode\\'.$option_type;        
+        $fornt_obj = 'App\FrontendModel\\'.$option_type;  
 
-        if (!class_exists($path_obj)) {
-            return redirect()->back()->with('error_msg', 'Page Not Exists');
+        $back_obj = 'App\AdminPagesubmode\\'.$option_type;         
+
+        $ck_file = false;
+
+        if (class_exists($fornt_obj)) {
+            $ck_file = true;
+            $path_obj = $fornt_obj;
+        }else if(class_exists($back_obj)){
+        	$ck_file = true;
+        	$path_obj = $back_obj;
         }
+
+        if ($ck_file === false) {
+        	return redirect()->back()->with('error_msg', 'Page Not Exists');
+        }
+
         $setting_obj = new $path_obj;
 
         $roll = $setting_obj->page_setting();

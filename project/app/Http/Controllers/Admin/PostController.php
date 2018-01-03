@@ -50,15 +50,25 @@ class PostController extends Controller{
         }
 
         $data = str_replace('-', '_', $data);
+       
+        $fornt_obj = 'App\FrontendModel\\'.$data;  
 
-        $post_opject = 'App\PostSubModel\\'.$data;
-        
+        $back_obj = 'App\PostSubModel\\'.$data;        
 
-        if (!class_exists($post_opject)) {
+        $ck_file = false;
+        if (class_exists($fornt_obj)) {
+            $ck_file = true;
+            $path_obj = $fornt_obj;
+        }else if(class_exists($back_obj)){
+            $ck_file = true;
+            $path_obj = $back_obj;
+        }
+
+        if ($ck_file === false) {
             return abort(404);
         }
-        
-        $post_opject = new $post_opject();  
+
+        $post_opject = new $path_obj;  
 
 
         if (chack_post_type_user_roll($post_opject, 'read_post', 'read_post') === false) {
@@ -92,14 +102,26 @@ class PostController extends Controller{
 
         $urldata = str_replace('-', '_', $urldata);
 
-        $post_opject = 'App\PostSubModel\\'.$urldata;
         
+        $fornt_obj = 'App\FrontendModel\\'.$urldata;  
 
-        if (!class_exists($post_opject)) {
+        $back_obj = 'App\PostSubModel\\'.$urldata;        
+
+        $ck_file = false;
+        if (class_exists($fornt_obj)) {
+            $ck_file = true;
+            $path_obj = $fornt_obj;
+        }else if(class_exists($back_obj)){
+            $ck_file = true;
+            $path_obj = $back_obj;
+        }
+
+        if ($ck_file === false) {
             return abort(404);
         }
 
-        $post_opject = new $post_opject();
+
+        $post_opject = new $path_obj;
 
         if (chack_post_type_user_roll($post_opject, 'create_posts', 'create_posts') === false) {
             return abort(404);
@@ -135,15 +157,26 @@ class PostController extends Controller{
 
         $post_type = str_replace('-', '_', $post_type);
 
+     
+        $fornt_obj = 'App\FrontendModel\\'.$post_type;  
 
-        $post_opject = 'App\PostSubModel\\'.$post_type;
-        
+        $back_obj = 'App\PostSubModel\\'.$post_type;        
 
-        if (!class_exists($post_opject)) {
-            return redirect()->back()->with('error_msg', 'Invalid post type.' );
+        $ck_file = false;
+        if (class_exists($fornt_obj)) {
+            $ck_file = true;
+            $path_obj = $fornt_obj;
+        }else if(class_exists($back_obj)){
+            $ck_file = true;
+            $path_obj = $back_obj;
         }
 
-        $post_opject = new $post_opject();
+        if ($ck_file === false) {
+           return redirect()->back()->with('error_msg', 'Invalid post type.' );
+        }
+
+
+        $post_opject = new $path_obj();
 
         if (chack_post_type_user_roll($post_opject, 'create_posts', 'create_posts') === false) {
             return redirect()->back()->with('error_msg', 'You have no permission.' );
@@ -175,13 +208,26 @@ class PostController extends Controller{
 
         $post_type = str_replace('-', '_', $post_type);
 
-        $post_opject = 'App\PostSubModel\\'.$post_type;
 
-        if (!class_exists($post_opject)) {
-            return false;
+        $fornt_obj = 'App\FrontendModel\\'.$post_type;  
+
+        $back_obj = 'App\PostSubModel\\'.$post_type;        
+
+        $ck_file = false;
+        if (class_exists($fornt_obj)) {
+            $ck_file = true;
+            $path_obj = $fornt_obj;
+        }else if(class_exists($back_obj)){
+            $ck_file = true;
+            $path_obj = $back_obj;
         }
 
-        $post_opject = new $post_opject();
+        if ($ck_file === false) {
+           return false;
+        }
+
+
+        $post_opject = new $path_obj();
 
 
         if (chack_post_type_user_roll($post_opject, 'read_post', 'read_post') === false) {
@@ -228,11 +274,25 @@ class PostController extends Controller{
 
             $post_type = str_replace('-', '_', $post_type);
 
-            $post_opject = 'App\PostSubModel\\'.$post_type;
-            if (!class_exists($post_opject)) {
-                return abort(404);
+            $fornt_obj = 'App\FrontendModel\\'.$post_type;  
+
+            $back_obj = 'App\PostSubModel\\'.$post_type;        
+
+            $ck_file = false;
+            if (class_exists($fornt_obj)) {
+                $ck_file = true;
+                $path_obj = $fornt_obj;
+            }else if(class_exists($back_obj)){
+                $ck_file = true;
+                $path_obj = $back_obj;
             }
-            $post_opject = new $post_opject();
+
+            if ($ck_file === false) {
+               return abort(404);
+            }
+
+
+            $post_opject = new $path_obj();
 
             $edit_post_data = $this->postmodel->get_post($id, ['post_type' => $post_type]);
             if ($edit_post_data === false){
@@ -288,12 +348,25 @@ class PostController extends Controller{
 
         $post_type = str_replace('-', '_', $post_type);
 
-        $post_opject = 'App\PostSubModel\\'.$post_type;
-        if (!class_exists($post_opject)) {
-            return redirect()->back()->with('error_msg', 'Invalid post type.' );
+        $fornt_obj = 'App\FrontendModel\\'.$post_type;  
+
+        $back_obj = 'App\PostSubModel\\'.$post_type;        
+
+        $ck_file = false;
+        if (class_exists($fornt_obj)) {
+            $ck_file = true;
+            $path_obj = $fornt_obj;
+        }else if(class_exists($back_obj)){
+            $ck_file = true;
+            $path_obj = $back_obj;
         }
 
-        $post_opject = new $post_opject();
+        if ($ck_file === false) {
+           return redirect()->back()->with('error_msg', 'Invalid post type.' );
+        }
+
+
+        $post_opject = new $path_obj();
 
         $edit_post_data = $this->postmodel->get_post($id, ['post_type' => $post_type]);
         if ($edit_post_data === false){
@@ -340,12 +413,25 @@ class PostController extends Controller{
 
         $post_type = str_replace('-', '_', $post_type);
 
-        $post_opject = 'App\PostSubModel\\'.$post_type;
-        if (!class_exists($post_opject)) {
-            return redirect()->back()->with('error_msg', 'Invalid post type.' );
+
+        $fornt_obj = 'App\FrontendModel\\'.$post_type;  
+
+        $back_obj = 'App\PostSubModel\\'.$post_type;        
+
+        $ck_file = false;
+        if (class_exists($fornt_obj)) {
+            $ck_file = true;
+            $path_obj = $fornt_obj;
+        }else if(class_exists($back_obj)){
+            $ck_file = true;
+            $path_obj = $back_obj;
         }
 
-        $post_opject = new $post_opject();
+        if ($ck_file === false) {
+           return redirect()->back()->with('error_msg', 'Invalid post type.' );
+        }
+
+        $post_opject = new $path_obj;
 
         $edit_post_data = $this->postmodel->get_post($id, ['post_type' => $post_type]);
         if ($edit_post_data === false){
