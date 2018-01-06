@@ -11,11 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'admin-panel'], function () {
 
@@ -58,6 +53,20 @@ Route::group(['prefix' => 'admin-panel'], function () {
     Route::patch('/add-menu-item', 'Admin\menuController@delete_item')->name('delete_menu_item');
     Route::put('/add-main-menu', 'Admin\menuController@add_main_menu')->name('add_main_menu');
     Route::DELETE('/delete-menu', 'Admin\menuController@delete_main_menu')->name('delete_menu');
+
+    Route::get('/action/facebook', 'Admin\facebookController@facebook_action')->name('facebook_action');
+    Route::get('/action/facebook/callback', 'Admin\facebookController@facebook_calback')->name('facebook_calback');
+
+    Route::get('/action/twitter', 'Admin\twitterController@twitter_action')->name('twitter_action');
+    Route::get('/action/twitter/callback', 'Admin\twitterController@twitter_calback')->name('twitter_calback');
+    
+    Route::get('/action/google', 'Admin\googleController@google_action')->name('google_action');
+    Route::get('/action/google/callback', 'Admin\googleController@google_calback')->name('google_calback');
+
+
+
+    Route::get('/action/confirm-registration', 'Admin\socialLoginController@show_confirm_registration')->name('show_confirm_registration');
+    Route::post('/action/confirm-registration', 'Admin\socialLoginController@confirm_registration')->name('confirm_registration');
 
 
 });

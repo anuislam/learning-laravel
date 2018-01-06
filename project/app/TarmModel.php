@@ -271,4 +271,9 @@ class TarmModel extends Model{
         return ( $tarm_data->count() > 0 ) ? $tarm_data : false ;
     }
 
+    public function delete_tarm_with_meta($id){        
+        DB::table('tarms')->where('id', $id)->delete();    
+        DB::table('tarm_meta')->where('tarm_id', $id)->delete(); 
+    }
+
 }

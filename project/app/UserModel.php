@@ -72,15 +72,16 @@ class UserModel extends Model
     }
 
     public function get_user($data){
-    	$data = (int)$data;
-    	$user = DB::table('users')->where('id', $data)->first();
-    	return ($user) ? $user : false ;
+        $data = (int)$data;
+        $user = DB::table('users')->where('id', $data)->first();
+        return ($user) ? $user : false ;
     }
+
     
     public function get_user_by_email($data){
     	$data = (int)$data;
     	$user = DB::table('users')->where('email', $data)->first();
-    	$user = $user->email;
+    	$user = $user;
     	return ($user) ? $user : false ;
     }
 	/**
@@ -388,4 +389,61 @@ class UserModel extends Model
         return redirect()->back()->with('success_msg', 'Password change successful.' );
     }
 
+
+    public function social_login_validator($data){
+        return Validator::make($data, [
+            'fname'         => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{2,30}$/',
+            'lname'         => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{1,30}$/',
+            'email'         => 'required|string|email|max:255|unique:users',
+            'password'      => 'required|min:6|confirmed',
+            'password_confirmation' => 'required|min:6',
+            'profile_image' => 'required|url',
+        ],[
+            'fname.required'    => 'First name field is required.',
+            'fname.string'      => 'First name field must be given string.',
+            'fname.max'         => 'First name field is to long.',
+            'fname.regex'         => 'First name field is invalid format.',
+
+            'lname.required'    => 'Last name field is required.',
+            'lname.string'      => 'Last name field must be given string.',
+            'lname.max'         => 'Last name field is to long.',
+            'lname.regex'       => 'Last name field is invalid format.',
+
+            'password.required'     => 'Password field is required.',
+            'password.min'          => 'Minimum password length is 6 characters.',
+            'password.confirmed'    => 'Password and confirm password not match.',
+
+            'password_confirmation.required'     => 'Confirm password field is required.',
+            'password_confirmation.min'          => 'Minimum Confirm password length is 6 characters.',
+
+            'profile_image.required'     => 'Confirm password field is required.',
+            'profile_image.url'          => 'Please invalid avatar',
+
+            'email.required'             => 'Email field is required.',
+            'email.string'               => 'Email field must be given string.',
+            'email.email'                => 'Invalid email.',
+            'email.max'                  => 'Invalid email.',
+            'email.unique'               => 'Email already exists.',
+
+        ]);
+    }
+
+    public function reginser_using_solcial($data){
+        $id = DB::table('users')->insertGetId(
+            [
+                'fname'     => sanitize_text($data['fname']),
+                'lname'     => sanitize_text($data['lname']),
+                'roll'      => sanitize_text($data['roll']),
+                'email'     => sanitize_email($data['email']),
+                'password'  => bcrypt($data['password']),
+                'created_at'  => date_format(date_create(),"Y-m-d H:i:s"),
+                'updated_at'  => date_format(date_create(),"Y-m-d H:i:s"),
+            ]
+        );
+        if ($id) {
+            $this->update_user_meta($id, 'provider', sanitize_text($data['provider']));
+            $this->update_user_meta($id, 'avatar', sanitize_text($data['profile_image']));
+            return $id;
+        }        
+    }
 }

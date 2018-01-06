@@ -1,26 +1,45 @@
 @extends('layouts.userauth')
 
 @section('auth_tab_title')
-Registration
+Confirm Registration
 @endsection
 
 @section('auth_title')
-<a href="/"><b>Registration</b>LTE</a>
+<a href="{{ url('/') }}"><b>CONFIRM </b>REGISTRATION</a>
 @endsection
+
+
 @section('auth_content')
 
-    <p class="login-box-msg">Register a new membership</p>
-    {!! Form::open(['url' => route('register'), 'method' => 'POST']) !!}
 
+        <div class="box box-widget widget-user">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-aqua-active">
+                <h3 class="widget-user-username">{{ (empty($user['fname']) === false) ? $user['fname'] : '' }}</h3>
+            </div>
+            <div class="widget-user-image">
+              @if(empty($user['image']) === false)
+              {{ Html::image($user['image'], 'User Avatar', array('class' => 'img-circle', 'style' => 'height: 90px;width: 90px;')) }}
+              }
+              @endif
+            </div>
+            <div class="box-footer">
+              <div class="row">                
+                <div style="display:none;"></div>        
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+            </div>
+          </div>
+    
 
-
-
+    {!! Form::open(['url' => route('confirm_registration'), 'method' => 'POST']) !!}
+      {!! Form::hidden('profile_image', (empty($user['image']) === false) ? $user['image'] : old('profile_image')) !!}
       <div class="form-group has-feedback {{ $errors->has('fname') ? ' has-error' : '' }}">
 
-        {!! Form::text('fname', old('fname') , [
+        {!! Form::text('fname', (empty($user['fname']) === false) ? $user['fname'] : old('fname') , [
             'placeholder' => 'Frist Name', 
             'class' => 'form-control', 
-            'required' => '', 
             'autofocus' => '', 
             'id' => 'fname'
             ]) !!}   
@@ -35,10 +54,9 @@ Registration
       </div>
 
       <div class="form-group has-feedback {{ $errors->has('lname') ? ' has-error' : '' }}">
-            {!! Form::text('lname', old('lname') , [
+            {!! Form::text('lname', (empty($user['lname']) === false) ? $user['lname'] : old('lname') , [
                 'placeholder' => 'Last Name',
                 'class' => 'form-control',
-                'required' => '', 
                 'autofocus' => '', 
                 'id' => 'lname'
                 ]) !!}   
@@ -52,7 +70,7 @@ Registration
       </div>
 
       <div class="form-group has-feedback {{ $errors->has('email') ? ' has-error' : '' }}">
-            {!! Form::email('email', old('email') , [
+            {!! Form::email('email', (empty($user['email']) === false) ? $user['email'] : old('email') , [
                 'placeholder' => 'Enter email', 
                 'aria-describedby' => 'emailHelp', 
                 'class' => 'form-control', 
@@ -105,48 +123,14 @@ Registration
 
 
       <div class="row">
-
-        <div class="col-xs-8 {{ $errors->has('agreement') ? ' has-error' : '' }}">
-          <div class="checkbox icheck">
-            <label>
-              {!! Form::checkbox('agreement', 'yes', false) !!} I agree to the <a href="#">terms
-            </label>
-          </div>
-
-        @if ($errors->has('agreement'))
-            <span class="help-block">
-                <strong>{{ $errors->first('agreement') }}</strong>
-            </span>
-        @endif
-
-        </div>
         <!-- /.col -->
-        <div class="col-xs-4">
-          {!! Form::submit('Sign In', ['class' => 'btn btn-primary btn-block btn-flat']) !!}
+        <div class="col-sm-12">
+          {!! Form::submit('Registration', ['class' => 'btn btn-block btn-primary btn-block btn-flat']) !!}
         </div>
         <!-- /.col -->
       </div>
 
     {!! Form::close() !!}
-
-    <div class="social-auth-links text-center">
-		<p>- OR -</p>
-		<a href="{{ route('facebook_action') }}" class="btn btn-block btn-social btn-facebook">
-			<i class="fa fa-facebook"></i> 
-			Sign Up using Facebook
-		</a>
-		<a href="{{ route('google_action') }}" class="btn btn-block btn-social btn-google">
-			<i class="fa fa-google-plus"></i> 
-			Sign Up using Google+
-		</a>
-		<a href="{{ route('twitter_action') }}" class="btn btn-block btn-social btn-twitter">
-			<i class="fa fa-twitter"></i> 
-			Sign Up using Twitter
-		</a>
-    </div>
-    <!-- /.social-auth-links -->
-
-    <a href="{{ route('login') }}" class="text-center">Login</a>
 
 
 @endsection

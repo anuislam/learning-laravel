@@ -13,6 +13,7 @@ use App\options;
 class admin_page extends Model{
 
     public function page_setting(){
+    	//sss
     	return false;
     }
 

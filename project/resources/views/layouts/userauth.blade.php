@@ -27,6 +27,26 @@
 
 </head>
 <body class="hold-transition login-page">
+
+<section class="content" style="min-height: 10px">
+    @if(Session::get('error_msg'))
+    <div class="alert alert-danger alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4><i class="icon fa fa-ban"></i> Error!</h4>
+      {{ Session::get('error_msg') }}
+    </div>
+
+    @endif
+
+    @if(Session::get('success_msg'))
+      <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-check"></i> Success!</h4>
+        {{ Session::get('success_msg') }}
+      </div>
+    @endif
+</section>
+
 <div class="login-box">
   <div class="login-logo">
     @yield('auth_title')

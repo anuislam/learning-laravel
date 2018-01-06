@@ -398,7 +398,7 @@ class tarmController extends Controller
             return redirect()->back()->with('error_msg', 'Operation failed.');
         }
 
-        DB::table('tarms')->where('id', $id)->delete();    
+        $tarm_opject->delete_tarm_with_meta((int)$id);   
         return redirect()->back()->with('success_msg', 'Delete successful.' );
     }
 

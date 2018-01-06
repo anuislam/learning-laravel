@@ -65,15 +65,15 @@ Reset Password
 
     <div class="social-auth-links text-center">
       <p>- OR -</p>
-		<a href="#" class="btn btn-block btn-social btn-facebook">
+		<a href="{{ route('facebook_action') }}" class="btn btn-block btn-social btn-facebook">
 			<i class="fa fa-facebook"></i> 
 			Sign in using Facebook
 		</a>
-		<a href="#" class="btn btn-block btn-social btn-google">
+		<a href="{{ route('google_action') }}" class="btn btn-block btn-social btn-google">
 			<i class="fa fa-google-plus"></i> 
 			Sign in using Google+
 		</a>
-		<a class="btn btn-block btn-social btn-twitter">
+		<a href="{{ route('twitter_action') }}" class="btn btn-block btn-social btn-twitter">
 			<i class="fa fa-twitter"></i> 
 			Sign in using Twitter
 		</a>

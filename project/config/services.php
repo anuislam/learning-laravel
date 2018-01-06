@@ -35,4 +35,23 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+
+    'facebook' => [
+        'client_id' => env('facebook_client_id'),         // Your GitHub Client ID
+        'client_secret' => env('facebook_client_secret'), // Your GitHub Client Secret
+        'redirect' => Config('app.url').'/admin-panel/action/facebook/callback'
+    ],
+
+    'twitter' => [
+        'client_id' => env('twitter_client_id'),         // Your GitHub Client ID
+        'client_secret' => env('twitter_client_secret'), // Your GitHub Client Secret
+        'redirect' => Config('app.url').'/admin-panel/action/twitter/callback'
+    ],
+
+    'google' => [
+        'client_id' => env('google_client_id'),         // Your GitHub Client ID
+        'client_secret' => env('google_client_secret'), // Your GitHub Client Secret
+        'redirect' => Config('app.url').'/admin-panel/action/google/callback'
+    ],
+
 ];
