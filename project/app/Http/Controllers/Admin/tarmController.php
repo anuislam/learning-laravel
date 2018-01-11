@@ -37,33 +37,17 @@ class tarmController extends Controller
                return abort(404);
             }
 
-            if (verify_registered_tarm($url_data) === false) {
+            $opject = verify_registered_tarm($url_data);
+
+            if ($opject === false) {
                 return abort(404);
             }
 
-            $url_data = str_replace('-', '_', $url_data);
-
-           
-
-            $fornt_obj = 'App\FrontendModel\\'.$url_data;  
-
-            $back_obj = 'App\TarmSubModel\\'.$url_data;       
-
-            $ck_file = false;
-            if (class_exists($fornt_obj)) {
-                $ck_file = true;
-                $path_obj = $fornt_obj;
-            }else if(class_exists($back_obj)){
-                $ck_file = true;
-                $path_obj = $back_obj;
-            }
-
-            if ($ck_file === false) {
+            if(!class_exists($opject)){
                 return abort(404);
             }
 
-
-            $tarm_opject = new $path_obj;
+            $tarm_opject = new $opject;
 
             if ($tarm_opject->user_can($current_user['id']) === false) {
                 return abort(404);
@@ -73,6 +57,7 @@ class tarmController extends Controller
                     'current_user'      => $current_user,
                     'userpermission'    => $this->permission,
                     'tarm_opject'       => $tarm_opject,
+                    'tarm_type_name'    => $url_data,
                 ]);
 
         }
@@ -87,6 +72,7 @@ class tarmController extends Controller
                 'current_user'      => $current_user,
                 'userpermission'    => $this->permission,
                 'tarm_opject'       => $tarm_opject,
+                'tarm_type_name'    => NULL,
             ]);
 
     }
@@ -100,32 +86,17 @@ class tarmController extends Controller
                return redirect()->back()->with('error_msg', 'Operation failed.');
             }
 
-            if (verify_registered_tarm($tarmname) === false) {
-                return redirect()->back()->with('error_msg', 'Operation failed.');
-            }
-            
-            $tarmname = str_replace('-', '_', $tarmname);
+            $opject = verify_registered_tarm($tarmname);
 
-
-            $fornt_obj = 'App\FrontendModel\\'.$tarmname;  
-
-            $back_obj = 'App\TarmSubModel\\'.$tarmname;       
-
-            $ck_file = false;
-            if (class_exists($fornt_obj)) {
-                $ck_file = true;
-                $path_obj = $fornt_obj;
-            }else if(class_exists($back_obj)){
-                $ck_file = true;
-                $path_obj = $back_obj;
-            }
-
-            if ($ck_file === false) {
+            if ($opject === false) {
                 return redirect()->back()->with('error_msg', 'Operation failed.');
             }
 
+            if(!class_exists($opject)){
+                return redirect()->back()->with('error_msg', 'Operation failed.');
+            }
 
-            $tarm_opject = new $path_obj;
+            $tarm_opject = new $opject;
 
             if ($tarm_opject->user_can($current_user['id']) === false) {
                 return redirect()->back()->with('error_msg', 'Operation failed.');
@@ -147,57 +118,27 @@ class tarmController extends Controller
         $usermodel          = $this->usermodel;
         $current_user       = $usermodel->current_user();
         if (empty($tarmname) === false) {
-            if (url_gard('string', $tarmname) === false) {
+            if (url_gard('mix', $tarmname) === false) {
                return false;
             }
 
-            if (verify_registered_tarm($tarmname) === false) {
-                return false;
-            }
-            $tarmname = str_replace('-', '_', $tarmname);
+            $opject = verify_registered_tarm($tarmname);
 
-            $fornt_obj = 'App\FrontendModel\\'.$tarmname;  
-
-            $back_obj = 'App\TarmSubModel\\'.$tarmname;       
-
-            $ck_file = false;
-            if (class_exists($fornt_obj)) {
-                $ck_file = true;
-                $path_obj = $fornt_obj;
-            }else if(class_exists($back_obj)){
-                $ck_file = true;
-                $path_obj = $back_obj;
-            }
-
-            if ($ck_file === false) {
+            if ($opject === false) {
                 return false;
             }
 
+            if(!class_exists($opject)){
+                return false;
+            }
 
-            $tarm_opject = new $path_obj();
+            $tarm_opject = new $opject();
 
             if ($tarm_opject->user_can($current_user['id']) === false) {
                 return false;
             }
-
-            return DataTables::of(DB::table('tarms')->select('id', 'tarm-slug', 'tarm-name', 'tarm-type')->where('tarm-type', $tarmname))
-            ->addColumn('action', function ($tarm) {
-                $tarm_type = json_decode(json_encode($tarm), true);
-                return '<a href="'.route('edit-tarm', $tarm->id).'/'.$tarm_type['tarm-type'].'" class="btn bg-purple btn-flat">Edith</a> <a
-
-            onclick="data_modal(this)" 
-            data-title="Ready to Delete?"
-            data-message=\'Are you sure you want to delete this?\'
-            cancel_text="Cancel"
-            submit_text="Delete"
-            data-type="post"
-            data-parameters=\'{"_token":"'. csrf_token() .'", "_method": "DELETE"}\'
-
-
-                href="'.route('delete-tarm', $tarm->id).'" class="btn bg-maroon btn-flat">Delete</a>';
-            })        
-            ->escapeColumns(['*'])
-            ->make(true);
+           return $tarm_opject->tarm_data_for_datatable($tarmname);
+                       
         }
 
        $tarm_opject = new TarmModel();
@@ -206,24 +147,8 @@ class tarmController extends Controller
            return false;
        }
 
-       return DataTables::of(DB::table('tarms')->select('id', 'tarm-slug', 'tarm-name', 'tarm-type')->where('tarm-type', 'category'))
-        ->addColumn('action', function ($tarm) {
-            global $tarmname;
-            return '<a href="'.route('edit-tarm', $tarm->id).'/" class="btn bg-purple btn-flat">Edith</a> <a
+       return $tarm_opject->tarm_data_for_datatable('category');
 
-        onclick="data_modal(this)" 
-        data-title="Ready to Delete?"
-        data-message=\'Are you sure you want to delete this?\'
-        cancel_text="Cancel"
-        submit_text="Delete"
-        data-type="post"
-        data-parameters=\'{"_token":"'. csrf_token() .'", "_method": "DELETE"}\'
-
-
-            href="'.route('delete-tarm', $tarm->id).'" class="btn bg-maroon btn-flat">Delete</a>';
-        })        
-        ->escapeColumns(['*'])
-        ->make(true);
     }
 
 
@@ -240,29 +165,18 @@ class tarmController extends Controller
                return abort(404);
             }
 
-            if (verify_registered_tarm($tarmname) === false) {
-                return abort(404);
-            }
-            $tarmname = str_replace('-', '_', $tarmname);
 
-            $fornt_obj = 'App\FrontendModel\\'.$tarmname;  
+            $opject = verify_registered_tarm($tarmname);
 
-            $back_obj = 'App\TarmSubModel\\'.$tarmname;       
-
-            $ck_file = false;
-            if (class_exists($fornt_obj)) {
-                $ck_file = true;
-                $path_obj = $fornt_obj;
-            }else if(class_exists($back_obj)){
-                $ck_file = true;
-                $path_obj = $back_obj;
+            if ($opject === false) {
+                 return abort(404);
             }
 
-            if ($ck_file === false) {
-                return abort(404);
+            if(!class_exists($opject)){
+                 return abort(404);
             }
 
-            $tarm_opject = new $path_obj();
+            $tarm_opject = new $opject();
 
             if ($tarm_opject->user_can($current_user['id']) === false) {
                 return abort(404);
@@ -283,6 +197,7 @@ class tarmController extends Controller
                     'userpermission'    => $this->permission,
                     'tarm_opject'       => $tarm_opject,
                     'get_tarm'          => $tarm_opject->get_tarms($tarmid),
+                    'tarm_type_name'    => $tarmname,
                 ]);
 
         }
@@ -313,6 +228,7 @@ class tarmController extends Controller
                 'userpermission'    => $this->permission,
                 'tarm_opject'       => $tarm_opject,
                 'get_tarm'          => $tarm_opject->get_tarms($tarmid),
+                'tarm_type_name'    => NULL,
             ]);
     }
 
@@ -328,29 +244,17 @@ class tarmController extends Controller
                return redirect()->back()->with('error_msg', 'Operation failed.');
             }
 
-            if (verify_registered_tarm($tarmname) === false) {
-                return redirect()->back()->with('error_msg', 'Operation failed.');
-            }
-            $tarmname = str_replace('-', '_', $tarmname);
+            $opject = verify_registered_tarm($tarmname);
 
-            $fornt_obj = 'App\FrontendModel\\'.$tarmname;  
-
-            $back_obj = 'App\TarmSubModel\\'.$tarmname;       
-
-            $ck_file = false;
-            if (class_exists($fornt_obj)) {
-                $ck_file = true;
-                $path_obj = $fornt_obj;
-            }else if(class_exists($back_obj)){
-                $ck_file = true;
-                $path_obj = $back_obj;
+            if ($opject === false) {
+                 return redirect()->back()->with('error_msg', 'Operation failed.');
             }
 
-            if ($ck_file === false) {
-               return redirect()->back()->with('error_msg', 'Operation failed.');
+            if(!class_exists($opject)){
+                 return redirect()->back()->with('error_msg', 'Operation failed.');
             }
 
-            $tarm_opject = new $path_obj();
+            $tarm_opject = new $opject();
 
             if ($tarm_opject->user_can($current_user['id']) === false) {
                 return redirect()->back()->with('error_msg', 'Operation failed.');

@@ -11,7 +11,7 @@ Admin Dashboard
         Add New Media
         <small>Control panel</small>
       </h1>
-       @include('admin.inc.breadcrumb')
+      {{ Breadcrumbs::render('alluser') }}
     </section>
 
   <section class="content">

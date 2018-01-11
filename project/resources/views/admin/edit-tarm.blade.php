@@ -2,6 +2,7 @@
 
 @section('dashboard_tab_title')
  {{ $tarm_opject->edit_page_title($get_tarm) }}
+
 @endsection
 
 
@@ -11,7 +12,7 @@
         {{$tarm_opject->edit_page_title($get_tarm)}}
         <small>Control panel</small>
       </h1>
-       @include('admin.inc.breadcrumb')
+       {{ Breadcrumbs::render('edit-tarm', $get_tarm) }}
     </section>
 
   <section class="content">

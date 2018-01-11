@@ -93,6 +93,7 @@
   <script>
     var global_data = {
       token : '{{ csrf_token() }}',
+      ajax_url : '{{ route("ajax_url") }}',
       media_uploade_image_url : '{{ route("get-uploder") }}',
       media_uploade_search_url : '{{ route("search-uploder") }}',
       media_uploade_delete_url : '{{ route("delete-uploder") }}',
@@ -107,6 +108,11 @@
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button);
+  $.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': global_data.token
+      }
+  }); 
 </script>
   {{ Html::script(asset('').'/admin/bower_components/bootstrap/dist/js/bootstrap.min.js', ['type' => 'text/javascript']) }}
   <!-- Core plugin JavaScript-->

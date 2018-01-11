@@ -11,7 +11,7 @@ Your Profile | Website
         Your 
         <small>Profile</small>
       </h1>
-       @include('admin.inc.breadcrumb')
+       {{ Breadcrumbs::render('yourprofile') }}
     </section>
 
   <section class="content">

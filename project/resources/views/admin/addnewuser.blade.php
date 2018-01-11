@@ -11,7 +11,7 @@ Add New user | Website
         Add New Media
         <small>Control panel</small>
       </h1>
-       @include('admin.inc.breadcrumb')
+       {{ Breadcrumbs::render('addnewuser') }}
     </section>
 
   <section class="content">

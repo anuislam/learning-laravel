@@ -11,7 +11,7 @@ All Media | Website
         All 
         <small>Media</small>
       </h1>
-       @include('admin.inc.breadcrumb')
+       {{ Breadcrumbs::render('allmedia') }}
     </section>
 
   <section class="content">
@@ -50,11 +50,6 @@ All Media | Website
                             ['data' => 'file_type'],
                             ['data' => 'author_name'],
                             [
-                              'data' => 'post_status',
-                              'searchable' => 'false',
-                              'orderable'  => 'false',
-                            ],
-                            [
                               'data' => 'created_at',
                               'searchable' => 'false',
                               'orderable'  => 'false',
@@ -72,7 +67,6 @@ All Media | Website
                 <th>Media Title</th>
                 <th>File Type</th>
                 <th>Author</th>
-                <th>Media Status</th>
                 <th>Date</th>
                 <th>Action</th>
               </tr>

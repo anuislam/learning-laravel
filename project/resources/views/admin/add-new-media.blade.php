@@ -11,7 +11,7 @@ Add New Media | Website
         Add New 
         <small>Media</small>
       </h1>
-       @include('admin.inc.breadcrumb')
+       {{ Breadcrumbs::render('media') }}
     </section>
 
   <section class="content">

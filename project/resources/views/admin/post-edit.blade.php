@@ -15,7 +15,7 @@ $setting = $post_type->post_type_setting();
         {{ $setting['edit_post_title'] }}
         <small>{{ $setting['page_sub_title'] }}</small>
       </h1>
-       @include('admin.inc.breadcrumb')
+       {{ Breadcrumbs::render('edit_post', $data_value) }}
     </section>
 
   <section class="content">

@@ -45,6 +45,10 @@ class UserPermission extends Model
             'see_others_media' 	 => true,
             'edith_page' 	 	 => true,
             'edith_other_page' 	 => true,
+            'comment_edit' 	 	 => true,
+            'edit_others_comment' 	 	 => true,
+            'delete_comment' 	 	 => true,
+            'delete_others_comment' 	 	 => true,
             'read'     => true,
         ]);
         $this->add_cap('author',[

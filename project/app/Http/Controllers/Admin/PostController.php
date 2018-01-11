@@ -45,30 +45,18 @@ class PostController extends Controller{
              return abort(404);
         }
 
-        if (verify_registered_post_type($data) === false) {
+        $opject = verify_registered_post_type($data);
+
+        if ($opject === false) {
             return abort(404);
         }
 
-        $data = str_replace('-', '_', $data);
-       
-        $fornt_obj = 'App\FrontendModel\\'.$data;  
-
-        $back_obj = 'App\PostSubModel\\'.$data;        
-
-        $ck_file = false;
-        if (class_exists($fornt_obj)) {
-            $ck_file = true;
-            $path_obj = $fornt_obj;
-        }else if(class_exists($back_obj)){
-            $ck_file = true;
-            $path_obj = $back_obj;
-        }
-
-        if ($ck_file === false) {
+        if (!class_exists($opject)) {
             return abort(404);
         }
 
-        $post_opject = new $path_obj;  
+
+        $post_opject = new $opject;  
 
 
         if (chack_post_type_user_roll($post_opject, 'read_post', 'read_post') === false) {
@@ -80,6 +68,7 @@ class PostController extends Controller{
             'current_user'        => $current_user,
             'userpermission'      => $this->permission,
             'post_type'           => $post_opject,
+            'post_type_name'      => $data
         ]);
     }
 
@@ -96,42 +85,27 @@ class PostController extends Controller{
              return abort(404);
         }
 
-        if (verify_registered_post_type($urldata) === false) {
+        $opject = verify_registered_post_type($urldata);
+
+        if ($opject === false) {
             return abort(404);
         }
 
-        $urldata = str_replace('-', '_', $urldata);
-
-        
-        $fornt_obj = 'App\FrontendModel\\'.$urldata;  
-
-        $back_obj = 'App\PostSubModel\\'.$urldata;        
-
-        $ck_file = false;
-        if (class_exists($fornt_obj)) {
-            $ck_file = true;
-            $path_obj = $fornt_obj;
-        }else if(class_exists($back_obj)){
-            $ck_file = true;
-            $path_obj = $back_obj;
-        }
-
-        if ($ck_file === false) {
+        if (!class_exists($opject)) {
             return abort(404);
         }
 
-
-        $post_opject = new $path_obj;
+        $post_opject = new $opject;
 
         if (chack_post_type_user_roll($post_opject, 'create_posts', 'create_posts') === false) {
             return abort(404);
         }
 
-
         return view('admin.post-new',[
             'current_user'        => $current_user,
             'userpermission'      => $this->permission,
             'post_type'           => $post_opject,
+            'post_type_name'      => $urldata
         ]);
 
     }
@@ -150,33 +124,17 @@ class PostController extends Controller{
              return redirect()->back()->with('error_msg', 'Invalid post type.' );
         }
 
+        $opject = verify_registered_post_type($post_type);
 
-        if (verify_registered_post_type($post_type) === false) {
+        if ($opject === false) {
             return redirect()->back()->with('error_msg', 'Invalid post type.' );
         }
 
-        $post_type = str_replace('-', '_', $post_type);
-
-     
-        $fornt_obj = 'App\FrontendModel\\'.$post_type;  
-
-        $back_obj = 'App\PostSubModel\\'.$post_type;        
-
-        $ck_file = false;
-        if (class_exists($fornt_obj)) {
-            $ck_file = true;
-            $path_obj = $fornt_obj;
-        }else if(class_exists($back_obj)){
-            $ck_file = true;
-            $path_obj = $back_obj;
+        if (!class_exists($opject)) {
+            return redirect()->back()->with('error_msg', 'Invalid post type.' );
         }
 
-        if ($ck_file === false) {
-           return redirect()->back()->with('error_msg', 'Invalid post type.' );
-        }
-
-
-        $post_opject = new $path_obj();
+        $post_opject = new $opject();
 
         if (chack_post_type_user_roll($post_opject, 'create_posts', 'create_posts') === false) {
             return redirect()->back()->with('error_msg', 'You have no permission.' );
@@ -202,33 +160,17 @@ class PostController extends Controller{
               return false;
         }
 
-        if (verify_registered_post_type($post_type) === false) {
-             return false;
+        $opject = verify_registered_post_type($post_type);
+
+        if ($opject === false) {
+            return false;
         }
 
-        $post_type = str_replace('-', '_', $post_type);
-
-
-        $fornt_obj = 'App\FrontendModel\\'.$post_type;  
-
-        $back_obj = 'App\PostSubModel\\'.$post_type;        
-
-        $ck_file = false;
-        if (class_exists($fornt_obj)) {
-            $ck_file = true;
-            $path_obj = $fornt_obj;
-        }else if(class_exists($back_obj)){
-            $ck_file = true;
-            $path_obj = $back_obj;
+        if (!class_exists($opject)) {
+            return false;
         }
 
-        if ($ck_file === false) {
-           return false;
-        }
-
-
-        $post_opject = new $path_obj();
-
+        $post_opject = new $opject();
 
         if (chack_post_type_user_roll($post_opject, 'read_post', 'read_post') === false) {
             return false;
@@ -259,62 +201,48 @@ class PostController extends Controller{
 
 
 
-            if (url_gard('integer', $id) === false) {
-                 return abort(404);
-            }
+        if (url_gard('integer', $id) === false) {
+             return abort(404);
+        }
 
-            if (url_gard('mix', $post_type) === false) {
-                 return abort(404);
-            }
+        if (url_gard('mix', $post_type) === false) {
+             return abort(404);
+        }
 
-            if (verify_registered_post_type($post_type) === false) {
+        $opject = verify_registered_post_type($post_type);
+
+        if ($opject === false) {
+            return abort(404);
+        }
+
+        if (!class_exists($opject)) {
+            return abort(404);
+        }
+
+        $post_opject = new $opject();
+
+        $edit_post_data = $this->postmodel->get_post($id, ['post_type' => $post_type]);
+        if ($edit_post_data === false){
+            return abort(404);
+        }
+
+
+        if (chack_post_type_user_roll($post_opject, 'edith_post', 'edith_post') === false) {
+            return abort(404);
+        }
+
+        if ($current_user['id'] != $edit_post_data->post_author) {
+            if (chack_post_type_user_roll($post_opject, 'edith_others_post', 'edith_others_post') === false) {
                 return abort(404);
             }
-
-
-            $post_type = str_replace('-', '_', $post_type);
-
-            $fornt_obj = 'App\FrontendModel\\'.$post_type;  
-
-            $back_obj = 'App\PostSubModel\\'.$post_type;        
-
-            $ck_file = false;
-            if (class_exists($fornt_obj)) {
-                $ck_file = true;
-                $path_obj = $fornt_obj;
-            }else if(class_exists($back_obj)){
-                $ck_file = true;
-                $path_obj = $back_obj;
-            }
-
-            if ($ck_file === false) {
-               return abort(404);
-            }
-
-
-            $post_opject = new $path_obj();
-
-            $edit_post_data = $this->postmodel->get_post($id, ['post_type' => $post_type]);
-            if ($edit_post_data === false){
-                return abort(404);
-            }
-
-
-            if (chack_post_type_user_roll($post_opject, 'edith_post', 'edith_post') === false) {
-                return abort(404);
-            }
-
-            if ($current_user['id'] != $edit_post_data->post_author) {
-                if (chack_post_type_user_roll($post_opject, 'edith_others_post', 'edith_others_post') === false) {
-                    return abort(404);
-                }
-            }
-            return view('admin.post-edit',[
-                'current_user'        => $current_user,
-                'userpermission'      => $this->permission,
-                'post_type'           => $post_opject,
-                'data_value'           => $edit_post_data,
-            ]);
+        }
+        return view('admin.post-edit',[
+            'current_user'        => $current_user,
+            'userpermission'      => $this->permission,
+            'post_type'           => $post_opject,
+            'data_value'           => $edit_post_data,
+            'post_type_name'      => $post_type
+        ]);
         
 
 
@@ -342,31 +270,17 @@ class PostController extends Controller{
              return redirect()->back()->with('error_msg', 'Invalid post type.' );
         }
 
-        if (verify_registered_post_type($post_type) === false) {
+        $opject = verify_registered_post_type($post_type);
+
+        if ($opject === false) {
             return redirect()->back()->with('error_msg', 'Invalid post type.' );
         }
 
-        $post_type = str_replace('-', '_', $post_type);
-
-        $fornt_obj = 'App\FrontendModel\\'.$post_type;  
-
-        $back_obj = 'App\PostSubModel\\'.$post_type;        
-
-        $ck_file = false;
-        if (class_exists($fornt_obj)) {
-            $ck_file = true;
-            $path_obj = $fornt_obj;
-        }else if(class_exists($back_obj)){
-            $ck_file = true;
-            $path_obj = $back_obj;
+        if (!class_exists($opject)) {
+            return redirect()->back()->with('error_msg', 'Invalid post type.' );
         }
 
-        if ($ck_file === false) {
-           return redirect()->back()->with('error_msg', 'Invalid post type.' );
-        }
-
-
-        $post_opject = new $path_obj();
+        $post_opject = new $opject();
 
         $edit_post_data = $this->postmodel->get_post($id, ['post_type' => $post_type]);
         if ($edit_post_data === false){
@@ -407,31 +321,17 @@ class PostController extends Controller{
              return redirect()->back()->with('error_msg', 'Invalid post type.' );
         }
 
-        if (verify_registered_post_type($post_type) === false) {
+        $opject = verify_registered_post_type($post_type);
+
+        if ($opject === false) {
             return redirect()->back()->with('error_msg', 'Invalid post type.' );
         }
 
-        $post_type = str_replace('-', '_', $post_type);
-
-
-        $fornt_obj = 'App\FrontendModel\\'.$post_type;  
-
-        $back_obj = 'App\PostSubModel\\'.$post_type;        
-
-        $ck_file = false;
-        if (class_exists($fornt_obj)) {
-            $ck_file = true;
-            $path_obj = $fornt_obj;
-        }else if(class_exists($back_obj)){
-            $ck_file = true;
-            $path_obj = $back_obj;
+        if (!class_exists($opject)) {
+            return redirect()->back()->with('error_msg', 'Invalid post type.' );
         }
 
-        if ($ck_file === false) {
-           return redirect()->back()->with('error_msg', 'Invalid post type.' );
-        }
-
-        $post_opject = new $path_obj;
+        $post_opject = new $opject;
 
         $edit_post_data = $this->postmodel->get_post($id, ['post_type' => $post_type]);
         if ($edit_post_data === false){

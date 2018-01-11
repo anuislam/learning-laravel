@@ -85,18 +85,6 @@ Edith media | Website
                   </span>  
               </div>
 
-                {{ select_field([
-                    'name' => 'media_status',
-                    'title' => 'Media Status',
-                    'value' => $media->post_status,
-                    'atts' =>  ['aria-describedby' => 'MediaStatus', 'class' => 'form-control'],
-                    'items' =>  [
-                        'publish' => 'Publish',
-                        'pending' => 'Pending',
-                        'trush' => 'Trush',
-                    ],
-                  ], $errors) }}
-
                 {{ text_field([
                     'name' => 'mtitle',
                     'title' => 'Media Title',

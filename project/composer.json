@@ -6,14 +6,19 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "davejamesmiller/laravel-breadcrumbs": "^4.2",
         "fideloper/proxy": "~3.3",
         "gornymedia/laravel-shortcodes": "^1.2",
+        "hootlex/laravel-moderation": "^1.0",
         "intervention/image": "*",
+        "jackiedo/dotenv-editor": "1.*",
         "laravel/framework": "5.5.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "*",
         "mews/purifier": "^2.0",
+        "nwidart/laravel-modules": "^2.6",
+        "rap2hpoutre/laravel-log-viewer": "^0.11.0",
         "yajra/laravel-datatables-oracle": "~8.0"
     },
     "require-dev": {
@@ -29,18 +34,16 @@
         ],
         "psr-4": {
             "App\\": "app/",
-            "FrontendModel\\": "app/FrontendModel/",
-            "TarmSubModel\\": "app/TarmSubModel/",
-            "PostSubModel\\": "app/PostSubModel/",
-            "AdminPagesubmode\\": "app/AdminPagesubmode/"
+            "Modules\\": "Modules/",
+            "registerModel\\": "app/registerModel/"
         },
         "files": [
-            "app/global/GlobalRegisterComponents.php",
-            "app/userRegister/UserRegisterComponents.php",
+            "app/helpers/GlobalRegisterComponents.php",
+            "app/helpers/UserRegisterComponents.php",
             "app/helpers/helpers.php",
             "app/helpers/htmltag.php",
             "app/helpers/sanitize.php",
-            "app/global/AdminSetupMenu.php"
+            "app/helpers/AdminSetupMenu.php"
         ]
     },
     "autoload-dev": {

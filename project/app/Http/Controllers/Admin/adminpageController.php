@@ -35,31 +35,16 @@ class adminpageController extends Controller{
         if (url_gard('mix', $url_data) === false) {
              return abort(404);
         }
-
-        if (verify_admin_page($url_data) === false) {
+        $obj_path = verify_admin_page($url_data);
+        if ($obj_path === false) {
             return abort(404);
         }
-        $url_data = str_replace('-', '_', $url_data);
 
-        $fornt_obj = 'App\FrontendModel\\'.$url_data;  
-
-        $back_obj = 'App\AdminPagesubmode\\'.$url_data;         
-
-        $ck_file = false;
-
-        if (class_exists($fornt_obj)) {
-            $ck_file = true;
-            $path_obj = $fornt_obj;
-        }else if(class_exists($back_obj)){
-        	$ck_file = true;
-        	$path_obj = $back_obj;
+        if(!class_exists($obj_path)){
+            return abort(404);
         }
 
-        if ($ck_file === false) {
-        	return abort(404);
-        }
-
-        $setting_obj = new $path_obj;
+        $setting_obj = new $obj_path;
 
         $roll = $setting_obj->page_setting();
         $capability = (isset($roll['capability'])) ? $roll['capability'] : 'manage_option' ;
@@ -84,31 +69,16 @@ class adminpageController extends Controller{
              return redirect()->back()->with('error_msg', 'Invalid Option type');
         }
 
-        if (verify_admin_page($option_type) === false) {
+        $obj_path = verify_admin_page($option_type);
+        if ($obj_path === false) {
             return redirect()->back()->with('error_msg', 'Invalid Option type');
         }
 
-        $option_type = str_replace('-', '_', $option_type);
-
-        $fornt_obj = 'App\FrontendModel\\'.$option_type;  
-
-        $back_obj = 'App\AdminPagesubmode\\'.$option_type;         
-
-        $ck_file = false;
-
-        if (class_exists($fornt_obj)) {
-            $ck_file = true;
-            $path_obj = $fornt_obj;
-        }else if(class_exists($back_obj)){
-        	$ck_file = true;
-        	$path_obj = $back_obj;
+        if(!class_exists($obj_path)){
+            return redirect()->back()->with('error_msg', 'Page Not Exists');
         }
 
-        if ($ck_file === false) {
-        	return redirect()->back()->with('error_msg', 'Page Not Exists');
-        }
-
-        $setting_obj = new $path_obj;
+        $setting_obj = new $obj_path;
 
         $roll = $setting_obj->page_setting();
         $capability = (isset($roll['capability'])) ? $roll['capability'] : 'manage_option' ;

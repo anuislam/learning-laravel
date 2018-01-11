@@ -15,7 +15,7 @@ $setting = $page->page_setting();
         {{ $setting['page_title'] }}
         <small>{{ $setting['page_sub_title'] }}</small>
       </h1>
-       @include('admin.inc.breadcrumb')
+       {{ Breadcrumbs::render('adminpage', $setting['page_title']) }}
     </section>
 
   <section class="content">

@@ -199,13 +199,14 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              {{ Html::image(get_gravatar_custom_img($current_user['email'], 25), $current_user['fname'].' '. $current_user['lname'], array('class' => 'user-image')) }}
+              {{ Html::image(($current_user['avatar']) ? $current_user['avatar'] : get_gravatar_custom_img($current_user['email'], 25), $current_user['fname'].' '. $current_user['lname'], array('class' => 'user-image')) }}
               <span class="hidden-xs"> {{$current_user['fname'].' '. $current_user['lname']}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                {{ Html::image(get_gravatar_custom_img($current_user['email'], 160), $current_user['fname'].' '. $current_user['lname'], array('class' => 'img-circle')) }}
+                {{ Html::image(
+                    ($current_user['avatar']) ? $current_user['avatar'] : get_gravatar_custom_img($current_user['email'], 160), $current_user['fname'].' '. $current_user['lname'], array('class' => 'img-circle')) }}
 
                 <p>
                   {{$current_user['fname'].' - '. $current_user['lname']}}

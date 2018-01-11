@@ -11,12 +11,14 @@
 |
 */
 
+Route::get('/', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'admin-panel'], function () {
 
     Auth::routes();
     Route::get('/', 'Admin\DashboardController@index');
     Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard');
+    
     Route::resource('/user', 'Admin\UsersController');
     Route::get('/users', 'Admin\UsersController@all_users')->name('all-users');
     Route::post('/user/stor-user', 'Admin\UsersController@stor_user')->name('stor-user');
@@ -68,6 +70,9 @@ Route::group(['prefix' => 'admin-panel'], function () {
     Route::get('/action/confirm-registration', 'Admin\socialLoginController@show_confirm_registration')->name('show_confirm_registration');
     Route::post('/action/confirm-registration', 'Admin\socialLoginController@confirm_registration')->name('confirm_registration');
 
+    Route::get('/setting/log', 'Admin\LogViewerController@index')->name('log_edit');
+    
+    Route::post('/action/ajax', 'Admin\ajaxController@handle_ajax_request')->name('ajax_url');
 
 });
 

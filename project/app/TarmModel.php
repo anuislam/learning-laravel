@@ -11,6 +11,7 @@ use \DB;
 use Validator;
 use Purifier;
 use Carbon;
+use DataTables;
 
 class TarmModel extends Model{
 
@@ -274,6 +275,27 @@ class TarmModel extends Model{
     public function delete_tarm_with_meta($id){        
         DB::table('tarms')->where('id', $id)->delete();    
         DB::table('tarm_meta')->where('tarm_id', $id)->delete(); 
+    }
+
+    public function tarm_data_for_datatable($tarm_type){
+        return DataTables::of(DB::table('tarms')->select('id', 'tarm-slug', 'tarm-name', 'tarm-type')->where('tarm-type', $tarm_type))
+        ->addColumn('action', function ($tarm) {
+            global $tarmname;
+            return '<a href="'.route('edit-tarm', $tarm->id).'/" class="btn bg-purple btn-flat">Edith</a> <a
+
+        onclick="data_modal(this)" 
+        data-title="Ready to Delete?"
+        data-message=\'Are you sure you want to delete this?\'
+        cancel_text="Cancel"
+        submit_text="Delete"
+        data-type="post"
+        data-parameters=\'{"_token":"'. csrf_token() .'", "_method": "DELETE"}\'
+
+
+            href="'.route('delete-tarm', $tarm->id).'" class="btn bg-maroon btn-flat">Delete</a>';
+        })        
+        ->escapeColumns(['*'])
+        ->make(true);
     }
 
 }

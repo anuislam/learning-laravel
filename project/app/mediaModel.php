@@ -294,14 +294,12 @@ class mediaModel extends Model{
 		$id = (int)$id;
 	    $update['mtitle'] 			= sanitize_text($request['mtitle']);
 	    $update['alt'] 				= sanitize_text($request['alt']);
-	    $update['post_status'] 		= sanitize_text($request['media_status']);
 	    $update['description'] 		= Purifier::clean($request['description'], array('AutoFormat.AutoParagraph' => false,'AutoFormat.RemoveEmpty'   => true));
 
 		$data = DB::table('posts')
 	              ->where('id',  $id)
 	              ->update([
 	              		'post_title' 	=> $update['mtitle'] ,
-	              		'post_status' 	=> $update['post_status'] ,
 	              		'updated_at' 	=> new \DateTime() ,
 	              ]);  
 	    $this->post->update_post_meta($id, 'alt', $update['alt']);	     
@@ -314,7 +312,6 @@ class mediaModel extends Model{
 			    'mtitle' 		 => 'nullable|string|max:255',
 			    'alt' 	 		 => 'nullable|string|max:255',
 			    'description' 	 => 'nullable|max:5000',
-			    'media_status' 	 => 'required|string|max:30|regex:/^[a-zA-Z]{2,30}$/',
 			], 
 			[
 				'mtitle.max' => 'The media title may not be greater than 255 characters.',
@@ -322,11 +319,6 @@ class mediaModel extends Model{
 
 				'alt.max' => 'The Alt may not be greater than 255 characters.',
 				'alt.string' => 'The Alt must be given string.',
-
-				'media_status.max' => 'The media status may not be greater than 30 characters.',
-				'media_status.required' => 'The media status field is required.',
-				'media_status.regex' => 'The media status format is invalid.',
-				'media_status.string' => 'The media status must be given string.',
 			]
 		);
 	}
@@ -406,7 +398,6 @@ class mediaModel extends Model{
 			$this->update_media([
 				'mtitle'		=>	$data['mtitle'],
 				'alt'			=>	$data['alt'],
-				'media_status'	=>	'publish',
 				'description'	=>	$data['description'],
 			], $id);
 		}

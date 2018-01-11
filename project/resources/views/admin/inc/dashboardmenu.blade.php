@@ -5,7 +5,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          {{ Html::image(get_gravatar_custom_img($current_user['email'], 160), $current_user['fname'].' '. $current_user['lname'], array('class' => 'img-circle')) }}
+          {{ Html::image(($current_user['avatar']) ? $current_user['avatar'] : get_gravatar_custom_img($current_user['email'], 160), $current_user['fname'].' '. $current_user['lname'], array('class' => 'img-circle')) }}
         </div>
         <div class="pull-left info">
           <p>{{$current_user['fname'].' '. $current_user['lname']}}</p>

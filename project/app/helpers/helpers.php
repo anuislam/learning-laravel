@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
 	function get_gravatar_custom_img( $email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
@@ -102,3 +102,5 @@
         $option = $option_get->option_exists();
         return (isset($option->options_value)) ? unserialize($option->options_value) : false;
     }
+
+    new App\handel_hooks();

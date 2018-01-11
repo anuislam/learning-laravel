@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 use App\UserModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use DotenvEditor;
+use Breadcrumbs;
 
 class DashboardController extends Controller
 {

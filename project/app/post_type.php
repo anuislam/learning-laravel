@@ -10,6 +10,7 @@ use Auth;
 use Input;
 use App\UserModel;
 use App\mediaModel;
+use App\Post;
 use Image;
 use Validator;
 use App\BlogPost;
@@ -392,7 +393,6 @@ class post_type extends Model{
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
-              </tr>
             </tfoot>
           </table>
 
@@ -432,6 +432,7 @@ class post_type extends Model{
       }else{
         $exe_query = $post_query->where('post_type', 'post');
       }
+      $exe_query = $exe_query->orderBy('id', 'desc');
 // btn btn-default btn-xs
     return DataTables::of($exe_query)    
     ->addColumn('post_author', function ($post) {

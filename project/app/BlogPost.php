@@ -14,6 +14,7 @@ use \Purifier;
 use \DataTables;
 use App\Rules\is_own_email;
 use App\TarmModel;
+use App\Post;
 
 class BlogPost extends Model{
 

@@ -5,13 +5,14 @@
 @endsection
 
 
+
 @section('dashboard_content')
     <section class="content-header">
       <h1>
         {{$tarm_opject->pate_title()}}
         <small>Control panel</small>
       </h1>
-       @include('admin.inc.breadcrumb')
+       {{ Breadcrumbs::render('tarms', $tarm_type_name) }}
     </section>
 
   <section class="content">

@@ -128,7 +128,8 @@ class UserModel extends Model
             'description'  => $this->get_user_meta($cur_user->id, 'description'),
             'website'      => $this->get_user_meta($cur_user->id, 'website'),
             'facebook'     => $this->get_user_meta($cur_user->id, 'facebook'),
-			'google'       => $this->get_user_meta($cur_user->id, 'google'),
+            'google'       => $this->get_user_meta($cur_user->id, 'google'),
+			'avatar'       => $this->get_user_meta($cur_user->id, 'avatar'),
 		];
 		return $data;
     }

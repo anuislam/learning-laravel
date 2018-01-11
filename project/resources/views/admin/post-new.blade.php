@@ -15,7 +15,7 @@ $setting = $post_type->post_type_setting();
         {{ $setting['add_new_title'] }}
         <small>{{ $setting['page_sub_title'] }}</small>
       </h1>
-       @include('admin.inc.breadcrumb')
+       {{ Breadcrumbs::render('add_new_post', $post_type_name) }}
     </section>
 
   <section class="content">

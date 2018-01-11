@@ -1,3 +1,39 @@
+
+function delete_comment(id) {
+    open_modal({
+        title: 'Ready to Delete?',
+        message: 'Are you sure you want to delete?',
+        cancel_text: 'Cancel',
+        close_icon:  String('fa-times'),
+        submit_text: 'Delete',
+        popup_type: String('modal-danger'),
+        on_submit: {
+            type: 'ajax',
+            url: null,
+            parameters: function () {
+                $.ajax({
+                    type: 'POST',
+                    url: global_data.ajax_url,
+                    data:{
+                      action: 'admin_comment_delete',
+                      comment_id: id
+                    },
+                    success: function(data){
+                        var target = $('#global_modal');
+                        if (data == 'ok') {
+                            alert('comment delete successful.');
+                            location.reload();
+                        }else{
+                            alert('Failed to delete comment.');
+                            target.modal('hide');
+                        }
+                    }
+                });
+            }
+           },
+    });
+}
+
 function data_modal(th){
     event.preventDefault();
     var current_tag = $(th);

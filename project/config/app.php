@@ -168,6 +168,9 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Gornymedia\Shortcodes\ShortcodesServiceProvider::class,
+        Jackiedo\DotenvEditor\DotenvEditorServiceProvider::class,
+        Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
+        Hootlex\Moderation\ModerationServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -235,6 +238,7 @@ return [
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Shortcode' => 'Gornymedia\Shortcodes\Facades\Shortcode',
+        'DotenvEditor' => Jackiedo\DotenvEditor\Facades\DotenvEditor::class,
 
     ],
 
