@@ -24,6 +24,7 @@
 
   {{ Html::style(asset('').'/admin/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}
   {{ Html::style(asset('').'/admin/dist/css/AdminLTE.min.css') }}
+  {{ Html::style(asset('').'/admin/plugins/iCheck/square/blue.css') }}
   <!-- Custom styles for this template-->
   {{ Html::style(asset('').'/admin/css/upload.css') }}
 
@@ -39,8 +40,10 @@
   <![endif]-->
   {{ Html::style('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">') }}
 
-
   @yield('style')
+
+  {{do_action('admin_header')}}
+  
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -147,6 +150,17 @@
   @yield('script')
   {{ Html::script(asset('').'/admin/js/custom_plugin.js', ['type' => 'text/javascript']) }}
   {{ Html::script(asset('').'/admin/js/main.js', ['type' => 'text/javascript']) }}
+<script>
+  $(function () {
+    $('input').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue',
+      increaseArea: '20%' // optional
+    });
+    $('.daterangepicker_action').daterangepicker();
+  });
+</script>
+  {{do_action('admin_footer')}}
 </body>
 
 </html>

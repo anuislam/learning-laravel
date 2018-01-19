@@ -1,5 +1,31 @@
 <?php
 
+function date_range_field($data = array(), $errors){
+  $data['name']      = (isset($data['name'])) ? $data['name'] : '' ;
+  $data['title']     = (isset($data['title'])) ? $data['title'] : '' ;
+  $data['value']     = (isset($data['value'])) ? $data['value'] : '' ;
+  $data['icon']       = (isset($data['icon'])) ? $data['icon'] : 'fa fa-calendar' ;
+  $data['atts']      = (isset($data['atts'])) ? $data['atts'] : [] ;  
+  ?>
+
+    <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
+      <?php echo Form::label( $data['name'], $data['title'], ['class' => 'control-label'] ); ?>
+      <div class="input-group">
+        <div class="input-group-addon">
+          <i class="<?php echo $data['icon']; ?>"></i>
+        </div>
+
+        <?php echo Form::text(  $data['name'], $data['value'], $data['atts'] ); ?>
+      </div>
+      <?php if ($errors->has($data['name'])) : ?>
+        <span class="help-block">
+            <strong><?php echo $errors->first($data['name'])  ?></strong>
+        </span>
+      <?php endif; ?>
+    </div>
+  <?php
+}
+
 function text_field($data = array(), $errors){
   $data['name']      = (isset($data['name'])) ? $data['name'] : '' ;
   $data['title']     = (isset($data['title'])) ? $data['title'] : '' ;
@@ -11,6 +37,27 @@ function text_field($data = array(), $errors){
   <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
     <?php echo Form::label( $data['name'], $data['title'], ['class' => 'control-label'] ); ?>
     <?php echo Form::text(  $data['name'], $data['value'], $data['atts'] ); ?>
+    <?php if ($errors->has($data['name'])) : ?>
+    <span class="help-block">
+        <strong><?php echo $errors->first($data['name'])  ?></strong>
+    </span>
+    <?php endif; ?>
+  </div>
+
+  <?php
+}
+
+function number_field($data = array(), $errors){
+  $data['name']      = (isset($data['name'])) ? $data['name'] : '' ;
+  $data['title']     = (isset($data['title'])) ? $data['title'] : '' ;
+  $data['value']     = (isset($data['value'])) ? $data['value'] : '' ;
+  $data['atts']      = (isset($data['atts'])) ? $data['atts'] : [] ;  
+  ?>
+
+
+  <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
+    <?php echo Form::label( $data['name'], $data['title'], ['class' => 'control-label'] ); ?>
+    <?php echo Form::number(  $data['name'], $data['value'], $data['atts'] ); ?>
     <?php if ($errors->has($data['name'])) : ?>
     <span class="help-block">
         <strong><?php echo $errors->first($data['name'])  ?></strong>
@@ -334,5 +381,12 @@ function post_type_slug_checker($ajax_url, $value = '', $atts = array()){
 
 
 }
+
+
+
+function submib_button($data, $error = ''){
+  echo Form::submit($data['title'], $data['attr']);
+}
+
 
 

@@ -1,0 +1,17 @@
+{
+    "name": "Eccommerce",
+    "alias": "eccommerce",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Eccommerce\\Providers\\EccommerceServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php",
+        "helper.php"
+    ],
+    "requires": []
+}

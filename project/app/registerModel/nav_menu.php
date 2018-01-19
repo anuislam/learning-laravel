@@ -89,7 +89,6 @@ class nav_menu extends post_type{
 
 
   public function post_type_data_save($data, $post_type) {
-    
     if (empty($data['menu_json_output']) === false) {
       $menuModel = new menuModel();
       $menudata = json_decode($data['menu_json_output']);
@@ -107,6 +106,10 @@ class nav_menu extends post_type{
                 'url' => sanitize_url($menuvalue['url']),
                 'parent_id' => ($menuvalue['parent'] == 'null') ? NULL : (int)$menuvalue['parent'],
                 'menu_order' => (int)$meny_key,
+                'attr' => serialize([
+                  'icon'  => sanitize_text($menuvalue['icon']),
+                  'class' => sanitize_text(sunatize_slug_text($menuvalue['class'])),
+                ]),
               ]);
           }
         }
@@ -336,6 +339,8 @@ public function set_up_menu_func($data, $count = false,  $id = 'null'){
             'url'     => $m['url'],
             'parent'  => $id,
             'id'      => $m['id'],
+            'icon'    => $m['icon'],
+            'class'   => $m['class']
         ];
         $this->set_up_menu_func($m['children'], true, $m['id']);
       }else{    
@@ -344,6 +349,8 @@ public function set_up_menu_func($data, $count = false,  $id = 'null'){
             'url'     => $m['url'],
             'parent'  => $id,
             'id'      => $m['id'],
+            'icon'    => $m['icon'],
+            'class'   => $m['class']
         ];
       }
     }
@@ -362,7 +369,19 @@ public function echo_admin_navigation_menu($parent = NULL, int $menu_id = 0){
 
   if (empty($menu_data) === false) {
     foreach ($menu_data as $key => $value) {
-     $menu_html .= '<li class="dd-item" data-id="'.$value->id.'" data-name="'.$value->title.'" data-url="'.$value->url.'" data-new="0" data-deleted="0">
+      $attr = (is_null($value->attr) === false ) ? unserialize($value->attr) : NULL ;
+     $menu_html .= '<li 
+
+     class="dd-item" 
+     data-id="'.$value->id.'" 
+     data-name="'.$value->title.'" 
+     data-url="'.$value->url.'" 
+     data-new="0" 
+     data-icon="'.@$attr["icon"].'" 
+     data-class="'.@$attr["class"].'" 
+     data-deleted="0"
+      
+      >
       <div class="dd-handle">'.$value->title.'</div>
         <span class="button-delete btn btn-default btn-xs pull-right" data-owner-id="'.$value->id.'">
           <i class="fa fa-times-circle-o" aria-hidden="true"></i>

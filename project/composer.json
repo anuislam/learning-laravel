@@ -12,6 +12,7 @@
         "hootlex/laravel-moderation": "^1.0",
         "intervention/image": "*",
         "jackiedo/dotenv-editor": "1.*",
+        "kris/laravel-form-builder": "^1.14",
         "laravel/framework": "5.5.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
@@ -38,12 +39,12 @@
             "registerModel\\": "app/registerModel/"
         },
         "files": [
-            "app/helpers/GlobalRegisterComponents.php",
-            "app/helpers/UserRegisterComponents.php",
             "app/helpers/helpers.php",
             "app/helpers/htmltag.php",
             "app/helpers/sanitize.php",
-            "app/helpers/AdminSetupMenu.php"
+            "app/helpers/AdminSetupMenu.php",
+            "app/helpers/GlobalRegisterComponents.php",
+            "app/helpers/UserRegisterComponents.php"
         ]
     },
     "autoload-dev": {

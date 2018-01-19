@@ -33,7 +33,7 @@ class tarmController extends Controller
         $current_user       = $usermodel->current_user();
         if (empty($url_data) === false) {
 
-            if (url_gard('string', $url_data) === false) {
+            if (url_gard('mix', $url_data) === false) {
                return abort(404);
             }
 
@@ -82,7 +82,7 @@ class tarmController extends Controller
         $usermodel          = $this->usermodel;
         $current_user       = $usermodel->current_user();
         if (empty($tarmname) === false) {
-            if (url_gard('string', $tarmname) === false) {
+            if (url_gard('mix', $tarmname) === false) {
                return redirect()->back()->with('error_msg', 'Operation failed.');
             }
 
@@ -161,7 +161,7 @@ class tarmController extends Controller
                return abort(404);
             }
 
-            if (url_gard('string', $tarmname) === false) {
+            if (url_gard('mix', $tarmname) === false) {
                return abort(404);
             }
 
@@ -236,7 +236,7 @@ class tarmController extends Controller
         $usermodel          = $this->usermodel;
         $current_user       = $usermodel->current_user();
         if (empty($tarmname) === false) {
-            if (url_gard('string', $tarmname) === false) {
+            if (url_gard('mix', $tarmname) === false) {
                return redirect()->back()->with('error_msg', 'Operation failed.');
             }
 

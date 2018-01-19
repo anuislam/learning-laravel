@@ -8,11 +8,7 @@ Formstone.Ready(function() {
 	  .on("fileprogress.upload", uploder_Progress)
 	  .on("filecomplete.upload", uploder_FileComplete)
 	  .on("fileerror.upload", uploder_eError);
-	  //.on("complete.upload", onComplete)
-	  //.on("filestart.upload", onFileStart)
-	  //.on("fileprogress.upload", onFileProgress)
-	  //.on("filecomplete.upload", onFileComplete)
-	  //.on("fileerror.upload", onFileError);
+
 
 
 	$('ul.medial_uploder_image_list').on('mouseenter', 'span.media_uploder_image_select', function(){

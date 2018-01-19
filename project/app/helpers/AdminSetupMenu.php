@@ -1,5 +1,4 @@
 <?php
-use \App\UserPermission;
 
 function multid_sort($arr, $index) {
     $b = array();
@@ -7,7 +6,6 @@ function multid_sort($arr, $index) {
     foreach ($arr as $key => $value) {
         $b[$key] = $value[$index];
     }
-
     asort($b);
 
     foreach ($b as $key => $value) {
@@ -42,7 +40,7 @@ function admin_menu_setup(){
 
 function get_admin_sidebar_menu($user){
 	$admin_menu = admin_menu_setup();
-	$permission 	= new UserPermission();
+	$permission 	= new App\UserPermission();
 	if (is_array($admin_menu)) {
 		foreach ($admin_menu as $key => $value) {
 			$main_menu_title 		= (isset($value['menu-title'])) ? $value['menu-title'] : '' ;

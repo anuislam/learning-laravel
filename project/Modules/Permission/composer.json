@@ -1,0 +1,26 @@
+{
+    "name": "nwidart/permission",
+    "description": "Manage user permission",
+    "type": "Module",
+    "authors": [
+        {
+            "name": "Anu islam",
+            "email": "anuislams@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Permission\\Providers\\PermissionServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Permission\\": ""
+        }
+    }
+}

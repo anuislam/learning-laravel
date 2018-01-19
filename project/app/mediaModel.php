@@ -133,7 +133,8 @@ class mediaModel extends Model{
 			if ($size['name'] == 'full') {
 				$file->move($public_path, $file_name);
 			}else{
-				$img = Image::make($file);
+				$open_path = $public_path .'/'.$file_name;
+				$img = Image::make($open_path);
 				$img->resize($size['width'], $size['height']);
 				$img->save($path, 100);
 			}
@@ -141,7 +142,8 @@ class mediaModel extends Model{
 			if ($size['name'] == 'full') {			        			
 				$file->move($public_path, $file_name);
 			}else{
-				$img = Image::make($file);
+				$open_path = $public_path .'/'.$file_name;
+				$img = Image::make($open_path);
 				$img->fit($size['width'], $size['height']);
 				$img->save($path, 100);
 			}

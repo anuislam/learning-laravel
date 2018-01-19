@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use DotenvEditor;
 use Breadcrumbs;
 
+
 class DashboardController extends Controller
 {
     public function __construct()
@@ -17,6 +18,7 @@ class DashboardController extends Controller
 
     public function index()
     {
+
     	$usermodel   = new UserModel();
         $current_user   = $usermodel->current_user();
         return view('admin.dashboard',[

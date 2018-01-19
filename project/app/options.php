@@ -16,7 +16,7 @@ class options extends Model{
     private $option_type 		= '';
 
     public function __construct($data){
-        $this->option_type    = sanitize_text($data);  
+        $this->option_type    = $data;  
     }
 
     public function add_option($opt_key, $val){

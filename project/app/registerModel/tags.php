@@ -126,8 +126,7 @@ class tags extends TarmModel
     public function tarm_edit_form_output($value = '', $errors)
     {
     	$value = json_decode(json_encode($value),true);
-		echo Form::open(['url' => route('edit-tarm-update', $value['id']).'/tags', 'method' => 'POST']);
-		 echo Form::hidden('_method', 'PATCH');
+		echo Form::open(['url' => route('edit-tarm-update', [$value['id'], 'tags']), 'method' => 'PATCH']);
 			text_field([
 				'name' => 'cat_name',
 				'title' => 'Tag Name',

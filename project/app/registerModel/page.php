@@ -43,14 +43,14 @@ class page extends post_type{
         'all_post_title'            => 'All Pages',
         'edit_post_title'            => 'Edit Page',
         'page_sub_title'        => 'Blog Page',
-        'capability'        	=> [
-    		  'edith_post'          => 'edith_post', 
-    		  'edith_others_post'  => 'edith_others_post',  
-    		  'read_post'          => 'read_post', 
-    		  'read_others_post'   => 'read_others_post', 
-    		  'delete_post'        => 'delete_post', 
-    		  'delete_others_post' => 'delete_others_post', 
-    		  'create_posts'       => 'create_posts', 
+        'capability'          => [
+          'edith_post'          => 'edith_post', 
+          'edith_others_post'  => 'edith_others_post',  
+          'read_post'          => 'read_post', 
+          'read_others_post'   => 'read_others_post', 
+          'delete_post'        => 'delete_post', 
+          'delete_others_post' => 'delete_others_post', 
+          'create_posts'       => 'create_posts', 
         ],
 
       ];
@@ -58,25 +58,24 @@ class page extends post_type{
 
 
 
-	public function post_content_output($error_msg = ''){
-
+  public function post_content_output($error_msg = ''){
     $this->post_type_output(route('stor_post', ['page']), $error_msg);
-	}	
+  } 
 
-	public function post_type_edit_output($data, $error_msg){
-	    $post_category = $this->postmodel->get_post_meta($data->id, 'post_category');
-	    $post_tags = $this->postmodel->get_post_meta($data->id, 'post_tags');
-	    $post_image = $this->postmodel->get_post_meta($data->id, 'post_image');
-	    $this->post_type_output(
-	      route('post_type_update', [$data->id, $data->post_type]), 
-	      $error_msg, [
+  public function post_type_edit_output($data, $error_msg){
+      $post_category = $this->postmodel->get_post_meta($data->id, 'post_category');
+      $post_tags = $this->postmodel->get_post_meta($data->id, 'post_tags');
+      $post_image = $this->postmodel->get_post_meta($data->id, 'post_image');
+      $this->post_type_output(
+        route('post_type_update', [$data->id, $data->post_type]), 
+        $error_msg, [
           'post_title' => $data->post_title,
-	        'post_id' => $data->id,
-	        'post_slug' => $data->post_slug,
-	        'post_content' => $data->post_content,
-	        'post_status' => $data->post_status
-	      ]);
-	  }
+          'post_id' => $data->id,
+          'post_slug' => $data->post_slug,
+          'post_content' => $data->post_content,
+          'post_status' => $data->post_status
+        ]);
+    }
 
 
 
@@ -256,7 +255,6 @@ public function post_type_output( $route, $error_msg , $value = '' ){
       }else{
         $exe_query = $post_query->where('post_type', 'post');
       }
-      $exe_query = $exe_query->orderBy('id', 'desc');
 // btn btn-default btn-xs
     return DataTables::of($exe_query)    
     ->addColumn('post_author', function ($post) {
@@ -343,6 +341,7 @@ public function post_type_output( $route, $error_msg , $value = '' ){
                 <th>Date</th>
                 <th>Status</th>
                 <th>Actions</th>
+              </tr>
               </tr>
             </tfoot>
           </table>

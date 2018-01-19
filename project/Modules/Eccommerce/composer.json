@@ -1,0 +1,26 @@
+{
+    "name": "nwidart/eccommerce",
+    "description": "Eccommerce Module for website",
+    "type": "Module",
+    "authors": [
+        {
+            "name": "Anu islam",
+            "email": "anuislams@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Eccommerce\\Providers\\EccommerceServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Eccommerce\\": ""
+        }
+    }
+}

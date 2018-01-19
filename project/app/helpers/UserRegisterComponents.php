@@ -148,6 +148,23 @@ register_menu([
 	]);
 
 
+
+
+//**************************************************************
+// Register Module menu
+//**************************************************************
+
+register_menu([
+	'menu-title' 	 	=> 'Modules',
+	'id' 	 		 	=> 'modules',
+	'menu-icon' 	 	=> 'fa-plug', 
+	'capability' 	 	=> 'manage_option',
+	'menu_position' 	 	=> 501, 
+	'url' 	 		 	=> ['admin-page', 'modules'],
+]);
+
+
+
 //**************************************************************
 // Register user menu
 //**************************************************************
@@ -234,6 +251,13 @@ register_menu([
 
 
 crop_image_size([
+	'name' 		=> 'full', //must be give an uniq name
+	'width' 	=> 'auto', 
+	'height' 	=> 'auto',
+	'resize' 	=> false // fit image
+]);
+
+crop_image_size([
 	'name' 		=> 'thumbnail', //must be give an uniq name
 	'width' 	=> 150, 
 	'height' 	=> 150,
@@ -247,12 +271,8 @@ crop_image_size([
 	'resize' 	=> false,
 ]);
 
-crop_image_size([
-	'name' 		=> 'full', //must be give an uniq name
-	'width' 	=> 'auto', 
-	'height' 	=> 'auto',
-	'resize' 	=> false // fit image
-]);
+
+
 
 
 //***********************************************************************
@@ -319,5 +339,10 @@ register_tarm([
 add_admin_page([
 	'id' 	 		 	=> 'genarel', //uniq
 	'class' 	 	 	=> 'App\registerModel\genarel',
+]);
+
+add_admin_page([
+	'id' 	 		 	=> 'modules', //uniq
+	'class' 	 	 	=> 'App\registerModel\modules',
 ]);
 

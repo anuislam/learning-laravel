@@ -93,9 +93,17 @@ open_modal({
     				'<label for="as-modal-menu-title" class="control-label">Menu Title *</label>'+
     				'<input placeholder="Menu title" aria-describedby="Menu title" class="form-control" name="as-modal-menu-title" type="text" value="'+target.attr("data-name")+'" id="as-modal-menu-title">'+
     			 '</div>'+
+           '<div class="form-group ">'+
+            '<label for="as-modal-menu-url" class="control-label">Menu Url *</label>'+
+            '<input placeholder="Menu url" aria-describedby="Menu url" class="form-control" name="as-modal-menu-url" type="url" value="'+target.attr("data-url")+'" id="as-modal-menu-url">'+
+           '</div>'+
+           '<div class="form-group ">'+
+            '<label for="as-modal-menu-icon" class="control-label">Menu Icon</label>'+
+            '<input placeholder="Menu Icon" aria-describedby="Menu Icon" class="form-control" name="as-modal-menu-icon" type="url" value="'+target.attr("data-icon")+'" id="as-modal-menu-icon">'+
+           '</div>'+
     			 '<div class="form-group ">'+
-    				'<label for="as-modal-menu-url" class="control-label">Menu Url *</label>'+
-    				'<input placeholder="Menu url" aria-describedby="Menu url" class="form-control" name="as-modal-menu-url" type="url" value="'+target.attr("data-url")+'" id="as-modal-menu-url">'+
+    				'<label for="as-modal-menu-class" class="control-label">Menu Class</label>'+
+    				'<input placeholder="Menu Class" aria-describedby="Menu Class" class="form-control" name="as-modal-menu-class" type="url" value="'+target.attr("data-class")+'" id="as-modal-menu-class">'+
     			 '</div>',
         cancel_text: 'Cancel',
         close_icon:  String('fa-times'),
@@ -104,9 +112,11 @@ open_modal({
             type: 'action',
             url: null,
             parameters: function () {
-		      var data_ck = true;
-			  var modalName = $("#as-modal-menu-title").val();
-			  var modalUrl = $("#as-modal-menu-url").val();
+		      var data_ck     = true;
+			  var modalName     = $("#as-modal-menu-title").val();
+        var modalUrl      = $("#as-modal-menu-url").val();
+        var modalicon     = $("#as-modal-menu-icon").val();
+			  var modalclass    = $("#as-modal-menu-class").val();
 
 			  if (modalName == '') {
 			  	data_ck = false;
@@ -126,8 +136,9 @@ open_modal({
 			  		alert("Please enter a valid URL.");
 			  	}
 			  }
+
 			  if (data_ck === true) {
-			  	editMenuItem(modalName, modalUrl, target.data("id"));
+			  	editMenuItem(modalName, modalUrl, modalicon, modalclass, target.data("id"));
 			  	$('#global_modal').modal('hide');
   				updateOutput($('#nestable').data('output', $('#as-nav-menu-json-output')));
 			  }
@@ -138,16 +149,19 @@ open_modal({
 };
 
 // Edits the Menu item and hides the Edit Form
-var editMenuItem = function (newName, newurl, targetId) {
+var editMenuItem = function (newName, newurl, newicon, newclass, targetId) {
 
       var target = $('.dd-item[data-id="' + targetId + '"]');
 
 		  target.find("> .dd-handle").html(newName);
   		target.attr("data-name", newName);
-  		target.attr("data-url", newurl);
-
+      target.attr("data-url", newurl);
+      target.attr("data-icon", newicon);
+  		target.attr("data-class", newclass);
   		target.data("name", newName);
-  		target.data("url", newurl);
+      target.data("url", newurl);
+      target.data("icon", newicon);
+  		target.data("class", newclass);
   // update JSON
 };
 
@@ -177,6 +191,8 @@ $.ajax({
         'data-id="' + data.id + '" ' +
         'data-name="' + data.name + '" ' +
         'data-url="' + data.url + '" ' +
+        'data-icon="" ' +
+        'data-class="" ' +
         'data-new="0" ' +
         'data-deleted="0">' +
         '<div class="dd-handle">' + data.name + '</div> ' +
