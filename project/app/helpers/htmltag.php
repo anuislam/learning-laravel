@@ -245,8 +245,7 @@ function media_uploader($data = array(), $errors){
                 }
               }
 
-            ?>
-            onclick="open_media_uploader(this)"
+            ?>            
         >
           <?php echo $data['title']; ?>
         </a>
@@ -390,3 +389,41 @@ function submib_button($data, $error = ''){
 
 
 
+function textarea_editor($data, $errors){
+  $data['media_button'] = (empty($data['media_button'])) ? true : $data['media_button']  ;
+  $data['name']      = (isset($data['name'])) ? $data['name'] : '' ;
+  $data['title']     = (isset($data['title'])) ? $data['title'] : '' ;
+  $data['value']     = (isset($data['value'])) ? $data['value'] : '' ;
+  $data['atts']      = (isset($data['atts'])) ? $data['atts'] : [] ;    
+  $data['atts']['class']      = (isset($data['atts']['class'])) ? $data['atts']['class'] . ' tainy_mce' : 'tainy_mce' ;    
+  $button = apply_filters( 'media_buttons', [
+    'class' => 'btn bg-purple btn-flat',
+    'text' => 'Add Media',
+  ] ); ?>
+  <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
+
+    <?php 
+    if (empty($data['title']) === false) {
+      echo Form::label( $data['name'], $data['title'], ['class' => 'control-label', 'style' => ''] );
+    }
+    ?>
+    <span style="width: 100%;overflow: hidden;float: left;margin: 5px 0;">
+    <?php
+    if ($data['media_button']) {
+      ?>
+        <a href="javascript:void(0)" class="<?php echo $button['class']; ?>" media_active media_id="<?php echo @$data['name']; ?>" id="<?php echo @$data['name']; ?>"><?php echo $button['text']; ?></a> 
+      <?php  } ?>
+    <?php do_action( 'editor_buttons' ); ?>
+    </span>
+    <span class="clear-fix" style="float: left;">
+    <?php echo Form::textarea(  $data['name'], $data['value'], $data['atts'] ); ?>
+    <?php if ($errors->has($data['name'])) : ?>
+      <span class="help-block">
+          <strong><?php echo $errors->first($data['name'])  ?></strong>
+      </span>
+    <?php endif; ?>
+    </span>
+  </div>
+
+<?php
+}

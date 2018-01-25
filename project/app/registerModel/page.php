@@ -188,16 +188,15 @@ public function post_type_output( $route, $error_msg , $value = '' ){
 
 <?php echo heml_card_open('fa fa-pencil', 'Page Content'); ?>
 
-  <?php echo  textarea_field([
-                    'name' => 'post_content',
-                    'value' => (empty($value['post_content']) === false) ? $value['post_content'] : old('post_content'),
-                    'atts' =>  [
-                      'placeholder' => 'Page Content', 
-                      'aria-describedby' => 'Page Content', 
-                      'class' => 'tainy_mce',
-                      'style' => 'min-height:600px;'
-                      ]
-                  ], $error_msg);
+  <?php 
+        textarea_editor([
+            'name' => 'post_content',
+            'title' => 'Page content',
+            'value' => (empty($value['post_content']) === false) ? $value['post_content'] : old('post_content'),
+            'atts' =>  [
+              'style' => 'min-height:600px;'
+              ]
+          ], $error_msg); 
     ?>    
 
 <?php echo heml_card_close(); ?>

@@ -59,7 +59,7 @@ class product extends post_type{
 	
 	<?php echo Form::open(['url' =>  route('stor_post', ['product']), 'method' => 'post']); ?>
 	<div class="row">
-		<div class="col-md-8">
+		<div class="col-sm-8">
 			<?php echo heml_card_open('fa fa-shopping-cart', 'Product title'); ?>
 			<?php echo text_field([
 			                    'name' => 'product_title',
@@ -73,16 +73,19 @@ class product extends post_type{
 			<?php echo heml_card_close(); ?>
 
 			<?php echo heml_card_open('fa fa-shopping-cart', 'Product title'); ?>
-			<?php echo  textarea_field([
+
+
+			<?php 			
+	 			textarea_editor([
                     'name' => 'product_content',
                     'title' => 'Product content',
                     'value' => old('product_content'),
                     'atts' =>  [
-                      'placeholder' => 'Product Content', 
-                      'class' => 'tainy_mce',
                       'style' => 'min-height:400px;'
                       ]
-                  ], $error_msg); ?>
+                  ], $error_msg); 
+                  ?>
+
 			<?php echo heml_card_close(); ?>
 
 			<?php echo heml_card_open('fa fa-shopping-cart', 'Product title'); ?>
@@ -98,11 +101,7 @@ class product extends post_type{
 			<?php echo heml_card_close(); ?>
 
 
-
-
 			<?php echo heml_card_open('fa fa-shopping-cart', 'Product title'); ?>
-
-
 
           <div class="nav-tabs-custom admin_vertical_tab">
             <ul class="nav nav-tabs">
@@ -309,6 +308,9 @@ class product extends post_type{
 	                          'tarm-type' => 'tags'
 	                        ]),
 	                  ], $error_msg); ?>
+				<?php echo heml_card_close(); ?>
+
+            	<?php echo heml_card_open('fa fa-shopping-cart', 'Product title'); ?>
 	                  
 	                <?php echo  select_field([
 	                    'name' => 'post_tags[]',
@@ -324,6 +326,35 @@ class product extends post_type{
 	                          'tarm-type' => 'tags'
 	                        ]),
 	                  ], $error_msg); ?>
+				<?php echo heml_card_close(); ?>
+
+            	<?php echo heml_card_open('fa fa-image', 'Product image'); ?>
+				<?php echo  media_uploader([
+						'name' => 'product_image',
+						'title' => 'Upload Product Image',
+						'value' => old('product_image'),
+						'atts' =>  [
+							'class'      => 'btn bg-purple btn-flat media_uploader_active', 
+							'cancel_text'    => 'Cancel post image',
+							'submit_text'    => 'Select post image',
+							'uploader_title'    => 'Upload Product Image',
+					]
+				], $error_msg); ?>
+				<?php echo heml_card_close(); ?>
+
+            	<?php echo heml_card_open('fa fa-image', 'Product image'); ?>
+
+					<div class="form-group">
+						<label for="">Image gallery</label>
+						<ul id="product_gallery" class="image_gallery" data-list="image_gallery_list">
+							
+						</ul>
+						<div class="add_image_in_gallery">
+							<a href="javascript:void(0)" class="btn btn-block bg-purple" cancel_text="Cancel post image" submit_text="Select product image" id="image_gallery_list">Add Image</a>
+						</div>
+					</div>
+
+
 				<?php echo heml_card_close(); ?>
             </div>
 	</div>

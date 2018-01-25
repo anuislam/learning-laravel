@@ -137,9 +137,10 @@ class Slider extends post_type{
         'title' => 'Upload Image',
         'value' => (empty($value['slider_image']) === false) ? $value['slider_image'] : old('slider_image'),
         'atts' =>  [
-          'class'      => 'btn bg-purple btn-flat', 
+          'class'      => 'btn bg-purple btn-flat media_uploader_active', 
           'cancel_text'    => 'Cancel',
           'submit_text'    => 'Select image',
+          'uploader_title'    => 'Upload slider image',
            ]
       ], $error_msg); ?>
 <?php echo heml_card_close(); ?>

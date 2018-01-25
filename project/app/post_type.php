@@ -128,16 +128,15 @@ class post_type extends Model{
 
 <?php echo heml_card_open('fa fa-pencil', 'Post Content'); ?>
 
-  <?php echo  textarea_field([
-                    'name' => 'post_content',
-                    'value' => (empty($value['post_content']) === false) ? $value['post_content'] : old('post_content'),
-                    'atts' =>  [
-                      'placeholder' => 'Description', 
-                      'aria-describedby' => 'Description', 
-                      'class' => 'tainy_mce',
-                      'style' => 'min-height:600px;'
-                      ]
-                  ], $error_msg);
+  <?php
+        textarea_editor([
+            'name' => 'post_content',
+            'title' => 'Description',
+            'value' => (empty($value['post_content']) === false) ? $value['post_content'] : old('post_content'),
+            'atts' =>  [
+              'style' => 'min-height:600px;'
+              ]
+          ], $error_msg); 
     ?>    
 
 <?php echo heml_card_close(); ?>
@@ -207,9 +206,7 @@ class post_type extends Model{
         'title' => 'Upload Image',
         'value' => (empty($value['post_image']) === false) ? $value['post_image'] : old('post_image'),
         'atts' =>  [
-          'class'      => 'btn bg-purple btn-flat', 
-          'cancel_text'    => 'Cancel post image',
-          'submit_text'    => 'Select post image',
+          'class'      => 'btn bg-purple btn-flat media_uploader_active'
            ]
       ], $error_msg); ?>
               <?php echo heml_card_close(); ?>

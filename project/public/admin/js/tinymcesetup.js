@@ -1,48 +1,15 @@
 $(document).ready(function(){
-editor = '';
-tinymce.PluginManager.add('add_media', function(editor, url) {
-
-    editor.addButton('add_media', {
-        //icon: 'insertdatetime',
-        image: global_data.upload_dir_url + '/default/cleditor_media_icon.png',
-        text: '  Add media',
-        tooltip: "Add media",
-        onclick: function(e) {
-
-            return_selector = 'tinymce'
-            var target = $('#global_media_uploader');
-            target.find('.modal-title').html('Add media');
-            target.find('#uploder_cancel').html('Cancel');
-            target.find('#uploder_submit').html('Submit');    
-            target.modal('show');
-            uploder_seleted = false;
-            target.on('click', '#uploder_submit', function(){
-                if (uploder_seleted !== false) {
-                    if (return_selector == 'tinymce') {
-                        editor.insertContent('<img src="'+uploder_seleted.url+'" alt="'+uploder_seleted.alt+'" />');
-                        uploder_seleted = false;
-                        return_selector = false;
-                        target.modal('hide');
-                    }
-                }
-            });
-        
-        }
-    });
-
-});
-
-
-
-
 
 tinymce.init({
     selector: 'textarea.tainy_mce',
     resize: "both",
-    plugins: "fullscreen code link advlist table textcolor visualblocks template preview hr add_media",
-    toolbar: 'undo redo | bold italic underline | link | alignleft | aligncenter | alignright | blockquote bullist numlist outdent indent | code | currentdate | fullscreen | table | forecolor | backcolor | visualblocks | preview | hr | styleselect | add_media',
+    plugins: "fullscreen code link advlist table textcolor visualblocks template preview hr",
+    toolbar: 'undo redo | bold italic underline | link | alignleft | aligncenter | alignright | blockquote bullist numlist outdent indent | code | currentdate | fullscreen | table | forecolor | backcolor | visualblocks | preview | hr | styleselect',
     menubar:false,
     statusbar: false,
+    allow_script_urls: true,
+    remove_script_host : false,
+    relative_urls: false,
     style_formats: [
 {
          title: 'Custom Bullet',

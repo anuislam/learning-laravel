@@ -23,8 +23,7 @@ class handel_hooks extends Model{
 		$this->permission   = new UserPermission();
 		$this->usermodel    = new UserModel();
 		$this->post    		= new BlogPost();
-
+		//add_action( 'editor_buttons',[$this, 'add_media_buttons'] );
     }
 
-   
 }
