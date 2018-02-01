@@ -166,3 +166,23 @@ var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!
     return true;
   }
 }
+
+
+function checkbox_hide_toggole(selector, target) {
+    target = $(target);
+    if ($(selector).prop('checked')) {
+        target.closest('.form-group ').show();
+    }else{
+        target.closest('.form-group ').hide();
+    }
+    $(selector).on("ifChecked", function() {
+       target.closest('.form-group ').show();
+    });
+    $(selector).on("ifUnchecked", function() {
+       target.closest('.form-group ').hide();
+    });
+}
+
+checkbox_hide_toggole('#sale_price_schedule',   '.schedule_toggle');
+checkbox_hide_toggole('#manage_stock',          '.stock_manage_toggle');
+

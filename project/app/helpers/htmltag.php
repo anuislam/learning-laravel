@@ -427,3 +427,69 @@ function textarea_editor($data, $errors){
 
 <?php
 }
+
+
+
+function media_gallery_uploader($data = array(), $errors){
+  $data['name']      = (isset($data['name'])) ? $data['name'] : '' ;
+  $data['title']     = (isset($data['title'])) ? $data['title'] : '' ;
+  $data['value']     = (isset($data['value'])) ? $data['value'] : '' ;
+  $data['id']        = (isset($data['id'])) ? $data['id'] : '' ;  
+  $data['cancel_text']        = (isset($data['cancel_text'])) ? $data['cancel_text'] : '' ;  
+  $data['submit_text']        = (isset($data['submit_text'])) ? $data['submit_text'] : '' ;  
+  $data['button_class']        = (isset($data['button_class'])) ? $data['button_class'] : '' ;  
+  $media = new App\mediaModel();
+  $post = new App\BlogPost();
+  ?>
+
+          <div class="form-group <?php echo $errors->has($data['name']) ? 'has-error' : '' ?>">
+            <label for=""><?php echo $data['title']; ?></label>
+            <ul id="<?php echo $data['name']; ?>" class="image_gallery" data-list="<?php echo $data['id']; ?>">
+            <?php
+
+            if (empty($data['value']) === false) {
+              foreach ($data['value'] as $key => $value) {
+
+
+                $media_details = $media->get_media($value);
+                if ($media_details) {
+                  $file_type = $post->get_post_meta($value, 'file_type');
+                  $preview_image = $media->get_image_src('media_preview', $value);
+                  if (is_image($file_type) === true) {
+                    ?>
+                    <li><a href="javascript:void(0)" onclick="remove_gallery_image(this)"><i class="fa fa-close"></i></a>
+                      <img src="<?php echo $preview_image[0]; ?>" alt="<?php echo $media_details->post_title; ?>">
+                      <input type="hidden" value="<?php echo $value ?>" name="<?php echo $data['name']; ?>[]">
+                    </li>
+                    <?php
+                  }else{
+                  ?>
+                    <li><a href="javascript:void(0)" onclick="remove_gallery_image(this)"><i class="fa fa-close"></i></a>
+                      <img src="<?php echo upload_dir_url('default/largefileicon.png'); ?>" alt="<?php echo $media_details->post_title; ?>">
+                      <input type="hidden" value="<?php echo $value ?>" name="<?php echo $data['name']; ?>[]">
+                    </li>
+                  <?php
+                  }
+                }
+
+
+
+              }
+            }
+
+            ?>  
+            </ul>
+            <div class="add_image_in_gallery">
+              <a href="javascript:void(0)" class="<?php echo $data['button_class']; ?>" cancel_text="<?php echo $data['cancel_text']; ?>" submit_text="<?php echo $data['cancel_text']; ?>" id="<?php echo $data['id']; ?>">Add Image</a>
+            </div>
+
+            <?php if ($errors->has($data['name'])) : ?>
+              <span class="help-block">
+                  <strong><?php echo $errors->first($data['name'])  ?></strong>
+              </span>
+            <?php endif; ?>
+
+          </div>
+
+  <?php
+}

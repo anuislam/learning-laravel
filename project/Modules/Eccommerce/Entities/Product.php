@@ -137,7 +137,7 @@ class product extends post_type{
 						<div class="checkbox icheck">
 							<label>
 								<?php echo Form::checkbox('sale_price_schedule', 'yes', false, [
-									'class' => 'sdopijsdjjsjdi'
+									'id' => 'sale_price_schedule'
 									]); ?> Schedule
 							</label>
 						</div>
@@ -148,9 +148,9 @@ class product extends post_type{
 								'title' => 'Sale price Schedule Range',
 								'value' => old('sale_price_dates'),
 								'atts' =>  [
-								'placeholder' => 'Sale price Schedule Range', 
-								'class' => 'form-control pull-right daterangepicker_action',
-							]
+									'placeholder' => 'Sale price Schedule Range', 
+									'class' => 'form-control pull-right daterangepicker_action schedule_toggle',
+								]
 						], $error_msg); ?>
                </div>               
                <div class="tab-pane" id="inventory">
@@ -170,7 +170,7 @@ class product extends post_type{
 						<div class="checkbox icheck">
 							<label>
 								<?php echo Form::checkbox('manage_stock', 'yes', false, [
-									'class' => ''
+									'id' => 'manage_stock',
 									]); ?> Enable stock management at product level
 							</label>
 						</div>
@@ -182,7 +182,7 @@ class product extends post_type{
 								'value' => old('stock_quantity'),
 								'atts' =>  [
 								'placeholder' => 'Stock quantity', 
-								'class' => 'form-control',
+								'class' => 'form-control stock_manage_toggle',
 							]
 						], $error_msg); ?>
 
@@ -294,6 +294,35 @@ class product extends post_type{
 		
             <div class="col-sm-4">
             	<?php echo heml_card_open('fa fa-shopping-cart', 'Product title'); ?>
+
+	                <?php echo  select_field([
+	                    'name' => 'product_status',
+	                    'title' => 'Product Status',
+	                    'value' => old('product_status'),
+	                    'atts' =>  [
+	                        'class' => 'form-control select2', 
+	                        'style' => 'width: 100%;',
+	                      ],
+	                    'items' =>  [
+	                    	'publish' => 'Publish',
+	                    	'pending' => 'Pending',
+	                    	'trush' => 'trush'
+	                    ],
+	                  ], $error_msg); 
+
+	                	submib_button([
+	                		'title' => 'Submit',
+	                		'attr' => [
+	                			'class' => 'btn bg-olive btn-flat pull-right',
+	                		]
+	                	]);
+
+	                  ?>
+					
+				<?php echo heml_card_close(); ?>
+
+            	<?php echo heml_card_open('fa fa-shopping-cart', 'Product title'); ?>
+
 	                <?php echo  select_field([
 	                    'name' => 'post_tags[]',
 	                    'title' => 'Post Tags',
@@ -342,17 +371,22 @@ class product extends post_type{
 				], $error_msg); ?>
 				<?php echo heml_card_close(); ?>
 
-            	<?php echo heml_card_open('fa fa-image', 'Product image'); ?>
+            	<?php echo heml_card_open('fa fa-image', 'Product image');
 
-					<div class="form-group">
-						<label for="">Image gallery</label>
-						<ul id="product_gallery" class="image_gallery" data-list="image_gallery_list">
-							
-						</ul>
-						<div class="add_image_in_gallery">
-							<a href="javascript:void(0)" class="btn btn-block bg-purple" cancel_text="Cancel post image" submit_text="Select product image" id="image_gallery_list">Add Image</a>
-						</div>
-					</div>
+            		media_gallery_uploader([
+						'name' => 'product_gallery',
+						'title' => 'Upload Product Image',
+						'value' => old('product_gallery'),
+						'id' 	=> 'image_gallery_list',
+						'cancel_text'	=> 'Cancel Product image',
+						'submit_text'	=> 'Select product image',
+						'button_title'	=> 'Add Image',
+						'button_class'	=> 'btn btn-block bg-purple',
+					], $error_msg);
+
+            	 ?>
+
+			
 
 
 				<?php echo heml_card_close(); ?>
@@ -362,6 +396,15 @@ class product extends post_type{
 
    <?php
   } 
+
+
+  public function post_type_validation($data){
+      return Validator::make($data, [
+                'product_title'      	=> 'required|string|max:255|',
+                'product_content'      	=> 'nullable',
+                'product_status' 			=> 'required|string',
+            ]);
+  }
 
 
 }

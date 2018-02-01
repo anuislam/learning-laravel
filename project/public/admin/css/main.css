@@ -330,3 +330,10 @@ ul.image_gallery li a:hover{
     padding: 0 5px;
     margin: 0;
 }
+
+.hide{
+    display: none;
+}
+.show{
+    display: block;
+}
