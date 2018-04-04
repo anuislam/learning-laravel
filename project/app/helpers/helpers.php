@@ -1,6 +1,15 @@
 <?php
 
 
+function read_more($num, $text) {
+    $limit = $num+1;
+    $excerpt = explode(' ', $text, $limit);
+    array_pop($excerpt);
+    $excerpt = implode(" ",$excerpt);
+    return $excerpt;
+}
+
+
 	function get_gravatar_custom_img( $email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
 	    $url = 'https://www.gravatar.com/avatar/';
 	    $url .= md5( strtolower( trim( $email ) ) );
@@ -63,19 +72,33 @@
         if($type == 'image/x-icon') {
             return false;
         }
-        
+       
+        if($type == 'image/svg+xml') {
+            return false;
+        }
+
         if(substr($type, 0, 5) == 'image') {
             return true;
         }
+
         return false;
     }
 
 
-    function format_status_tag($value, array $data){
+    function format_status_tag(int $value, array $data = []){
+        if ($value == 0) {
+            $datavalue = 'Pending';
+        }else if ($value == 1) {
+            $datavalue = 'Publish';
+        }else if ($value == 3) {
+             $datavalue = 'Poned';
+        }else {
+             $datavalue = 'Trush';
+        }
         if (is_array($data)) {
             foreach ($data as $key => $btnvalue) {
                if ($value == $btnvalue) {
-                   return '<span class="label label-'.$key.'">'.ucfirst($value).'</span>';
+                   return '<span class="label label-'.$key.'">'.ucfirst($datavalue).'</span>';
                    break;
                }
             }
@@ -100,8 +123,22 @@
     function get_option($type){
         $option_get = new App\options($type);
         $option = $option_get->option_exists();
-        return (isset($option->options_value)) ? unserialize($option->options_value) : false;
+        return (isset($option->options_value)) ? @unserialize($option->options_value) : false;
     }
+
+    function get_menu_list_array(){
+        $data = DB::table('menus')->get();
+        $ret_data = [];
+        if ($data->count() > 0) {
+            foreach ($data as $key => $value) {
+                $ret_data[$value->id] = $value->name;
+            }
+        }
+
+        return $ret_data;
+    }
+
+
 
     new App\handel_hooks();
 

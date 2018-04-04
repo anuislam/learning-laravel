@@ -121,7 +121,7 @@ Edith User | Website
                     'title' => 'User Roll',
                     'value' => @$edith_user['roll'],
                     'atts' =>  ['aria-describedby' => 'Userrool', 'class' => 'form-control', 'class' => 'form-control select2', 'style' => 'width: 100%;'],
-                    'items' =>   $userpermission->get_roll(),
+                    'items' =>   $userpermission->get_roles_name(),
                   ], $errors) }}
 
               @endif

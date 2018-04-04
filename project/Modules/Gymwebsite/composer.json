@@ -1,0 +1,26 @@
+{
+    "name": "nwidart/gymwebsite",
+    "description": "This is a gym managment website",    
+    "type":        "Theme",
+    "authors": [
+        {
+            "name": "Anu Islam ",
+            "email": "anuislams@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Gymwebsite\\Providers\\GymwebsiteServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Gymwebsite\\": ""
+        }
+    }
+}

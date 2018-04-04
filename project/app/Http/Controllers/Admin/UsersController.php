@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\UserPermission;
 use \Auth;
+use App\notifications;
 
 
 
@@ -14,11 +15,14 @@ class UsersController extends Controller
 {
     private $usermodel = '';
     private $permission = '';
+    private $notification = '';
+
     public function __construct()
     {
         $this->middleware('auth');
         $this->usermodel = new UserModel();
-        $this->permission = new UserPermission();  
+        $this->permission = new UserPermission();
+        $this->notification    = new notifications();   
     }
 
 
@@ -30,6 +34,7 @@ class UsersController extends Controller
             return view('admin.yourprofile',[
                 'current_user'      => $current_user,
                 'userpermission'      => $this->permission,
+                'notification'        => $this->notification->get_header_notification(),
             ]);
         }
         return abort(404);
@@ -44,6 +49,7 @@ class UsersController extends Controller
             return view('admin.AllUsers', [
                 'current_user'        => $current_user,
                 'userpermission'      => $this->permission,
+                'notification'        => $this->notification->get_header_notification(),
             ]);
         }
         return abort(404);
@@ -65,6 +71,7 @@ class UsersController extends Controller
         return view('admin.addnewuser',[
             'current_user'          => $current_user,
             'userpermission'        => $this->permission,
+            'notification'        => $this->notification->get_header_notification(),
         ]);
 
     }
@@ -132,6 +139,7 @@ class UsersController extends Controller
                     'current_user'          => $current_user,
                     'edith_user'            => $edith_user,
                     'userpermission'        => $this->permission,
+                    'notification'        => $this->notification->get_header_notification(),
                 ]);
             }
         }
@@ -199,6 +207,7 @@ class UsersController extends Controller
         return view('admin.changePassword',[
                     'current_user'          => $current_user,
                     'userpermission'        => $this->permission,
+                    'notification'        => $this->notification->get_header_notification(),
                 ]);
     }
 

@@ -507,5 +507,4 @@ class post_type extends Model{
 
   }
 
-
 }

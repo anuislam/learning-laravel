@@ -170,7 +170,6 @@ return [
         Gornymedia\Shortcodes\ShortcodesServiceProvider::class,
         Jackiedo\DotenvEditor\DotenvEditorServiceProvider::class,
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
-        Hootlex\Moderation\ModerationServiceProvider::class,
         /*
          * Package Service Providers...
          */

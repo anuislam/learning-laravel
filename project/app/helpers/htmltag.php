@@ -109,6 +109,28 @@ function select_field($data = array(), $errors){
   <?php
 }
 
+function registered_page_template($page_value, $error_msg){
+    $data = get_page_template();
+    $items = [];
+    if (is_array($data) === true) {
+      foreach ($data as $key => $value) {
+       $items[$value['path']] = $value['name'];
+      }
+     return select_field([
+                    'name' => 'page_template',
+                    'title' => 'Page Template',
+                    'value' => $page_value,
+                    'atts' =>  [
+                        'class' => 'form-control select2', 
+                        'style' => 'width: 100%;',
+                      ],
+                    'items' =>  $items,
+                  ], $error_msg);      
+    }
+    return ;
+}
+
+
 function email_field($data = array(), $errors){
 	$data['name'] 		 = (isset($data['name'])) ? $data['name'] : '' ;
 	$data['title'] 		 = (isset($data['title'])) ? $data['title'] : '' ;
@@ -370,9 +392,7 @@ function post_type_slug_checker($ajax_url, $value = '', $atts = array()){
         onclick="open_modal_chack_slug(this)"
         data-title="<?php echo @$atts['title'] ?>"
         cancel_text="Cancel"
-        submit_text="Change"
-        
-        >Edit</button>
+        submit_text="Change" >Edit</button>
       </span>
     </div>
   </div>

@@ -9,7 +9,6 @@
         "davejamesmiller/laravel-breadcrumbs": "^4.2",
         "fideloper/proxy": "~3.3",
         "gornymedia/laravel-shortcodes": "^1.2",
-        "hootlex/laravel-moderation": "^1.0",
         "intervention/image": "*",
         "jackiedo/dotenv-editor": "1.*",
         "kris/laravel-form-builder": "^1.14",

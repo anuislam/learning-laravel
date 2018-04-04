@@ -35,34 +35,45 @@ class genarel extends admin_page{
 <?php echo heml_card_open('fa fa-user', 'All page'); ?>
 
 <?php echo text_field([
-                    'name' => 'post_title',
-                    'title' => 'Page title',
-                    'value' => (isset($option['post_title'])) ? $option['post_title'] : '' ,
+                    'name' => 'site_title',
+                    'title' => 'Site title',
+                    'value' => (isset($option['site_title'])) ? $option['site_title'] : '' ,
                     'atts' =>  [
-                      'placeholder' => 'Enter Page title',
-                      'aria-describedby' => 'Enter Page title', 
+                      'placeholder' => 'Enter Site title',
+                      'aria-describedby' => 'Enter Site title', 
                       'class' => 'form-control post_type_chack_slug',
                     ]
                   ], $error_msg); ?>
 
 <?php echo text_field([
-                    'name' => 'content',
-                    'title' => 'Page title',
-                    'value' => (isset($option['content'])) ? $option['content'] : '' ,
+                    'name' => 'site_desc',
+                    'title' => 'Site Description',
+                    'value' => (isset($option['site_desc'])) ? $option['site_desc'] : '' ,
                     'atts' =>  [
-                      'placeholder' => 'Enter Page title',
-                      'aria-describedby' => 'Enter Page title', 
+                      'placeholder' => 'Enter Site Description',
+                      'aria-describedby' => 'Enter Site Description', 
                       'class' => 'form-control post_type_chack_slug',
                     ]
                   ], $error_msg); ?>
 
 <?php echo text_field([
-                    'name' => 'textdomain',
-                    'title' => 'Page title',
-                    'value' => (isset($option['textdomain'])) ? $option['textdomain'] : '' ,
+                    'name' => 'keywords',
+                    'title' => 'Keywords',
+                    'value' => (isset($option['keywords'])) ? $option['keywords'] : '' ,
                     'atts' =>  [
-                      'placeholder' => 'Enter Page title',
-                      'aria-describedby' => 'Enter Page title', 
+                      'placeholder' => 'Keywords',
+                      'aria-describedby' => 'Keywords', 
+                      'class' => 'form-control post_type_chack_slug',
+                    ]
+                  ], $error_msg); ?>
+
+<?php echo text_field([
+                    'name' => 'site_author',
+                    'title' => 'Keywords',
+                    'value' => (isset($option['site_author'])) ? $option['site_author'] : '' ,
+                    'atts' =>  [
+                      'placeholder' => 'Site Author',
+                      'aria-describedby' => 'Site Author', 
                       'class' => 'form-control post_type_chack_slug',
                     ]
                   ], $error_msg); ?>
@@ -80,16 +91,20 @@ class genarel extends admin_page{
 
     public function option_validation($data){
     	return Validator::make($data, [
-                'post_title'      => 'required|string|max:255|',
+                'site_title'        => 'string|max:200',
+                'site_desc'         => 'string|max:500',
+                'keywords'          => 'string',
+                'site_author'       => 'string',
             ]
         );
     }
 
     public function option_update($data){
         $option_save = new options('genarel');
-        $option_save->add_option('post_title', $data['post_title']);
-        $option_save->add_option('content', $data['content']);
-        $option_save->add_option('textdomain', $data['textdomain']);
+        $option_save->add_option('site_title', sanitize_text($data['site_title']));
+        $option_save->add_option('site_desc', sanitize_text($data['site_desc']));
+        $option_save->add_option('keywords', sanitize_text($data['keywords']));
+        $option_save->add_option('site_author', sanitize_text($data['site_author']));
         $option_save->option_update();
         return redirect()->back()->with('success_msg', 'Optuons Update Successful.');
     }

@@ -10,8 +10,8 @@
     ],
     "aliases": [],
     "files": [
-        "start.php",
-        "helpers.php"
+        "helpers.php",
+        "start.php"
     ],
     "requires": []
 }

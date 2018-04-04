@@ -158,6 +158,9 @@
       increaseArea: '20%' // optional
     });
     $('.daterangepicker_action').daterangepicker();
+    $('.datepicker').datepicker({
+      autoclose: true
+    });
   });
 </script>
   {{do_action('admin_footer')}}

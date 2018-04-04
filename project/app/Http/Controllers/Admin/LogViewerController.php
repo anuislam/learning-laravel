@@ -10,6 +10,7 @@ use App\mediaModel;
 use Image;
 use Validator;
 use App\BlogPost;
+use App\notifications;
 
 if (class_exists("\\Illuminate\\Routing\\Controller")) {
     class BaseController extends \Illuminate\Routing\Controller {}
@@ -25,6 +26,7 @@ class LogViewerController extends BaseController
     private $permission = '';
     private $mediaModel = '';
     private $postmodel = '';
+     private $notification = '';
 
     public function __construct ()
     {
@@ -34,7 +36,7 @@ class LogViewerController extends BaseController
         $this->permission   = new UserPermission();  
         $this->mediaModel   = new mediaModel();  
         $this->postmodel    = new BlogPost();  
-
+        $this->notification    = new notifications(); 
     }
 
     public function index()
@@ -63,6 +65,7 @@ class LogViewerController extends BaseController
             'files' => LaravelLogViewer::getFiles(true),
             'current_file' => LaravelLogViewer::getFileName(),
             'current_user'        => $current_user,
+            'notification'        => $this->notification->get_header_notification(),
         ]);
     }
 

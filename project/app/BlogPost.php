@@ -65,7 +65,7 @@ class BlogPost extends Model{
         $post = DB::table('posts');
         $post->where('id', $id);
         if (isset($post_query['post_type']) !== false) {
-           $post->where('post_type','=' , $post_query);
+           $post->where('post_type','=' , $post_query['post_type']);
         }
         $post_data = $post->first();
 
@@ -97,8 +97,22 @@ class BlogPost extends Model{
       $next_id  = $next_id[0]->Auto_increment;    
       $slug .= '-'.$next_id;  
     }
-    return $slug;
+    return strtolower($slug);
   }
 
+
+
+  public function get_permalink($post_id, $route){
+    $data = $this->get_post($post_id);
+    if ($data->post_type == 'post') {        
+        return route($route, $data->post_slug);
+    }else{
+        return route($data->post_type, $data->post_slug);
+    }
+  }
+
+  public function post_type_query() {
+      return DB::table('posts');
+  }
 
 }

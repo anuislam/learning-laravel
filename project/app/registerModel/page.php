@@ -43,16 +43,6 @@ class page extends post_type{
         'all_post_title'            => 'All Pages',
         'edit_post_title'            => 'Edit Page',
         'page_sub_title'        => 'Blog Page',
-        'capability'          => [
-          'edith_post'          => 'edith_post', 
-          'edith_others_post'  => 'edith_others_post',  
-          'read_post'          => 'read_post', 
-          'read_others_post'   => 'read_others_post', 
-          'delete_post'        => 'delete_post', 
-          'delete_others_post' => 'delete_others_post', 
-          'create_posts'       => 'create_posts', 
-        ],
-
       ];
     }
 
@@ -62,10 +52,9 @@ class page extends post_type{
     $this->post_type_output(route('stor_post', ['page']), $error_msg);
   } 
 
+
+
   public function post_type_edit_output($data, $error_msg){
-      $post_category = $this->postmodel->get_post_meta($data->id, 'post_category');
-      $post_tags = $this->postmodel->get_post_meta($data->id, 'post_tags');
-      $post_image = $this->postmodel->get_post_meta($data->id, 'post_image');
       $this->post_type_output(
         route('post_type_update', [$data->id, $data->post_type]), 
         $error_msg, [
@@ -73,7 +62,8 @@ class page extends post_type{
           'post_id' => $data->id,
           'post_slug' => $data->post_slug,
           'post_content' => $data->post_content,
-          'post_status' => $data->post_status
+          'post_status' => $data->status,
+          'page_template' => $this->postmodel->get_post_meta($data->id, 'page_template')
         ]);
     }
 
@@ -82,8 +72,9 @@ class page extends post_type{
   public function post_type_validation($data){
       return Validator::make($data, [
                 'post_title'      => 'required|string|max:255',
-                'post_content'      => 'nullable|max:10000',
-                'post_status' => 'required|string',
+                'post_content'    => 'nullable|max:10000',
+                'post_status'     => 'required|string',
+                'page_template'   => 'required|string|max:100',
             ], [
           'post_title.regex'    => 'The Page Title format is invalid.',
           'post_title.required' => 'The Page Title field is required.',
@@ -98,6 +89,21 @@ class page extends post_type{
   }
 
 
+  public function post_type_data_process($request, $post_type){
+    $this->post_type_validation($request->all())->validate();
+    do_action('page_meta_validation', $request->all());
+    return $this->post_type_data_save($request, $post_type);
+  }
+
+
+
+  public function post_type_edit_data_process($request, $post_type, $post_id){
+    $this->post_type_edit_validation($request->all(), $post_id)->validate();
+    do_action('page_meta_validation', $request->all());
+    return $this->post_type_edit_data_uppdate( $request, $post_id, $post_type);
+  }
+
+
 
   public function post_type_data_save($data, $post_type) {
     $usermodel      = $this->usermodel;
@@ -105,7 +111,7 @@ class page extends post_type{
     $data['post_slug'] = $this->postmodel->slug_format($data['post_title']);
       $id = DB::table('posts')->insertGetId([
         'post_title'   => sanitize_text($data['post_title']),
-        'post_status'  => sanitize_text($data['post_status']),
+        'status'  => sanitize_text($data['post_status']),
         'post_slug'    => sanitize_text($data['post_slug']),
         'post_author'  => (int)$current_user['id'],
         'post_content' => Purifier::clean($data['post_content'], array('AutoFormat.AutoParagraph' => false)),
@@ -114,6 +120,11 @@ class page extends post_type{
         'updated_at' => new \DateTime(),
       ]);
       if ($id) {
+        $this->postmodel->update_post_meta($id, 'page_template', sanitize_text($data['page_template']));
+        do_action('page_meta_save', [
+        'post_id' => $id,
+        'data' => $data,
+      ]);
         return redirect()->route('edit_post_type', [$id, 'page'])->with('success_msg', 'Page create successful.');
       }
       return redirect()->back()->with('error_msg', 'Page create failed.');
@@ -129,10 +140,16 @@ class page extends post_type{
       ->where('post_type', $post_type)
       ->update([
         'post_title'   => sanitize_text($data['post_title']),
-        'post_status'  => sanitize_text($data['post_status']),
+        'status'  => sanitize_text($data['post_status']),
         'post_slug'  => sanitize_text($data['post_slug']),
         'post_content' => Purifier::clean($data['post_content'], array('AutoFormat.AutoParagraph' => false)),
         'updated_at' => new \DateTime(),
+      ]);
+
+      $this->postmodel->update_post_meta($post_id, 'page_template', sanitize_text($data['page_template']));
+      do_action('page_meta_save', [
+        'post_id' => $post_id,
+        'data' => $data,
       ]);
 
       return redirect()->back()->with('success_msg', 'Page Update successful.');
@@ -201,12 +218,14 @@ public function post_type_output( $route, $error_msg , $value = '' ){
 
 <?php echo heml_card_close(); ?>
 
+<?php do_action('page_meta', $error_msg); ?>
+
       </div>
 
 
     <div class="col-md-4">
       <?php echo heml_card_open('fa fa-pencil', 'Page publish'); ?>
-                <?php echo  select_field([
+          <?php echo  select_field([
                     'name' => 'post_status',
                     'title' => 'Page status',
                     'value' => (empty($value['post_status']) === false) ? $value['post_status'] : old('post_status'),
@@ -216,15 +235,19 @@ public function post_type_output( $route, $error_msg , $value = '' ){
                         'style' => 'width: 100%;',
                       ],
                     'items' =>  [
-                      'publish' => 'Publish',
-                      'pending' => 'Pending',
-                      'trush' => 'Trush',
+                      '1' => 'Publish',
+                      '2' => 'Trush',
                     ],
-                  ], $error_msg); ?>
+                  ], $error_msg); 
+                  $page_template = (empty($value['page_template']) === false) ? $value['page_template'] : old('page_template');                  ?>
+            
+      <?php echo registered_page_template($page_template, $error_msg); ?>
 
-                  <?php echo Form::submit('Publish', ['class' => 'btn bg-olive btn-flat pull-right']); ?>
+      <?php echo Form::submit('Publish', ['class' => 'btn bg-olive btn-flat pull-right']); ?>
 
        <?php echo heml_card_close(); ?>
+  
+        <?php do_action('page_meta_side', $error_msg); ?>
 
     </div>
 
@@ -240,13 +263,13 @@ public function post_type_output( $route, $error_msg , $value = '' ){
   public function get_post_for_datatable($data_query = array()){
       
       $post_query = DB::table('posts');
-      $post_query->select('id','post_title', 'post_content', 'post_status', 'post_type', 'post_author', 'created_at');
+      $post_query->select('id', 'post_slug', 'post_title', 'post_content', 'status', 'post_type', 'post_author', 'created_at');
 
       if (isset($data_query['author']) === true) {
          $post_query->where('post_author', $data_query['author']);
       }
-      if (isset($data_query['post_status']) === true) {
-         $post_query->where('post_status', $data_query['post_status']);
+      if (isset($data_query['status']) === true) {
+         $post_query->where('status', $data_query['status']);
       }
 
       if (isset($data_query['post_type']) === true) {
@@ -263,12 +286,12 @@ public function post_type_output( $route, $error_msg , $value = '' ){
             }
 
         })   
-    ->addColumn('post_status', function ($post) {
+    ->addColumn('status', function ($post) {
 
-            return format_status_tag($post->post_status, [
-              'success' => 'publish',
-              'warning' => 'pending',
-              'danger'  => 'trush',
+            return format_status_tag($post->status, [
+              'success' => 1,
+              'warning' => 0,
+              'danger'  => 2,
             ]);
 
         })   
@@ -276,7 +299,9 @@ public function post_type_output( $route, $error_msg , $value = '' ){
             return '<small class="label label-info">'.Carbon\Carbon::parse($post->created_at)->format('Y/m/d - h:i').'</small>';
         })
     ->addColumn('action', function ($post) {
-            return '<a href="'.route('edit_post_type', [$post->id, $post->post_type]).'" class="btn bg-purple btn-flat">Edith</a> <a
+            return '<a href="'.route('edit_post_type', [$post->id, $post->post_type]).'" class="btn bg-purple btn-flat">Edith</a>
+              <a target="_blank" href="'.route("page", $post->post_slug).'" class="btn bg-navy btn-flat margin">View</a>
+             <a
 
         onclick="data_modal(this)" 
         data-title="Ready to Delete?"
@@ -287,7 +312,7 @@ public function post_type_output( $route, $error_msg , $value = '' ){
         data-parameters=\'{"_token":"'. csrf_token() .'", "_method": "DELETE"}\'
 
 
-            href="'.route('post_type_delete', [$post->id, $post->post_type]).'" class="btn bg-maroon btn-flat margin">Delete</a>';
+            href="'.route('post_type_delete', [$post->id, $post->post_type]).'" class="btn bg-maroon btn-flat">Delete</a>';
         })
     ->escapeColumns(['*'])
     ->make(true);
@@ -313,7 +338,7 @@ public function post_type_output( $route, $error_msg , $value = '' ){
                               'orderable'  => 'false',
                             ],
                             [
-                              'data' => 'post_status',
+                              'data' => 'status',
                               'searchable' => 'true',
                               'orderable'  => 'false',
                             ],

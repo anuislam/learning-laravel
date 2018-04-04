@@ -12,12 +12,14 @@ use App\mediaModel;
 use Image;
 use Validator;
 use App\BlogPost;
+use App\notifications;
 
 class adminpageController extends Controller{
     private $usermodel = '';
     private $permission = '';
     private $mediaModel = '';
     private $postmodel = '';
+    private $notification = '';
 
     public function __construct()
     {
@@ -26,6 +28,7 @@ class adminpageController extends Controller{
         $this->permission   = new UserPermission();  
         $this->mediaModel   = new mediaModel();  
         $this->postmodel    = new BlogPost();  
+        $this->notification    = new notifications();  
     }
 
     public function index($url_data = ''){
@@ -55,7 +58,8 @@ class adminpageController extends Controller{
         return view('admin.admin-page',[
             'current_user'        => $current_user,
             'userpermission'      => $this->permission,
-            'page'				  => $setting_obj
+            'page'                => $setting_obj,
+            'notification'		  => $this->notification->get_header_notification(),
         ]);
     }
 

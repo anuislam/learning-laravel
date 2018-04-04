@@ -5,6 +5,7 @@ $Globalmenu = [];
 $Globaldropdownmenu = [];
 $GlobalImageCrop = [];
 $GlobalMenupage = [];
+$pagetemplate = [];
 
 $globalAction = '';
 
@@ -173,3 +174,14 @@ function verify_registered_post_type($data){
 	return false;
 }
 
+
+
+function register_page_template($data = []){
+	global $pagetemplate;
+	$pagetemplate[] = $data;
+}
+
+function get_page_template(){
+	global $pagetemplate;
+	return $pagetemplate;
+}

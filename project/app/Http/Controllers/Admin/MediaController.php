@@ -12,6 +12,7 @@ use App\mediaModel;
 use Image;
 use Validator;
 use App\BlogPost;
+use App\notifications;
 
 class MediaController extends Controller
 {
@@ -19,6 +20,7 @@ class MediaController extends Controller
     private $permission = '';
     private $mediaModel = '';
     private $postmodel = '';
+    private $notification = '';
     public function __construct()
     {
         $this->middleware('auth');
@@ -26,6 +28,7 @@ class MediaController extends Controller
         $this->permission   = new UserPermission();  
         $this->mediaModel   = new mediaModel();  
         $this->postmodel    = new BlogPost();  
+        $this->notification    = new notifications();  
     }
 
     public function index()    {
@@ -39,6 +42,7 @@ class MediaController extends Controller
         return view('admin.media',[
                 'current_user'        => $current_user,
                 'userpermission'      => $this->permission,
+                'notification'          => $this->notification->get_header_notification(),
             ]);
     }
 
@@ -58,6 +62,7 @@ class MediaController extends Controller
         return view('admin.add-new-media',[
                 'current_user'        => $current_user,
                 'userpermission'      => $this->permission,
+                'notification'          => $this->notification->get_header_notification(),
             ]);
     }
 
@@ -79,7 +84,7 @@ class MediaController extends Controller
         }
 
         $validation = Validator::make($request->all(), [
-            'file' => 'required|max:102400000|mimes:psd,txt,doc,pdf,docx,zip,rar,csv,jpg,png,jpeg,gif,ico,JPG,PNG,GIF,mp4,mp3,mkv'
+            'file' => 'required|max:102400000|mimes:psd,,svg,txt,doc,pdf,docx,zip,rar,csv,jpg,png,jpeg,gif,ico,JPG,PNG,GIF,mp4,mp3,mkv,svg'
         ], [
             'required'  => 'Error: Empty file.',
             'max'       => 'Error: File size too large.',
@@ -164,6 +169,7 @@ class MediaController extends Controller
             'media'               => $media,
             'meta'                => $this->postmodel,
             'mediamodel'          => $this->mediaModel,
+            'notification'          => $this->notification->get_header_notification(),
         ]);
 
     }

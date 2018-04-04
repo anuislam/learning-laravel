@@ -1,0 +1,17 @@
+{
+    "name": "Gymwebsite",
+    "alias": "gymwebsite",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Gymwebsite\\Providers\\GymwebsiteServiceProvider"
+    ],
+    "aliases": [],
+    "files": [
+        "helpers.php",
+        "start.php"
+    ],
+    "requires": []
+}

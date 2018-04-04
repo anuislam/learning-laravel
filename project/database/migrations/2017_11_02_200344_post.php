@@ -19,13 +19,11 @@ class Post extends Migration
             $table->string('post_slug')->nullable();
             $table->bigInteger('post_author');
             $table->longText('post_content')->nullable();
-            $table->string('post_status')->nullable();
             $table->string('post_password')->nullable();
             $table->bigInteger('post_parent')->default(0);
             $table->bigInteger('comment_count')->default(0);
             $table->string('post_type')->default(0);
             $table->smallInteger('status')->default(0);
-            $table->dateTime('moderated_at')->nullable();
             $table->timestamps();
         });
     }

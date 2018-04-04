@@ -37,7 +37,7 @@ trait AddPermission{
 
     public function cap($role, $cap = []){
         $all_role = $this->get_all_user_roll_and_cap();
-        if (array_key_exists($role, $all_role)){
+        if (@array_key_exists($role, $all_role)){
             if (empty($all_role[$role]['cap']) === false) {
                 $all_role[$role]['cap'] = array_merge($all_role[$role]['cap'], $cap);
             }else{
@@ -62,6 +62,17 @@ trait AddPermission{
                     $ret_data = $data['user_role'][$key];
                     break;
                 }
+            }
+        }
+        return $ret_data;
+    }
+
+    public function get_roles_name(){
+        $ret_data = false;
+        $data = get_option('user_role');
+        if (is_array($data['user_role'])) {
+            foreach ($data['user_role'] as $key => $value) {
+                $ret_data[$key] = $data['user_role'][$key]['title'];
             }
         }
         return $ret_data;

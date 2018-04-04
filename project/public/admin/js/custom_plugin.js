@@ -57,13 +57,17 @@ var global_modal_set_memori = '';
 function open_modal(data){
     var target = $('#global_modal'); 
     if (data.popup_type) {
-        target.removeClass('modal-success');
+        target.removeClass('modal-danger');
+        target.removeClass('modal-primary');
+        target.removeClass('modal-warning');
+        target.removeClass('modal-default');
         target.addClass(data.popup_type);
     }else{
         target.addClass('modal-success');
         target.removeClass('modal-danger');
         target.removeClass('modal-primary');
         target.removeClass('modal-warning');
+        target.removeClass('modal-default');
     }
     target.find('.modal-title').html(data.title);
     target.find('.modal-body').html(data.message);
@@ -72,6 +76,7 @@ function open_modal(data){
     target.find('#data_submit').html(data.submit_text);
     target.find('#close_icon').html('<i class="fa '+data.close_icon+'" aria-hidden="true"></i>');    
     target.modal('show');
+
 }
 
 $(document).ready(function(){

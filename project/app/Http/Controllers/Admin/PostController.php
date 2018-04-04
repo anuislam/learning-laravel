@@ -13,6 +13,7 @@ use Image;
 use Validator;
 use App\BlogPost;
 use App\post_type;
+use App\notifications;
 
 class PostController extends Controller{
 
@@ -29,6 +30,7 @@ class PostController extends Controller{
         $this->mediaModel   = new mediaModel();  
         $this->postmodel    = new BlogPost();  
         $this->post_type    = new post_type(); 
+        $this->notification    = new notifications();
     }
 
 
@@ -37,7 +39,7 @@ class PostController extends Controller{
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($data){        
+    public function index($data){ 
         $usermodel      = $this->usermodel;
         $current_user   = $usermodel->current_user();
 
@@ -68,7 +70,8 @@ class PostController extends Controller{
             'current_user'        => $current_user,
             'userpermission'      => $this->permission,
             'post_type'           => $post_opject,
-            'post_type_name'      => $data
+            'post_type_name'      => $data,
+            'notification'          => $this->notification->get_header_notification(),
         ]);
     }
 
@@ -105,7 +108,8 @@ class PostController extends Controller{
             'current_user'        => $current_user,
             'userpermission'      => $this->permission,
             'post_type'           => $post_opject,
-            'post_type_name'      => $urldata
+            'post_type_name'      => $urldata,
+            'notification'          => $this->notification->get_header_notification(),
         ]);
 
     }
@@ -241,7 +245,8 @@ class PostController extends Controller{
             'userpermission'      => $this->permission,
             'post_type'           => $post_opject,
             'data_value'           => $edit_post_data,
-            'post_type_name'      => $post_type
+            'post_type_name'      => $post_type,
+            'notification'          => $this->notification->get_header_notification(),
         ]);
         
 
@@ -266,7 +271,7 @@ class PostController extends Controller{
              return redirect()->back()->with('error_msg', 'Invalid post type id.' );
         }
 
-        if (url_gard('string', $post_type) === false) {
+        if (url_gard('mix', $post_type) === false) {
              return redirect()->back()->with('error_msg', 'Invalid post type.' );
         }
 
@@ -317,7 +322,7 @@ class PostController extends Controller{
              return redirect()->back()->with('error_msg', 'Invalid post type id.' );
         }
 
-        if (url_gard('string', $post_type) === false) {
+        if (url_gard('mix', $post_type) === false) {
              return redirect()->back()->with('error_msg', 'Invalid post type.' );
         }
 

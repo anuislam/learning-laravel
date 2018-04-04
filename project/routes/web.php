@@ -40,7 +40,7 @@ Route::group(['prefix' => 'admin-panel'], function () {
 
     Route::get('/post-type/all/{post_type}', 'Admin\PostController@index')->name('all-posts');
     Route::patch('/post-type/all/{post_type}', 'Admin\PostController@show')->name('get-all-posts');
-    Route::get('/post-type/{post}', 'Admin\PostController@create')->name('create_post_type');
+    Route::get('/post-type/{create_post}', 'Admin\PostController@create')->name('create_post_type');
     Route::get('/post-type/{post}/edit/{post_type}', 'Admin\PostController@edit')->name('edit_post_type');
     Route::post('/post-type/{post}', 'Admin\PostController@store')->name('stor_post');
     Route::patch('/post-type/{post}/{post_type}', 'Admin\PostController@update')->name('post_type_update');
