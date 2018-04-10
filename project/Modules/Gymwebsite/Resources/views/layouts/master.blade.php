@@ -55,6 +55,52 @@ $logo_image = $media->get_image_src('header_logo', $header_settings['header_logo
 
 	</div>
 	<!-- END fh5co-wrapper -->
+
+
+	<div id="joinnowmodal" class="modal fade" role="dialog">
+	<div class="modal-dialog">		
+	<!-- Modal content-->
+	<div class="modal-content">
+	  <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal">&times;</button>
+	    <h4 class="modal-title"></h4>
+	  </div>
+	  <div class="modal-body">
+
+	<div class="print-error-msg" style="display: block;">
+			<ul style="text-decoration: none;list-style: none;padding: 0;">
+			</ul>
+		</div>
+			<div class="form-group">
+				{!! Form::label( 'joinemail', 'Email address') !!}
+				{!! Form::email( 'joinemail' , '', ['class' => 'form-control','placeholder' => 'Email address'] ) !!}
+			</div>
+			<div class="form-group">
+				{!! Form::label( 'joinmobile', 'Mobile') !!}
+				{!! Form::number( 'joinmobile' , '', ['class' => 'form-control','placeholder' => 'Mobile'] ) !!}		
+			</div>		
+			<div class="form-group">			
+				{!! Form::label( 'joinmessage', 'Message') !!}
+				{!! Form::textarea( 'joinmessage' , '', ['class' => 'form-control','placeholder' => 'Message'] ) !!}		
+			</div>					
+	      </div>
+	      <div class="modal-footer">
+
+	      	{!! Form::submit('Cancel', [
+		      	'class' => 'btn btn-default pull-left',
+		      	'data-dismiss' => 'modal',
+		      	]) !!}
+	      	{!! Form::submit('Send', [
+		      	'class' => 'btn btn-default',
+		      	'id' => 'joinsendmessage',
+		      	]) !!}
+	      </div>
+	    </div>
+
+	  </div>
+	</div>
+
+	
   <script>
     var global_data = {
       	token : '{{ csrf_token() }}',
@@ -65,6 +111,7 @@ $logo_image = $media->get_image_src('header_logo', $header_settings['header_logo
 
 	  	{{ do_action('site_footer') }}
   		@yield('script')
+
 	</body>
 </html>
 

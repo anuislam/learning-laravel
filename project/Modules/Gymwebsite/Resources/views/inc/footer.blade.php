@@ -1,52 +1,98 @@
+@php
+$footer = get_option('footer_settings');
+$footer_addr_data = (empty($footer['footer_addr']) === false) ? unserialize($footer['footer_addr']) : '' ;
+$social_link = (empty($footer['social_link']) === false) ? unserialize($footer['social_link']) : '' ;
+@endphp
+
 <footer>
 	<div id="footer">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-4 animate-box">
-					<h3 class="section-title">About Us</h3>
-					<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics.</p>
-				</div>
+					<h3 class="section-title">{{ $footer['aboute_us'] }}</h3>
+					<p>{{ $footer['aboute_us_desc'] }}</p>
+				</div>  
 
 				<div class="col-md-4 animate-box">
-					<h3 class="section-title">Our Address</h3>
+					<h3 class="section-title">{{ $footer['footer_addr_title'] }}</h3>
 					<ul class="contact-info">
-						<li><i class="icon-map-marker"></i>198 West 21th Street, Suite 721 New York NY 10016</li>
-						<li><i class="icon-phone"></i>+ 1235 2355 98</li>
-						<li><i class="icon-envelope"></i><a href="#">info@yoursite.com</a></li>
-						<li><i class="icon-globe2"></i><a href="#">www.yoursite.com</a></li>
+						@if (empty($footer_addr_data) === false)
+							@foreach ($footer_addr_data as $footerkey => $footervalue)
+							<li><i class="{{$footervalue['icon']}}"></i>{{$footervalue['addr']}}</li>
+							@endforeach
+						@endif 
 					</ul>
 				</div>
 				<div class="col-md-4 animate-box">
-					<h3 class="section-title">Drop us a line</h3>
-					<form class="contact-form">
-						<div class="form-group">
-							<label for="name" class="sr-only">Name</label>
-							<input type="name" class="form-control" id="name" placeholder="Name">
+					<h3 class="section-title">{{ $footer['footer_contact_title'] }}</h3>
+					{{Form::open(['url' =>  route('send_mail'), 'method' => 'POST', 'class' => 'contact-form'])}}
+						<div class="form-group  {{ $errors->has('name') ? 'has-error' : '' }}">				
+							{{Form::label( 'name', 'Name', ['class' => 'sr-only'])}}
+								{{ Form::text(  'name', old('name'), ['class' => 'form-control', 'placeholder' => 'Name'] ) }}
+							@if ($errors->has('name'))
+								<span class="help-block">
+								<strong>{{ $errors->first('name') }}</strong>
+								</span>
+							@endif
+						</div>
+						<div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">				
+							{{Form::label( 'email', 'Email', ['class' => 'sr-only'])}}
+							{{ Form::email(  'email', old('email'), ['class' => 'form-control', 'placeholder' => 'Email'] ) }}
+							@if ($errors->has('email'))
+								<span class="help-block">
+								<strong>{{ $errors->first('email') }}</strong>
+								</span>
+							@endif
+						</div>
+						<div class="form-group {{ $errors->has('message') ? 'has-error' : '' }}">
+							{{Form::label( 'message', 'Message', ['class' => 'sr-only'])}}
+							{{Form::textarea(  'message', old('message'), ['class' => 'form-control', 'placeholder' => 'Message', 'rows' => '7'] )}}
+							@if ($errors->has('message'))
+								<span class="help-block">
+								<strong>{{ $errors->first('message') }}</strong>
+								</span>
+							@endif
 						</div>
 						<div class="form-group">
-							<label for="email" class="sr-only">Email</label>
-							<input type="email" class="form-control" id="email" placeholder="Email">
+							{{ Form::submit('Send Message', [
+							'class' => 'btn btn-send-message btn-md',
+							'id' => 'btn-submit',
+							]) }}
 						</div>
-						<div class="form-group">
-							<label for="message" class="sr-only">Message</label>
-							<textarea class="form-control" id="message" rows="7" placeholder="Message"></textarea>
-						</div>
-						<div class="form-group">
-							<input type="submit" id="btn-submit" class="btn btn-send-message btn-md" value="Send Message">
-						</div>
-					</form>
+				        @if(Session::get('send_mail'))
+							<div class="row">
+								<div class="col-md-12">
+									<div class="alert alert-success alert-dismissible">
+										<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+										{{ Session::get('send_mail') }}
+									</div>
+								</div>
+							</div>
+				        @endif
+
+				        @if(Session::get('error_send_mail'))
+					        <div class="row">
+					        	<div class="col-md-12">
+							        <div class="alert alert-danger alert-dismissible">
+							          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+							          {{ Session::get('error_send_mail') }}
+							        </div>
+						        </div>
+					        </div>
+					    @endif
+					{{Form::close()}}
 				</div>
 			</div>
 			<div class="row copy-right">
 				<div class="col-md-6 col-md-offset-3 text-center">
 					<p class="fh5co-social-icons">
-						<a href="#"><i class="icon-twitter2"></i></a>
-						<a href="#"><i class="icon-facebook2"></i></a>
-						<a href="#"><i class="icon-instagram"></i></a>
-						<a href="#"><i class="icon-dribbble2"></i></a>
-						<a href="#"><i class="icon-youtube"></i></a>
+						@if (empty($social_link) === false)
+							@foreach ($social_link as $socialkey => $socialvalue)
+							<a href="{{$socialvalue['url']}}"><i class="{{$socialvalue['icon']}}"></i></a>
+							@endforeach
+						@endif 
 					</p>
-					<p>Copyright 2016 Free Html5 <a href="#">Fitness</a>. All Rights Reserved. <br>Made with <i class="icon-heart3"></i> by <a href="http://freehtml5.co/" target="_blank">Freehtml5.co</a> / Demo Images: <a href="https://unsplash.com/" target="_blank">Unsplash</a></p>
+					<p>{{ $footer['footer_text'] }}</p>
 				</div>
 			</div>
 		</div>

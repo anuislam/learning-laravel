@@ -17,18 +17,25 @@ use Route;
 use Validator;
 use Illuminate\Support\Str;
 use Modules\Gymwebsite\Entities\joinrequest;
+use App\mediaModel;
+use Modules\Gymwebsite\Entities\SiteModel;
 
 class hooks extends Model{
 	private $permission = '';
 	private $usermodel = '';
     private $post = '';
-	private $joinrequest = '';
+    private $joinrequest = '';
+    private $SiteModel = '';
+	private $mediaModel = '';
 
 	public function __construct(){
 		$this->permission   = new UserPermission();
 		$this->usermodel    = new UserModel();
         $this->post         = new BlogPost();
-		$this->joinrequest  = new joinrequest();
+		$this->joinrequest  = new joinrequest(); 
+        $this->SiteModel    = new SiteModel(); 
+        $this->mediaModel    = new mediaModel();
+
 		add_action('site_header', [$this, 'gym_site_header']);
 		add_action('site_footer', [$this, 'gym_site_footer']);
         add_action('not_found_page', [$this, 'gym_404_not_found_page']);
@@ -66,7 +73,11 @@ class hooks extends Model{
     	echo  Html::script(Module::asset('gymwebsite:js/main.js'), ['type' => 'text/javascript']);
     }
     public function gym_404_not_found_page() {
-    	echo View('gymwebsite::404')->render();
+    	echo View('gymwebsite::404', [
+            'media'         => $this->mediaModel,
+            'meta_data'     => $this->post,
+            'errors'        => $this->SiteModel,
+        ])->render();
     }
 
     public function ajax_send_join_request_func($request){
@@ -121,6 +132,63 @@ class hooks extends Model{
                             }
                            },
                     });
+            }
+
+
+            function add_new_footer_addr_field(th){
+                var this_val = $(th).closest('.footer_addr_main_section');
+                var this_row = this_val.find('.footer_addr_items').last();
+                var count_item = this_row.attr('item-count');
+                if (count_item) {
+                    count_item = parseInt(this_row.attr('item-count')) + 1;
+                }else{
+                    count_item = 0 ;
+                }
+                var append_data = '<div class="form-group">'+
+                                    '<div item-count="'+count_item+'" class="row footer_addr_items" style="margin-top:15px;">'+
+                                        '<div class="col-md-4">'+
+                                            '<label for="footer_addr['+count_item+'][icon]" class="control-label">Footer address icon</label>'+
+                                            '<input class="form-control" placeholder="Footer address icon" name="footer_addr['+count_item+'][icon]" type="text" value="">'+
+                                        '</div>'+
+                                        '<div class="col-md-8">'+
+                                            '<label for="footer_addr['+count_item+'][addr]" class="control-label">Footer address</label>'+
+                                            '<a onclick="remove_footer_addr_field(this)" href="javascript:void(0)" class="label label-danger  pull-right">Remove</a>'+
+                                            '<input class="form-control" placeholder="Footer address" name="footer_addr['+count_item+'][addr]" type="text" value="">'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>';
+                this_val.find('#footer_addr_insert_before').before(append_data);
+            }
+
+
+            function add_new_footer_social_links(th){
+                var this_val = $(th).closest('.footer_addr_main_section');
+                var this_row = this_val.find('.footer_addr_items').last();
+                var count_item = this_row.attr('item-count');
+                if (count_item) {
+                    count_item = parseInt(this_row.attr('item-count')) + 1;
+                }else{
+                    count_item = 0 ;
+                }
+                var append_data = '<div class="form-group">'+
+                                    '<div item-count="'+count_item+'" class="row footer_addr_items" style="margin-top:15px;">'+
+                                        '<div class="col-md-4">'+
+                                            '<label for="social_link['+count_item+'][icon]" class="control-label">Social icon</label>'+
+                                            '<input class="form-control" placeholder="Social Icon" name="social_link['+count_item+'][icon]" type="text" value="">'+
+                                        '</div>'+
+                                        '<div class="col-md-8">'+
+                                            '<label for="social_link['+count_item+'][url]" class="control-label">Social Url</label>'+
+                                            '<a onclick="remove_footer_addr_field(this)" href="javascript:void(0)" class="label label-danger  pull-right">Remove</a>'+
+                                            '<input class="form-control" placeholder="Social Url" name="social_link['+count_item+'][url]" type="text" value="">'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>';
+                this_val.find('#footer_social_links_insert_before').before(append_data);
+            }
+
+            function remove_footer_addr_field(th) {
+                var this_val = $(th).closest('.form-group');
+                this_val.remove();
             }
 
         </script>

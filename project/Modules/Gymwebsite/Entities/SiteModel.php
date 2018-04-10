@@ -59,5 +59,9 @@ class SiteModel extends post_type{
         return $data->get();
     }
 
+    public function has($value = ''){
+        return false;
+    }
+
 
 }

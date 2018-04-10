@@ -158,9 +158,7 @@
 		scheduleTab();
 	});
 
-
 	$('#joinsendmessage',).on('click', function(){
-
 		var email 		= $('#joinemail').val();
 		var mobile 		= $('#joinmobile').val();
 		var message 	= $('#joinmessage').val();
@@ -177,7 +175,7 @@
 		      message: message,
 		      program_title: program_title
 		    },
-			success: function(data) {
+			success: function(data) {				
 				data = JSON.parse(data);
                 if($.isEmptyObject(data.error)){
                 	$(".print-error-msg").find("ul").html('');

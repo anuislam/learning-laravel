@@ -12,7 +12,7 @@ use App\BlogPost;
 use Request;
 use App\UserPermission;
 
-class commentModel extends Model{
+class CommentModel extends Model{
     
 	private $postmodel; 
 	private $permission; 

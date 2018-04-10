@@ -44,16 +44,43 @@ register_dropdown_menu('appearance',[
 ]);
 
 register_dropdown_menu('appearance',[
+  'menu-title'    => 'Footer Settings',
+  'id'            => 'gym-footer-setting',
+  'capability'    => 'manage_option',
+  'url'           => ['admin-page', 'gym-footer-setting'],
+]);
+
+register_dropdown_menu('appearance',[
   'menu-title'    => 'Home Settings',
   'id'            => 'gym-home-setting',
   'capability'    => 'manage_option',
   'url'           => ['admin-page', 'gym-home-setting'],
 ]);
 
+register_dropdown_menu('appearance',[
+  'menu-title'    => '404 page Settings',
+  'id'            => '404-page',
+  'capability'    => 'manage_option',
+  'url'           => ['admin-page', '404-page'],
+]);
+
+register_dropdown_menu('appearance',[
+  'menu-title'    => 'Contact page Settings',
+  'id'            => 'contact-page',
+  'capability'    => 'manage_option',
+  'url'           => ['admin-page', 'contact-page'],
+]);
+
 
 add_admin_page([
   'id'        => 'gym-header-setting', //uniq
   'class'       => 'Modules\Gymwebsite\Entities\header_setting',
+]);
+
+
+add_admin_page([
+  'id'        => 'gym-footer-setting', //uniq
+  'class'       => 'Modules\Gymwebsite\Entities\footer_setting',
 ]);
 
 add_admin_page([
@@ -64,6 +91,17 @@ add_admin_page([
 add_admin_page([
   'id'        => 'joinrequest', //uniq
   'class'       => 'Modules\Gymwebsite\Entities\joinrequest',
+]);
+
+
+add_admin_page([
+  'id'        => '404-page', //uniq
+  'class'       => 'Modules\Gymwebsite\Entities\not_found_page',
+]);
+
+add_admin_page([
+  'id'        => 'contact-page', //uniq
+  'class'       => 'Modules\Gymwebsite\Entities\contact_us_page',
 ]);
 
 

@@ -8,7 +8,7 @@ use Validator;
 use Auth;
 use DB;
 use Session;
-use Modules\Comment\Entities\commentModel;
+use Modules\Comment\Entities\CommentModel;
 use App\BlogPost;
 
 class Hooks extends Model{
@@ -17,7 +17,7 @@ class Hooks extends Model{
 
     public function __construct() {
 
-    	$this->comment = new commentModel();
+    	$this->comment = new CommentModel();
     	$this->postmodel = new BlogPost();
 
     	add_action('header_notification', [$this, 'comment_header_notification']);
