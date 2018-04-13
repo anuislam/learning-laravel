@@ -45,39 +45,41 @@ class modules extends admin_page{
 
     if (is_array($modules) === true) {
       foreach ($modules as $key => $value) {
-   ?>
-                <tr>
-                  <td><?php echo $value['name']; ?></td>
-                  <td><?php echo @$value['details']['author']; ?></td>
-                  <td><?php echo @$value['details']['description']; ?></td>
-                  <td><span class="label label-default"><?php echo @$value['details']['type']; ?></span></td>
-                  <td>
-                    <?php echo Form::open(['url' =>  route('option-update', 'modules'), 'method' => 'PUT' , 'style' => 'display: inline-block;']); ?>
-                      <?php echo Form::hidden('activatea_module', $value['name']); ?>
-                      <?php
-                        $btn_name = '';
-                        if (@$value['details']['config'] === true) {
-                         $btn_name = 'Deactivate';
-                        }else{
-                          $btn_name = 'Activate';
-                        }
-                      ?>
-                      <?php echo Form::submit($btn_name, ['class' => 'btn bg-olive margin']); ?>
-                    <?php echo Form::close(); ?>
-                    <a
-                    onclick="data_modal(this)" 
-                    data-title="Ready to Delete?"
-                    data-message='Are you sure you want to delete?'
-                    cancel_text="Cancel"
-                    submit_text="Delete"
-                    data-type="post"
-                    data-parameters='{"_token":"<?php echo csrf_token(); ?>", "_method": "PUT", "delete_module": "<?php echo $value['name']; ?>"}'
-                    href="<?php echo route('option-update', 'modules'); ?>" class="btn bg-maroon margin">Delete</a>
+          if (@$value['details']['type'] == 'Module') {
+?>
+            <tr>
+              <td><?php echo @$value['details']['title']; ?></td>
+              <td><?php echo @$value['details']['author']; ?></td>
+              <td><?php echo @$value['details']['description']; ?></td>
+              <td><span class="label label-default"><?php echo @$value['details']['type']; ?></span></td>
+              <td>
+                <?php echo Form::open(['url' =>  route('option-update', 'modules'), 'method' => 'PUT' , 'style' => 'display: inline-block;']); ?>
+                  <?php echo Form::hidden('activatea_module', $value['name']); ?>
+                  <?php
+                    $btn_name = '';
+                    if (@$value['details']['config'] === 1) {
+                     $btn_name = 'Uninstall';
+                    }else{
+                      $btn_name = 'Install';
+                    }
+                  ?>
+                  <?php echo Form::submit($btn_name, ['class' => 'btn bg-olive margin']); ?>
+                <?php echo Form::close(); ?>
+                <a
+                onclick="data_modal(this)" 
+                data-title="Ready to Delete?"
+                data-message='Are you sure you want to delete?'
+                cancel_text="Cancel"
+                submit_text="Delete"
+                data-type="post"
+                data-parameters='{"_token":"<?php echo csrf_token(); ?>", "_method": "PUT", "delete_module": "<?php echo $value['name']; ?>"}'
+                href="<?php echo route('option-update', 'modules'); ?>" class="btn bg-maroon margin">Delete</a>
 
 
-                  </td>
-                </tr>
-   <?php
+              </td>
+            </tr>
+<?php
+          }
       }
     }
 
@@ -111,24 +113,25 @@ class modules extends admin_page{
         $module = (string)$data['activatea_module'];        
         if (Module::has($module)) {
           $module = Module::find($module);
-          $error_msg = '';
-          $module_check = $this->get_modules_details($module->getPath());
-            if ($module_check['config'] === true) {
+          $msg = '';
+          $module_check = $this->get_modules_details($module);
+            if ($module_check['config'] === 1) {
+             do_action('module_deactive_'.$module->getName(), $module);
              $module->disable();
-             $error_msg = 'Module deactivated';
+             $msg = 'Module deactivated';
             }else{
+              do_action('module_active_'.$module->getName(), $module);
               $module->enable();
-              $error_msg = 'Module activated';
+              $msg = 'Module activated';              
             }
-          return redirect()->back()->with('success_msg', $error_msg);
+          return redirect()->back()->with('success_msg', $msg);
         }
       }else if (empty($data['delete_module']) === false) {
         $module = (string)$data['delete_module'];        
         if (Module::has($module)) {
-          $module = Module::find($module);
-          
+          $module = Module::find($module);          
+          do_action('module_delete_'.$module->getName(), $module);
           $module->delete();
-
           return redirect()->back()->with('success_msg', 'Module Delete Successful.');
         }
       }else{
@@ -146,23 +149,23 @@ class modules extends admin_page{
              $dara[] = [
                   'name'    => $mod->getName(),
                   'path'    => $mod->getPath(),
-                  'details' => $this->get_modules_details($mod->getPath()),
+                  'details' => $this->get_modules_details($mod),
               ];
          }
       }
       return $dara;
     }
 
-    public function get_modules_details($path) {
-      ob_start();
-      require_once($path.'/composer.json');
-      $data = ob_get_clean();
-      $data = json_decode($data);
+    public function get_modules_details($path) {      
+      $data = $path->json('composer.json');      
+      $config = $path->json('module.json');
       $retdata = [];
-      $retdata['description'] = $data->description;
-      $retdata['author']      = $data->authors[0]->name;
-      $retdata['type']        = (empty($data->type) === false) ? $data->type : NULL ;
-      $retdata['config']      = require_once($path.'/Config/config.php');
+      $retdata['title']       = @$data->title;
+      $retdata['description'] = @$data->description;
+      $retdata['author']      = @$data->authors[0]['name'];
+      $retdata['email']       = @$data->authors[0]['email'];
+      $retdata['type']        = @$data->type;
+      $retdata['config']      = (int)$config->active;
       return $retdata;
     }
 }

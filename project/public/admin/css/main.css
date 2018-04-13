@@ -29,6 +29,15 @@
     max-height: 25% !important;
 }
 
+
+.theme_manage_height{
+  height: 330px;
+}
+.theme_manage_height img{
+  height: 230px;
+  width: 100%;
+}
+
 .d-block {
     display: block !important;
 }

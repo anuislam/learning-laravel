@@ -12,7 +12,9 @@
 */
 
 
-Route::group(['prefix' => 'admin-panel'], function () {
+Route::group([
+    'prefix' => 'admin-panel',
+    ], function () {
 
     Auth::routes();
     Route::get('/', 'Admin\DashboardController@index');
@@ -71,7 +73,7 @@ Route::group(['prefix' => 'admin-panel'], function () {
 
     Route::get('/setting/log', 'Admin\LogViewerController@index')->name('log_edit');
     
+    
     Route::post('/action/ajax', 'Admin\ajaxController@handle_ajax_request')->name('ajax_url');
 
 });
-

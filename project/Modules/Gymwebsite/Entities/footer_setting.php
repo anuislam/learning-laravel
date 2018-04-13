@@ -72,7 +72,7 @@ class footer_setting extends admin_page{
 					?>
 
 				<?php 
-					$footer_addr_data = (old('footer_addr')) ? old('footer_addr') : unserialize($option['footer_addr']) ;
+					$footer_addr_data = (old('footer_addr')) ? old('footer_addr') : @unserialize($option['footer_addr']) ;
 				 ?>
 
 						<div class="footer_addr_main_section" >
@@ -140,7 +140,7 @@ class footer_setting extends admin_page{
 					?>
 
 				<?php 
-					$footer_social = (old('social_link')) ?  old('social_link') : unserialize($option['social_link']) ;
+					$footer_social = (old('social_link')) ?  old('social_link') : @unserialize($option['social_link']) ;
 				 ?>
 
 						<div class="footer_addr_main_section" >

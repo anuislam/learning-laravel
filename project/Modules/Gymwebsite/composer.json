@@ -1,7 +1,9 @@
 {
     "name": "nwidart/gymwebsite",
-    "description": "This is a gym managment website",    
+    "title": "Gym Website",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus saepe eos quam nam quisquam, animi itaque enim explicabo illum. Id quo ea harum facilis qui deserunt expedita commodi quidem quas?",    
     "type":        "Theme",
+    "thumbnail":   "/images/screenshot.jpg",
     "authors": [
         {
             "name": "Anu Islam ",

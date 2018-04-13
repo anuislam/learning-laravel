@@ -103,6 +103,13 @@ register_menu([
 		'url' 	 		 	=> ['create_post_type', 'nav-menu'],
 	]);
 
+	register_dropdown_menu('appearance',[
+		'menu-title' 	 	=> 'Theme',
+		'id' 	 		 	=> 'theme',
+		'capability' 	 	=> 'manage_option',
+		'url' 	 		 	=> ['admin-page', 'theme']
+	]);
+
 
 
 
@@ -110,15 +117,24 @@ register_menu([
 // Register Module menu
 //**************************************************************
 
-register_menu([
-	'menu-title' 	 	=> 'Modules',
-	'id' 	 		 	=> 'modules',
-	'menu-icon' 	 	=> 'fa-plug', 
-	'capability' 	 	=> 'manage_option',
-	'menu_position' 	 	=> 501, 
-	'url' 	 		 	=> ['admin-page', 'modules'],
-]);
+	register_dropdown_menu('appearance',[
+		'menu-title' 	 	=> 'Modules',
+		'id' 	 		 	=> 'modules',
+		'capability' 	 	=> 'manage_option',
+		'url' 	 		 	=> ['admin-page', 'modules']
+	]);
 
+
+//**************************************************************
+// Upload Module Menu
+//**************************************************************
+
+	register_dropdown_menu('appearance',[
+		'menu-title' 	 	=> 'Upload Module',
+		'id' 	 		 	=> 'upload-module',
+		'capability' 	 	=> 'manage_option',
+		'url' 	 		 	=> ['admin-page', 'upload-module']
+	]);
 
 
 //**************************************************************
@@ -276,6 +292,15 @@ add_admin_page([
 add_admin_page([
 	'id' 	 		 	=> 'modules', //uniq
 	'class' 	 	 	=> 'App\registerModel\modules',
+]);
+
+add_admin_page([
+	'id' 	 		 	=> 'theme', //uniq
+	'class' 	 	 	=> 'App\registerModel\themeManagement',
+]);
+add_admin_page([
+	'id' 	 		 	=> 'upload-module', //uniq
+	'class' 	 	 	=> 'App\registerModel\uploadModule',
 ]);
 
 

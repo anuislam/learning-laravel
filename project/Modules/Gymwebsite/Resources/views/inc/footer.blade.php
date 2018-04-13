@@ -1,7 +1,7 @@
 @php
 $footer = get_option('footer_settings');
-$footer_addr_data = (empty($footer['footer_addr']) === false) ? unserialize($footer['footer_addr']) : '' ;
-$social_link = (empty($footer['social_link']) === false) ? unserialize($footer['social_link']) : '' ;
+$footer_addr_data = (empty($footer['footer_addr']) === false) ? @unserialize($footer['footer_addr']) : '' ;
+$social_link = (empty($footer['social_link']) === false) ? @unserialize($footer['social_link']) : '' ;
 @endphp
 
 <footer>
@@ -14,7 +14,7 @@ $social_link = (empty($footer['social_link']) === false) ? unserialize($footer['
 				</div>  
 
 				<div class="col-md-4 animate-box">
-					<h3 class="section-title">{{ $footer['footer_addr_title'] }}</h3>
+					<h3 class="section-title">{{ @$footer['footer_addr_title'] }}</h3>
 					<ul class="contact-info">
 						@if (empty($footer_addr_data) === false)
 							@foreach ($footer_addr_data as $footerkey => $footervalue)
@@ -24,7 +24,7 @@ $social_link = (empty($footer['social_link']) === false) ? unserialize($footer['
 					</ul>
 				</div>
 				<div class="col-md-4 animate-box">
-					<h3 class="section-title">{{ $footer['footer_contact_title'] }}</h3>
+					<h3 class="section-title">{{ @$footer['footer_contact_title'] }}</h3>
 					{{Form::open(['url' =>  route('send_mail'), 'method' => 'POST', 'class' => 'contact-form'])}}
 						<div class="form-group  {{ $errors->has('name') ? 'has-error' : '' }}">				
 							{{Form::label( 'name', 'Name', ['class' => 'sr-only'])}}

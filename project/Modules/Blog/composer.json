@@ -1,5 +1,6 @@
 {
     "name": "nwidart/blog",
+    "title": "Blog System",
     "description": "This is a simple Blog post Module",
     "type":        "Module",
     "authors": [

@@ -1,5 +1,6 @@
 {
     "name": "nwidart/permission",
+    "title": "User permission",
     "description": "Manage user permission",
     "type": "Module",
     "authors": [

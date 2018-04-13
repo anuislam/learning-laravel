@@ -1,11 +1,12 @@
 {
     "name": "nwidart/comment",
+    "title": "Comment System",
     "description": "This is a Comment System",
     "type":        "Module",
     "authors": [
         {
-            "name": "Nicolas Widart",
-            "email": "n.widart@gmail.com"
+            "name": "Anu islam",
+            "email": "anuislams@gmail.com"
         }
     ],
     "extra": {

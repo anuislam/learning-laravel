@@ -7,13 +7,16 @@ use Form;
 use Validator;
 use Auth;
 use DB;
+use options;
 use Session;
 use Modules\Comment\Entities\CommentModel;
 use App\BlogPost;
+use App\UserPermission;
 
 class Hooks extends Model{
 
 	private $comment; 
+	private $postmodel; 
 
     public function __construct() {
 
@@ -21,6 +24,19 @@ class Hooks extends Model{
     	$this->postmodel = new BlogPost();
 
     	add_action('header_notification', [$this, 'comment_header_notification']);
+		add_action('module_active_Comment', [$this, 'module_active_Comment_func']);
+		$this->module_active_Comment_func();
+    }
+
+    public function module_active_Comment_func(){
+        $user_rool = new UserPermission();
+        $user_rool->cap('administrator', [
+            'manage_comment'        => true,
+            'edit_comment'          => true,
+            'edit_others_comment'   => true,
+            'delete_comment'        => true,
+            'delete_others_comment' => true,
+        ]);
     }
 
     public function comment_header_notification(){

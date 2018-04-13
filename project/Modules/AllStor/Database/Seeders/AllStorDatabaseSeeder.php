@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\Comment\Database\Seeders;
+namespace Modules\AllStor\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class CommentDatabaseSeeder extends Seeder
+class AllStorDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.

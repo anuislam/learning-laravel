@@ -16,14 +16,7 @@ if (!app()->routesAreCached()) {
     require __DIR__ . '/Http/routes.php';
 }
 
-$user_rool = new App\UserPermission();
-$user_rool->cap('administrator', [
-    'manage_comment'        => true,
-    'edit_comment'        	=> true,
-    'edit_others_comment'   => true,
-    'delete_comment'        => true,
-    'delete_others_comment' => true,
-]);
+
 
 register_menu([
 	'menu-title' 	 	=> 'All Comments',

@@ -15,5 +15,6 @@ class ajaxController extends Controller{
 	        $action = $dataval['action'];	
 	        ob_start();do_action( 'ajax_'.$action, $data );return ob_get_clean();    
         }
+        die('0');
     }
 }

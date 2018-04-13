@@ -145,8 +145,8 @@ return [
     'composer' => [
         'vendor' => 'nwidart',
         'author' => [
-            'name' => 'Nicolas Widart',
-            'email' => 'n.widart@gmail.com',
+            'name' => 'Anu islam Shohag',
+            'email' => 'anuislams@gmail.com',
         ],
     ],
     /*

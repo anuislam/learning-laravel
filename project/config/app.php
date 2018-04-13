@@ -238,7 +238,6 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Shortcode' => 'Gornymedia\Shortcodes\Facades\Shortcode',
         'DotenvEditor' => Jackiedo\DotenvEditor\Facades\DotenvEditor::class,
-
     ],
 
 ];
