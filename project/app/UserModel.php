@@ -4,6 +4,7 @@ namespace App;
 use App\User;
 use App\UserPermission;
 use \Auth;
+use \Request;
 use Illuminate\Database\Eloquent\Model;
 use \DB;
 use \Carbon;
@@ -116,24 +117,44 @@ class UserModel extends Model
 	}
 
     public function current_user(){
-		$cur_user = Auth::user();
+		$cur_user = Request()->user();
+        $usermeta = $this->get_user_all_meta($cur_user->id);
 		$data = [
-			'id'           => $cur_user->id,
-			'fname'        => $cur_user->fname,
-			'lname'        => $cur_user->lname,
-            'email'        => $cur_user->email,
-            'created_at'   => $cur_user->created_at,
-			'updated_at'   => $cur_user->updated_at,
-            'profile'      => $this->get_gravatar_img($cur_user->email, 21),
-            'description'  => $this->get_user_meta($cur_user->id, 'description'),
-            'website'      => $this->get_user_meta($cur_user->id, 'website'),
-            'facebook'     => $this->get_user_meta($cur_user->id, 'facebook'),
-            'google'       => $this->get_user_meta($cur_user->id, 'google'),
-			'avatar'       => $this->get_user_meta($cur_user->id, 'avatar'),
+			'id'           => (empty($cur_user->id) === false) ? $cur_user->id : false ,
+			'fname'        => (empty($cur_user->fname) === false) ? $cur_user->fname : false ,
+			'lname'        => (empty($cur_user->lname) === false) ? $cur_user->lname : false ,
+            'email'        => (empty($cur_user->email) === false) ? $cur_user->email : false ,
+            'created_at'   => (empty($cur_user->created_at) === false) ? $cur_user->created_at : false ,
+			'updated_at'   => (empty($cur_user->updated_at) === false) ? $cur_user->updated_at : false ,
+            'profile'      => $this->get_gravatar_img(@$cur_user->email, 21),
+            'description'  => (empty($usermeta['description']) === false) ? $usermeta['description'] : false,
+            'website'      => (empty($usermeta['website']) === false) ? $usermeta['website'] : false,
+            'facebook'     => (empty($usermeta['facebook']) === false) ? $usermeta['facebook'] : false,
+            'google'       => (empty($usermeta['google']) === false) ? $usermeta['google'] : false,
+			'avatar'       => (empty($usermeta['avatar']) === false) ? $usermeta['avatar'] : false,
 		];
 		return $data;
     }
 
+
+    public function is_login(){
+       if (empty(Request()->user()->id) === false) {
+           return true;
+       }
+       return false;
+    }
+
+    public function get_user_all_meta($id){
+        $id = (int)$id;
+        $users = DB::table('user_meta')->select('meta_value', 'key')->where('user_id', $id)->get();
+        $retdata = [];
+        if (count($users) > 0) {
+            foreach ($users as $ukey => $uvalue) {
+                $retdata[$uvalue->key] = $uvalue->meta_value;
+            }
+        }
+        return (count($retdata) > 0) ?$retdata : false ;
+    }
 
     public function get_user_meta($id, $key){
         $id = (int)$id;
@@ -141,12 +162,12 @@ class UserModel extends Model
         return (count($users) == 1) ? $users->meta_value : false ;
     }
 
-        public function delete_user_meta($id, $key){
-            DB::table('user_meta')
-            ->where('user_id', $id)
-            ->where('key', $key)
-            ->delete();
-        }
+    public function delete_user_meta($id, $key){
+        DB::table('user_meta')
+        ->where('user_id', $id)
+        ->where('key', $key)
+        ->delete();
+    }
 
     public function update_user_meta($id, $key, $value){
         $id = (int)$id;

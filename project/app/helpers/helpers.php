@@ -138,5 +138,5 @@ function read_more($num, $text) {
         return $ret_data;
     }
 
-    new App\handel_hooks();
+
 

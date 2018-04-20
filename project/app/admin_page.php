@@ -30,6 +30,4 @@ class admin_page extends Model{
     	return false;
     }
 
-
-
 }

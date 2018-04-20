@@ -65,7 +65,6 @@ class mediaModel extends Model{
 				'post_title'   	=> $title,
 		        'post_author'   => $author,
 		        'post_content'  => $content,
-		        'post_status'  => 'publish',
 			], $file );
 
 			if (is_image($file->getMimeType()) === true) {  
@@ -156,7 +155,6 @@ class mediaModel extends Model{
 		$data['post_title'] = (isset($data['post_title'])) ? $data['post_title'] : '' ;
 		$data['post_author'] = (isset($data['post_author'])) ? $data['post_author'] : '' ;
 		$data['post_content'] = (isset($data['post_content'])) ? $data['post_content'] : '' ;
-		$data['post_status'] = (isset($data['post_status'])) ? $data['post_status'] : 'pending' ;
 		$data['post_type'] = 'media' ;
 		$data['created_at'] = new \DateTime() ;
 		$data['updated_at'] = new \DateTime() ;
@@ -172,10 +170,10 @@ class mediaModel extends Model{
 	}
 	public function get_media_datatable(){
 		$cur_user = Auth::user();
-		$db_qruery = DB::table('posts')->select('id','post_title', 'post_author', 'post_content', 'post_status', 'created_at', 'updated_at')->where('post_type', 'media');
+		$db_qruery = DB::table('posts')->select('id','post_title', 'post_author', 'post_content', 'created_at', 'updated_at')->where('post_type', 'media');
 
         if ($this->permission->user_can('see_others_media', $cur_user->id) === false) {
-            $db_qruery = DB::table('posts')->select('id','post_title', 'post_author', 'post_content', 'post_status', 'created_at', 'updated_at')->where('post_type', 'media')->where('post_author', $cur_user->id);
+            $db_qruery = DB::table('posts')->select('id','post_title', 'post_author', 'post_content', 'created_at', 'updated_at')->where('post_type', 'media')->where('post_author', $cur_user->id);
         }
 
 		return DataTables::of($db_qruery)

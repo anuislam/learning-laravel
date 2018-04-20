@@ -300,7 +300,7 @@ public function post_type_output( $route, $error_msg , $value = '' ){
         })
     ->addColumn('action', function ($post) {
             return '<a href="'.route('edit_post_type', [$post->id, $post->post_type]).'" class="btn bg-purple btn-flat">Edith</a>
-              <a target="_blank" href="'.route("page", $post->post_slug).'" class="btn bg-navy btn-flat margin">View</a>
+              <a target="_blank" href="" class="btn bg-navy btn-flat margin">View</a>
              <a
 
         onclick="data_modal(this)" 

@@ -82,3 +82,5 @@ Breadcrumbs::register('logfile', function ($breadcrumbs) {
     $breadcrumbs->push('Log', route('log_edit'));
     $breadcrumbs->push('Log File', '');
 });
+
+do_action('load_breadcrumbs');

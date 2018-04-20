@@ -10,7 +10,7 @@
     <section class="content-header">
       <h1>
         {{$tarm_opject->pate_title()}}
-        <small>Control panel</small>
+        <small>{{$tarm_opject->pate_sub_title()}}</small>
       </h1>
        {{ Breadcrumbs::render('tarms', $tarm_type_name) }}
     </section>

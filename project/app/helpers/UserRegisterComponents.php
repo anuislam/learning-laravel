@@ -315,3 +315,4 @@ register_page_template([
   'name' => 'Default',
   'path' => 'gymwebsite::page',
 ]);
+

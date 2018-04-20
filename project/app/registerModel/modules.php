@@ -45,7 +45,7 @@ class modules extends admin_page{
 
     if (is_array($modules) === true) {
       foreach ($modules as $key => $value) {
-          if (@$value['details']['type'] == 'Module') {
+          if (strtolower(@$value['details']['type']) == 'module') {
 ?>
             <tr>
               <td><?php echo @$value['details']['title']; ?></td>

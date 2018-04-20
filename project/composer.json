@@ -11,7 +11,6 @@
         "gornymedia/laravel-shortcodes": "^1.2",
         "intervention/image": "*",
         "jackiedo/dotenv-editor": "1.*",
-        "kris/laravel-form-builder": "^1.14",
         "laravel/framework": "5.5.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",

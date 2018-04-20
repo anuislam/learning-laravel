@@ -37,6 +37,10 @@ class TarmModel extends Model{
     	return 'fa fa-pencil';
     }
 
+    public function pate_sub_title(){
+        return 'Control Panel';
+    }
+
     public function tarm_form_output($errors){
 		echo Form::open(['url' => route('stor-tarms', '/'), 'method' => 'POST']); 
 			text_field([
@@ -188,8 +192,8 @@ class TarmModel extends Model{
     public function tarm_edit_validation($data, $tarm_id){
     	$cur_user = Auth::user();
     	return Validator::make($data, [
-                'cat_name'      => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{2,30}$/|unique:tarms,tarm-name,'.$tarm_id,
-                'cat_slug'      => 'required|string|max:255|regex:/^[a-zA-Z0-9-]{2,30}$/|unique:tarms,tarm-slug,'.$tarm_id,
+                'cat_name'      => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]{2,100}$/|unique:tarms,tarm-name,'.$tarm_id,
+                'cat_slug'      => 'required|string|max:255|regex:/^[a-zA-Z0-9-]{2,100}$/|unique:tarms,tarm-slug,'.$tarm_id,
                 'cat_description'      => 'nullable',
             ], [
 			    'cat_name.regex' 	=> 'The category name format is invalid.',

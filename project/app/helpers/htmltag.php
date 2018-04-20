@@ -435,7 +435,7 @@ function textarea_editor($data, $errors){
       <?php  } ?>
     <?php do_action( 'editor_buttons' ); ?>
     </span>
-    <span class="clear-fix" style="float: left;">
+    <span class="clear-fix" style="width: 100%;float: left;">
     <?php echo Form::textarea(  $data['name'], $data['value'], $data['atts'] ); ?>
     <?php if ($errors->has($data['name'])) : ?>
       <span class="help-block">

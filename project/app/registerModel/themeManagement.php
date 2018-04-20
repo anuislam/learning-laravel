@@ -137,6 +137,7 @@ class themeManagement extends admin_page{
         $data = [];
         $current_theme = get_option('theme');
         if (empty($current_theme['active_theme']) === false) {
+          if (Module::has($current_theme['active_theme'])) {
             $active_theme = Module::find($current_theme['active_theme']);
             $data[] = [
                   'name'    => $active_theme->getName(),
@@ -144,6 +145,7 @@ class themeManagement extends admin_page{
                   'module'  => $active_theme->json('module.json'),
                   'composer' => $active_theme->json('composer.json'),
               ];
+          }        
         }        
         if (is_array($module)) {
              $loop = true;

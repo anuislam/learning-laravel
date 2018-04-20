@@ -11,17 +11,20 @@ use App\TarmModel;
 use \Auth;
 use \DB;
 use DataTables;
+use App\notifications;
 
 class tarmController extends Controller
 {
 
     private $usermodel = '';
     private $permission = '';
+    private $notification = '';
     public function __construct()
     {
         $this->middleware('auth');
         $this->usermodel = new UserModel();
         $this->permission = new UserPermission();
+        $this->notification    = new notifications(); 
     }
     /**
      * Display a listing of the resource.
@@ -58,6 +61,7 @@ class tarmController extends Controller
                     'userpermission'    => $this->permission,
                     'tarm_opject'       => $tarm_opject,
                     'tarm_type_name'    => $url_data,
+                    'notification'        => $this->notification->get_header_notification(),
                 ]);
 
         }
@@ -73,6 +77,7 @@ class tarmController extends Controller
                 'userpermission'    => $this->permission,
                 'tarm_opject'       => $tarm_opject,
                 'tarm_type_name'    => NULL,
+                'notification'        => $this->notification->get_header_notification(),
             ]);
 
     }
@@ -198,6 +203,7 @@ class tarmController extends Controller
                     'tarm_opject'       => $tarm_opject,
                     'get_tarm'          => $tarm_opject->get_tarms($tarmid),
                     'tarm_type_name'    => $tarmname,
+                    'notification'        => $this->notification->get_header_notification(),
                 ]);
 
         }
@@ -229,6 +235,7 @@ class tarmController extends Controller
                 'tarm_opject'       => $tarm_opject,
                 'get_tarm'          => $tarm_opject->get_tarms($tarmid),
                 'tarm_type_name'    => NULL,
+                'notification'        => $this->notification->get_header_notification(),
             ]);
     }
 
