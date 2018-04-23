@@ -73,7 +73,7 @@ class post_type extends Model{
         'post_slug' => $data->post_slug,
         'post_id' => $data->id,
         'post_content' => $data->post_content,
-        'post_status' => $data->post_status,
+        'post_status' => $data->status,
         'post_tags' => explode(',', $post_tags),
         'post_category' => explode(',', $post_category),
         'post_image' => $post_image,

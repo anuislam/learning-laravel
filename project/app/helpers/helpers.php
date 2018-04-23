@@ -3,7 +3,7 @@
 
 function read_more($num, $text) {
     $limit = $num+1;
-    $excerpt = explode(' ', $text, $limit);
+    $excerpt = explode(' ', sanitize_text($text), $limit);
     array_pop($excerpt);
     $excerpt = implode(" ",$excerpt);
     return $excerpt;

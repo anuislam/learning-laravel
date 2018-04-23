@@ -24,6 +24,7 @@ class Post extends Migration
             $table->bigInteger('comment_count')->default(0);
             $table->string('post_type')->default(0);
             $table->smallInteger('status')->default(0);
+            $table->string('user_agent')->nullable();
             $table->timestamps();
         });
     }

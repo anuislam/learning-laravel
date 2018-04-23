@@ -60,6 +60,18 @@ class BlogPost extends Model{
         return (count($post_meta) == 1) ? $post_meta->meta_value : false ;
     }
 
+    public function get_all_post_metas($id){
+        $id = (int)$id;
+        $post_meta = DB::table('post_meta')->select('meta_value', 'meta_key')->where('post_id', $id)->get();
+        $retdata = [];
+        if (count($post_meta) > 0) {
+            foreach ($post_meta as $key => $value) {
+                $retdata[$value->meta_key] = $value->meta_value;
+            }
+        }
+        return (count($retdata) > 0) ? $retdata : false ;
+    }
+
     public function get_post($id, $post_query = false){
         $id = (int)$id;
         $post = DB::table('posts');
